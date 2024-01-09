@@ -16,7 +16,6 @@ class Bookmark extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'title',
         'author',
         'fandom',
@@ -37,7 +36,7 @@ class Bookmark extends Model
         'tags' => 'array'
     ];
 
-    public function User(): BelongsTo {
+    public function user(): BelongsTo {
         return $this->BelongsTo(User::class);
     }
 }

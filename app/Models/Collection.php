@@ -16,12 +16,11 @@ class Collection extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'name',
         'description',
     ];
 
-    public function User(): BelongsTo {
+    public function user(): BelongsTo {
         return $this->BelongsTo(User::class);
     }
 }
