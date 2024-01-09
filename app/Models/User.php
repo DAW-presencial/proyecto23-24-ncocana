@@ -44,11 +44,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function bookmarks(): HasMany {
+    public function bookmarks(): HasMany
+    {
         return $this->HasMany(Bookmark::class);
     }
 
-    public function collections(): HasMany {
+    public function collections(): HasMany
+    {
         return $this->HasMany(Collection::class);
     }
 }
