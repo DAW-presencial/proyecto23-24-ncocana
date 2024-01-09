@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('author');
             $table->string('fandom')->nullable();
             $table->string('relationships')->nullable();
-            $table->string('tags')->nullable();
+            // $table->string('tags')->nullable();
             $table->string('language')->nullable();
             $table->integer('words')->nullable();
             $table->integer('chapters_read')->nullable();

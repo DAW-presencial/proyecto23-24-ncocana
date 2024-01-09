@@ -25,7 +25,7 @@ class BookmarkFactory extends Factory
             'author' => fake()->name(),
             'fandom' => fake()->words(2, true),
             'relationships' => fake()->name() . "/" . fake()->name(),
-            'tags' => fake()->randomElements(['angst', 'fluff', 'happy ending', 'hurt/comfort'], 2),
+            // 'tags' => fake()->randomElements(['angst', 'fluff', 'happy ending', 'hurt/comfort'], 2),
             'language' => fake()->languageCode(),
             'words' => rand(1, 100000),
             'chapters_read' => rand(1, $total_chapters),

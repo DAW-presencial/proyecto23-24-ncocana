@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Tags\HasTags;
 
 class Bookmark extends Model
 {
     use HasFactory;
+    use HasTags;
 
     /**
      * The attributes that are mass assignable.
@@ -33,9 +35,9 @@ class Bookmark extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'tags' => 'array'
-    ];
+    // protected $casts = [
+    //     'tags' => 'array'
+    // ];
 
     public function user(): BelongsTo
     {
