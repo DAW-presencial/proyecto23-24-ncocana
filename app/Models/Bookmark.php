@@ -13,31 +13,10 @@ class Bookmark extends Model
     use HasFactory;
     use HasTags;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'title',
-        'author',
-        'fandom',
-        'relationships',
-        'language',
-        'words',
-        'chapters_read',
-        'total_chapters',
-        'synopsis',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    // protected $casts = [
-    //     'tags' => 'array'
-    // ];
+    public function bookmarkable()
+    {
+        return $this->morphTo();
+    }
 
     public function user(): BelongsTo
     {
