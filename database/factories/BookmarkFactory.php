@@ -2,6 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\Fanfic;
+use App\Models\Movie;
+use App\Models\Series;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,20 +21,35 @@ class BookmarkFactory extends Factory
      */
     public function definition(): array
     {
-        $total_chapters = rand(1, 100);
+        $bookmarkableType = fake()->randomElement([
+            'App\Models\Book',
+            'App\Models\Fanfic',
+            'App\Models\Series',
+            'App\Models\Movie'
+        ]);
+
+        $bookmarkable = null;
+
+        switch ($bookmarkableType) {
+            case 'App\Models\Book':
+                $bookmarkable = Book::factory()->create();
+                break;
+            case 'App\Models\Fanfic':
+                $bookmarkable = Fanfic::factory()->create();
+                break;
+            case 'App\Models\Series':
+                $bookmarkable = Series::factory()->create();
+                break;
+            case 'App\Models\Movie':
+                $bookmarkable = Movie::factory()->create();
+                break;
+        }
 
         return [
-            'user_id' => fake()->numberBetween(1, User::count()),
-            'title' => fake()->words(3, true),
-            'author' => fake()->name(),
-            'fandom' => fake()->words(2, true),
-            'relationships' => fake()->name() . "/" . fake()->name(),
-            // 'tags' => fake()->randomElements(['angst', 'fluff', 'happy ending', 'hurt/comfort'], 2),
-            'language' => fake()->languageCode(),
-            'words' => rand(1, 100000),
-            'chapters_read' => rand(1, $total_chapters),
-            'total_chapters' => $total_chapters,
-            'synopsis' => fake()->sentences(5, true),
+            'user_id' => User::factory()->create()->id,
+            'bookmarkable_id' => $bookmarkable->id,
+            'bookmarkable_type' => $bookmarkableType,
+            // You can add more fields as per your requirement
         ];
     }
 }

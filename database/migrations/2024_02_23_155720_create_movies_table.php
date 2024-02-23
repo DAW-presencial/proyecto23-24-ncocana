@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('director')->nullable();
             $table->string('actors')->nullable();
             $table->date('release_date');
-            $table->string('currently_at')->nullable();
+            $table->string('currently_at')->nullable()->default('00:00:00');
             $table->mediumText('synopsis')->nullable();
             $table->mediumText('notes')->nullable();
             $table->timestamps();

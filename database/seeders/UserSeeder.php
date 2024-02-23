@@ -15,15 +15,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Usuario determinado.
+        // Usuario para testing
         User::factory()
             ->create([
-                'name' => 'ncocana',
-                'email' => 'ncocana@cifpfbmoll.eu',
+                'name' => 'admin',
+                'email' => 'admin@mybookmarks.com',
                 'email_verified_at' => now(),
                 'remember_token' => Str::random(10),
             ]);
-
-        User::factory(5)->create();
     }
 }

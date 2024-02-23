@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class Bookmark_CollectionFactory extends Factory
+class BookmarkCollectionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,8 @@ class Bookmark_CollectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'bookmark_id' => fake()->numberBetween(1, Bookmark::count()),
-            'collection_id' => fake()->numberBetween(1, Collection::count()),
+            'bookmark_id' => Bookmark::factory()->create()->id,
+            'collection_id' => Collection::factory()->create()->id,
         ];
     }
 }

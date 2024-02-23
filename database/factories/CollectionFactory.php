@@ -18,9 +18,9 @@ class CollectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => fake()->numberBetween(1, User::count()),
-            'name' => fake()->words(3, true),
-            'description' => fake()->sentences(5, true),
+            'user_id' => User::factory()->create()->id,
+            'name' => $this->faker->words(3, true),
+            'description' => $this->faker->sentences(5, true),
         ];
     }
 }

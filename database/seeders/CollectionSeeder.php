@@ -14,14 +14,11 @@ class CollectionSeeder extends Seeder
      */
     public function run(): void
     {
-        Collection::factory(5)->create();
-
-        // Creates 2 bookmarks per collection created.
         Collection::factory()
-            ->has(Bookmark::factory()->count(2)->state(function (array $attributes, Collection $collection) {
+            ->has(Bookmark::factory()->count(1)->state(function (array $attributes, Collection $collection) {
                 return ['user_id' => $collection->user_id];
             }))
             ->count(2)
-            ->create(['user_id' => 3]);
+            ->create();
     }
 }
