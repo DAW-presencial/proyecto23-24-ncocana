@@ -25,12 +25,13 @@ class LoginController extends Controller
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
-                'password' => [__('auth.failed')],
+                'email' => [__('auth.failed')],
             ]);
         }
 
         // Generate token for the user
         $plainTextToken= $user->createToken($request->device_name)->plainTextToken;
+
         return response()->json([
             'plain-text-token'=> $plainTextToken
         ]);

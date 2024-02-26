@@ -28,11 +28,9 @@ class AccessTokenTest extends TestCase
     {
         $this->withoutJsonApiDocumentFormatting();
 
-        $data = [
+        $data = $this->validCredentials([
             'email' => $this->user->email,
-            'password' => 'password',
-            'device_name' => 'My device',
-        ];
+        ]);
 
         $response = $this->postJson(route('api.v1.login'), $data);
 
@@ -48,15 +46,94 @@ class AccessTokenTest extends TestCase
     {
         $this->withoutJsonApiDocumentFormatting();
 
-        $data = [
+        $data = $this->validCredentials([
             'email' => $this->user->email,
             'password' => 'incorrect',
-            'device_name' => 'My device',
-        ];
+        ]);
 
         $response = $this->postJson(route('api.v1.login'), $data);
 
         $response->assertStatus(422);
-        $response->assertJsonApiValidationErrors('password');
+        $response->assertJsonValidationErrorFor('email');
+    }
+
+    /** @test */
+    public function user_must_be_registered(): void
+    {
+        $data = $this->validCredentials();
+
+        $response = $this->postJson(route('api.v1.login'), $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrorFor('email');
+    }
+
+    /** @test */
+    public function email_is_required(): void
+    {
+        $data = $this->validCredentials([
+            'email' => null,
+        ]);
+
+        $response = $this->postJson(route('api.v1.login'), $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'email' => 'required',
+        ]);
+    }
+
+    /** @test */
+    public function email_must_be_valid(): void
+    {
+        $data = $this->validCredentials([
+            'email' => 'invalid-email',
+        ]);
+
+        $response = $this->postJson(route('api.v1.login'), $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'email' => 'email',
+        ]);
+    }
+
+    /** @test */
+    public function password_is_required(): void
+    {
+        $data = $this->validCredentials([
+            'password' => null,
+        ]);
+
+        $response = $this->postJson(route('api.v1.login'), $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'password' => 'required',
+        ]);
+    }
+
+    /** @test */
+    public function device_name_is_required(): void
+    {
+        $data = $this->validCredentials([
+            'device_name' => null,
+        ]);
+
+        $response = $this->postJson(route('api.v1.login'), $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors([
+            'device_name' => 'required',
+        ]);
+    }
+
+    protected function validCredentials(mixed $overrides = []): array
+    {
+        return array_merge([
+            'email' => 'ncocana@cifpfbmoll.eu',
+            'password' => 'password',
+            'device_name' => 'My device',
+        ], $overrides);
     }
 }
