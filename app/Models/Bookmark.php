@@ -10,8 +10,7 @@ use Spatie\Tags\HasTags;
 
 class Bookmark extends Model
 {
-    use HasFactory;
-    use HasTags;
+    use HasFactory, HasTags;
 
     public function bookmarkable()
     {
