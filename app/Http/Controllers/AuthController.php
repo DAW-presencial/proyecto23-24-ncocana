@@ -24,9 +24,9 @@ class AuthController extends Controller
     public function register(Request $request){
         
         $validate = FacadesValidator::make($request->all(), [
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|unique|max:50',            // VALIDAR DATOS
-            'password' => 'required|min:8|max:255'
+            'data.attributes.name' => 'required|string|max:50',
+            'data.attributes.email' => 'required|email|unique:users,email|max:50',            // VALIDAR DATOS
+            'data.attributes.password' => 'required|min:8|max:255'
         ]);
 
         if($validate->fails()){
@@ -34,9 +34,9 @@ class AuthController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,                     // SI LA VALIDACIÓN ES CORRECTA CREAR USUARIO
-            'password' => Hash::make($request->password)
+            'name' => $request->input('data.attributes.name'),
+            'email' => $request->input('data.attributes.email'),                     // SI LA VALIDACIÓN ES CORRECTA CREAR USUARIO
+            'password' => Hash::make($request->input('data.attributes.password'))
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken; // CREAR TOKEN
@@ -49,16 +49,19 @@ class AuthController extends Controller
 
     public function login (Request $request){
 
-        if(! Auth::attempt($request->only('email','password'))){
+        if(! Auth::attempt([
+            'email' => $request->input('data.attributes.email'),
+            'password' => $request->input('data.attributes.password')
+        ])){
             return response()->json([
                 'message' => 'Unauthorized'   // SI FALLA LA AUTENTICACIÓN DEVOLVER MENSAJE DE ERROR
             ], 401);
         }
-
-        $user = User::whereEmail($request->email)->first();
-
+    
+        $user = User::whereEmail($request->input('data.attributes.email'))->first();
+    
         $token = $user->createToken('auth_token')->plainTextToken;
-
+    
         return response()->json([
             'message' => 'Hola '.$user->name.' Bienvenido de nuevo!',
             'access_token' => $token,
