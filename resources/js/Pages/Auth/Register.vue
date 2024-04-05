@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -100,4 +100,14 @@ const submit = () => {
             </div>
         </form>
     </GuestLayout>
+</template> -->
+
+<template>
+    <div class="box-border h-32 w-90 p-4">
+        <FormLayout></FormLayout>
+    </div>
 </template>
+
+<script setup>
+    import FormLayout from "@/Layouts/FormLayout.vue";
+</script>
