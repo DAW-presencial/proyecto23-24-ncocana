@@ -10,9 +10,6 @@ import { Link } from '@inertiajs/vue3';
                 <Link href="/">
                 <ApplicationLogo class="w-40 h-auto mx-auto fill-current text-gray-500" />
                 </Link>
-                <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to
-                    your
-                    account</h2>
             </div>
         </div>
         <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white overflow-hidden sm:rounded-lg">

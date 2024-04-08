@@ -14,9 +14,12 @@
                 </div>
                 <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex flex-shrink-0 items-center">
-                        <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                            alt="Your Company" />
-                        <!-- <ApplicationLogo class="h-20 w-auto m-1"></ApplicationLogo> -->
+                        <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                            alt="Your Company" /> -->
+                        <div class="bg-white h-10 w-11 m-1 rounded-full">
+                            <img src="/img/nuevo-logo1.png" alt="Logo" class="h-9 w-8 m-auto mt-0.5">
+                        </div>
+
                     </div>
                     <div class="hidden sm:ml-6 sm:block ">
                         <div class="flex space-x-4 h-full items-center">
@@ -44,9 +47,7 @@
                                 class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                 <span class="absolute -inset-1.5" />
                                 <span class="sr-only">Open user menu</span>
-                                <img class="h-8 w-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt="" />
+                                <img class="h-8 w-8 rounded-full" src="/img/user.png" alt="" />
                             </MenuButton>
                         </div>
                         <transition enter-active-class="transition ease-out duration-100"
