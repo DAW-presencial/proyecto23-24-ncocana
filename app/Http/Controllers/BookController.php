@@ -2,63 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
+use App\Http\Resources\BookResource;
+use App\Models\Book;
+use Database\Factories\BookFactory;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
-        //
+        $books = Book::query()
+        ->allowedSorts(['title', 'author'])
+        ->jsonPaginate();
+        
+        return BookResource::collection($books);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function store(BookRequest $request)
     {
-        //
+        $book= Book::create([
+            'title' => $request->input('title'),
+            'author' => $request->input('author'),
+            'language' => $request->input('language'),
+            'read_pages' => $request->input('read_pages'),
+            'total_pages' => $request->input('total_pages'),
+            'synopsis' => $request->input('synopsis'),
+            'notes' => $request->input('notes'),
+        ]);
+
+        BookResource::make($book);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+
+  
+    public function show(Book $book)
     {
-        //
+        BookResource::make($book);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+
+
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        $book->update([
+            'title' => $request->input('title'),
+            'author' => $request->input('author'),
+            'language' => $request->input('language'),
+            'read_pages' => $request->input('read_pages'),
+            'total_pages' => $request->input('total_pages'),
+            'synopsis' => $request->input('synopsis'),
+            'notes' => $request->input('notes'),
+        ]);
+
+        BookResource::make($book);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+  
+    public function destroy(Book $book)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $book->delete();
+        return response()->json([
+            "Succes"=> "Libro ".$book->id." eliminado"
+        ]);
     }
 }
