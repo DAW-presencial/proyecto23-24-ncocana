@@ -23,13 +23,13 @@ class BookRequest extends FormRequest
     {
         return [
 
-            'title' => 'required|min:3',
-            'author' => 'required|min:3',
-            'language' => 'max:25',
-            'read_pages' ,
-            'total_pages',
-            'synopsis' => 'max:1000',
-            'notes' => 'max:500',
+            'data.attributes.title' => 'required|min:3',
+            'data.attributes.author' => 'required|min:3',
+            'data.attributes.language' => 'max:25',
+            'data.attributes.read_pages' ,
+            'data.attributes.total_pages',
+            'data.attributes.synopsis' => 'max:1000',
+            'data.attributes.notes' => 'max:500',
 
         ];
     }
