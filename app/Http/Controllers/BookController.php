@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BookRequest;
+use App\Http\Requests\BookUpdate;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Database\Factories\BookFactory;
@@ -46,18 +47,19 @@ class BookController extends Controller
 
 
 
-    public function update(Request $request, Book $book)
-    {
-        $book->update([
-            'title' => $request->input('data.attributes.title'),
-            'author' => $request->input('data.attributes.author'),
-            'language' => $request->input('data.attributes.language'),
-            'read_pages' => $request->input('data.attributes.read_pages'),
-            'total_pages' => $request->input('data.attributes.total_pages'),
-            'synopsis' => $request->input('data.attributes.synopsis'),
-            'notes' => $request->input('data.attributes.notes'),
-        ]);
-
+    public function update(BookUpdate $request, Book $book) { 
+    //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
+        $book->fill([
+            'title' => $request->input('data.attributes.title',$book->title ),
+            'author' => $request->input('data.attributes.author', $book->author),
+            'language' => $request->input('data.attributes.language', $book->language),
+            'read_pages' => $request->input('data.attributes.read_pages', $book->read_pages),
+            'total_pages' => $request->input('data.attributes.total_pages', $book->total_pages),
+            'synopsis' => $request->input('data.attributes.synopsis', $book->synopsis),
+            'notes' => $request->input('data.attributes.notes', $book->notes),
+        ])->save();
+    // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
+    // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
         BookResource::make($book);
     }
 
