@@ -15,7 +15,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
-        ->allowedSorts(['title', 'author'])
+        ->allowedSorts(['title', 'directcor'])
         ->jsonPaginate();
         
         return BookResource::collection($books);
@@ -69,7 +69,7 @@ class BookController extends Controller
     {
         $book->delete();
         return response()->json([
-            "Succes"=> "Libro ".$book->id." eliminado"
+            "Succes"=> "Libro ".$book->id."ha sido eliminado con éxito"
         ]);
     }
 }
