@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\MovieController;
 use App\Http\Middleware\ValidateJsonApiDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +19,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function() {
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::withoutMiddleware(ValidateJsonApiDocument::class)
-    ->post('login', LoginController::class)
-    ->name('api.v1.login');
+// Route::withoutMiddleware(ValidateJsonApiDocument::class)
+//     ->post('login', LoginController::class)
+//     ->name('api.v1.login');
+
+
+Route::apiResource('books', BookController::class)->names('api.v1.books');
+
+Route::apiResource('movies', MovieController::class)->names('api.v1.movies');
+
+
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
