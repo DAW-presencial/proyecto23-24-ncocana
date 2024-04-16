@@ -20,7 +20,7 @@ class ValidateJsonApiHeaders
             throw new HttpException(406, __('Not Acceptable'));
         }
 
-        if($request->isMethod('PUT') || $request->isMethod('PATCH')){
+        if($request->isMethod('POST') || $request->isMethod('PATCH')){
             if($request->header('content-type') !== 'application/vnd.api+json'){
                 throw new HttpException(415, __('Unsupported Media Type'));
             }
