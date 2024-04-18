@@ -28,7 +28,12 @@ Route::middleware('auth:sanctum')->group(function() {
 //     ->name('api.v1.login');
 
 
-Route::apiResource('books', BookController::class)->names('api.v1.books');
+Route::apiResource('books', BookController::class)
+->names('api.v1.books')
+->middleware('auth:sanctum')->only('store', 'update');
+
+Route::get('books', [BookController::class, 'index'])->name('api.v1.books');
+Route::get('books/{book}', [BookController::class, 'show'])->name('api.v1.books.show');
 
 Route::apiResource('movies', MovieController::class)->names('api.v1.movies');
 
