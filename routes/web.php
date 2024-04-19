@@ -38,4 +38,13 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/language-switch', [LanguageController::class, 'languageSwitch'])->name('language.switch');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+// ROUTES FRONTEND PRUEBAS
+Route::get('/prueba', function () {
+    return Inertia::render('Prueba');
+})->middleware(['auth', 'verified'])->name('prueba');
+
+Route::get('/search', function () {
+    return Inertia::render('SearchAdvanced');
+})->middleware(['auth', 'verified'])->name('searchadvanced');
