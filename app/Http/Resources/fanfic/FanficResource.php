@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\fanfic;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookResource extends JsonResource
+class FanficResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,20 +15,23 @@ class BookResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'books',
+            'type' => 'fanfics',
             'id' => (string) $this->resource->getRouteKey(),
             'attributes' => [
                 'title' => $this->resource->title,
                 'author' => $this->resource->author,
+                'fandom' => $this->resource->fandom,
+                'relationships' => $this->resource->relationships,
                 'language' => $this->resource->language,
-                'read_pages' => $this->resource->read_pages,
-                'total_pages' => $this->resource->total_pages,
+                'words' => $this->resource->words,
+                'read_chapters' => $this->resource->read_chapters,
+                'total_chapters' => $this->resource->total_chapters,
                 'synopsis' => $this->resource->synopsis,
-                'notes' => $this->resource->notes
+                'notes' => $this->resource->notes,
 
             ],
             'links' =>[
-                'self' => route('api.v1.books.show', $this->resource)
+                'self' => route('api.v1.fanfics.show', $this->resource)
 
             ]
          ];
@@ -37,7 +40,7 @@ class BookResource extends JsonResource
     public function toResponse($request)
     {
         return parent::toResponse($request)->withHeaders([
-            'Location' => route('api.v1.books.show', $this->resource)
+            'Location' => route('api.v1.fanfics.show', $this->resource)
         ]);
     }
 }

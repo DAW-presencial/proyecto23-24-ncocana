@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\movie\MovieRequest;
-use App\Http\Requests\movie\MovieUpdate;
-use App\Http\Resources\MovieResource;
+use App\Http\Requests\Movie\MovieRequest;
+use App\Http\Requests\Movie\MovieUpdate;
+use App\Http\Resources\Movie\MovieResource;
 use App\Models\Movie;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
@@ -32,6 +32,11 @@ class MovieController extends Controller
             'synopsis' => $request->input('data.attributes.synopsis'),
             'notes' => $request->input('data.attributes.notes'),
         ]);
+
+        $user = Auth::id();  //Recoge el id del usuario autenticado
+
+        $movie->bookmarks()->create(['user_id' => $user]);
+        //Crea un bookmark relacioando al libro y al usuario autenticado
 
         MovieResource::make($movie);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Book;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -23,11 +23,11 @@ class BookUpdate extends FormRequest
     {
         return [
 
-            'data.attributes.title' => 'min:3',
-            'data.attributes.author' => 'min:3',
+            'data.attributes.title' => 'min:2',
+            'data.attributes.author' => 'min:2',
             'data.attributes.language' => 'max:25',
-            'data.attributes.read_pages' ,
-            'data.attributes.total_pages',
+            'data.attributes.read_pages' => 'numeric',
+            'data.attributes.total_pages'=> 'numeric',
             'data.attributes.synopsis' => 'max:1000',
             'data.attributes.notes' => 'max:500',
 

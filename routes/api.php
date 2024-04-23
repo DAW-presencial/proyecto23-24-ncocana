@@ -3,40 +3,54 @@
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
 use App\Http\Middleware\ValidateJsonApiDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
+// Rutas con Sanctum
 Route::middleware('auth:sanctum')->group(function() {
+    //logout
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+    //libros
+    Route::apiResource('books', BookController::class)
+    ->names('api.v1.books')
+    ->only('store', 'update', 'destroy');
+
+    //películas
+    Route::apiResource('movies', MovieController::class)
+    ->names('api.v1.movies')
+    ->only('store', 'update', 'destroy');
+
+    //fanfics
+    Route::apiResource('fanfics', FanficController::class)
+    ->names('api.v1.fanfics')
+    ->only('store', 'update', 'destroy');
 });
 
-// Route::withoutMiddleware(ValidateJsonApiDocument::class)
-//     ->post('login', LoginController::class)
-//     ->name('api.v1.login');
 
+// Rutas sin Sanctum
 
-Route::apiResource('books', BookController::class)
-->names('api.v1.books')
-->middleware('auth:sanctum')->only('store', 'update');
-
-Route::get('books', [BookController::class, 'index'])->name('api.v1.books');
-Route::get('books/{book}', [BookController::class, 'show'])->name('api.v1.books.show');
-
-Route::apiResource('movies', MovieController::class)->names('api.v1.movies');
-
-
+//login/register
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
+
+//Rutas Libro
+Route::apiResource('books', BookController::class)
+->names('api.v1.books')
+->only('index', 'show');
+
+//Rutas Película
+Route::apiResource('movies', MovieController::class)
+->names('api.v1.movies')
+->only('index', 'show');
+
+//Rutas Fanfic
+Route::apiResource('fanfics', FanficController::class)
+->names('api.v1.fanfics')
+->only('index', 'show');
+
+

@@ -24,8 +24,6 @@ class MovieRequest extends FormRequest
             'data.attributes.title' => 'required|min:2',
             'data.attributes.director' => 'required|min:4',
             'data.attributes.actors' => 'max:500',
-            'data.attributes.release_date' ,
-            'data.attributes.currently_at',
             'data.attributes.synopsis' => 'max:1000',
             'data.attributes.notes' => 'max:500',
 
