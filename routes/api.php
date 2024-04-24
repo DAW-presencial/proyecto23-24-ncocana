@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Api\LoginController;
+// use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
-use App\Http\Middleware\ValidateJsonApiDocument;
-use Illuminate\Http\Request;
+use App\Http\Controllers\SeriesController;
+// use App\Http\Middleware\ValidateJsonApiDocument;
+// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function() {
     //fanfics
     Route::apiResource('fanfics', FanficController::class)
     ->names('api.v1.fanfics')
+    ->only('store', 'update', 'destroy');
+
+    //series
+    Route::apiResource('series', SeriesController::class)
+    ->names('api.v1.series')
     ->only('store', 'update', 'destroy');
 });
 
@@ -53,4 +59,8 @@ Route::apiResource('fanfics', FanficController::class)
 ->names('api.v1.fanfics')
 ->only('index', 'show');
 
+//Rutas Series
+Route::apiResource('series', SeriesController::class)
+->names('api.v1.series')
+->only('index', 'show');
 
