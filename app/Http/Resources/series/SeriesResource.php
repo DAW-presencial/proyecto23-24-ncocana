@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\series;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class MovieResource extends JsonResource
+class SeriesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,20 +15,20 @@ class MovieResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'type' => 'movies',
+            'type' => 'series',
             'id' => (string) $this->resource->getRouteKey(),
             'attributes' => [
                 'title' => $this->resource->title,
-                'director' => $this->resource->director,
                 'actors' => $this->resource->actors,
-                'release_date' => $this->resource->release_date,
+                'num_seasons' => $this->resource->num_seasons,
+                'num_episodes' => $this->resource->num_episodes,
                 'currently_at' => $this->resource->currently_at,
                 'synopsis' => $this->resource->synopsis,
                 'notes' => $this->resource->notes
 
             ],
             'links' =>[
-                'self' => route('api.v1.movies.show', $this->resource)
+                'self' => route('api.v1.series.show', $this->resource)
 
             ]
          ];
@@ -37,8 +37,7 @@ class MovieResource extends JsonResource
     public function toResponse($request)
     {
         return parent::toResponse($request)->withHeaders([
-            'Location' => route('api.v1.movies.show', $this->resource)
+            'Location' => route('api.v1.series.show', $this->resource)
         ]);
     }
 }
-

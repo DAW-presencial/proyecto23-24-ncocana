@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\series;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookUpdate extends FormRequest
+class SeriesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,13 @@ class BookUpdate extends FormRequest
     public function rules(): array
     {
         return [
-
-            'data.attributes.title' => 'min:3',
-            'data.attributes.author' => 'min:3',
-            'data.attributes.language' => 'max:25',
-            'data.attributes.read_pages' ,
-            'data.attributes.total_pages',
+            'data.attributes.title' => 'required|min:2',
+            'data.attributes.actors' => 'min:4',
+            'data.attributes.num_seasons' => 'numeric',
+            'data.attributes.num_episodes' => 'numeric',
+            'data.attributes.currently_at' => 'max:150',
             'data.attributes.synopsis' => 'max:1000',
             'data.attributes.notes' => 'max:500',
-
         ];
     }
 }

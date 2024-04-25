@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\movie;
+namespace App\Http\Requests\Book;
 
 use Illuminate\Foundation\Http\FormRequest;
-use PHPUnit\Framework\Constraint\IsTrue;
-use SebastianBergmann\Type\TrueType;
 
-class MovieUpdate extends FormRequest
+class BookUpdate extends FormRequest
 {
-
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
@@ -24,8 +24,10 @@ class MovieUpdate extends FormRequest
         return [
 
             'data.attributes.title' => 'min:2',
-            'data.attributes.director' => 'min:4',
-            'data.attributes.actors' => 'max:500',
+            'data.attributes.author' => 'min:2',
+            'data.attributes.language' => 'max:25',
+            'data.attributes.read_pages' => 'numeric',
+            'data.attributes.total_pages'=> 'numeric',
             'data.attributes.synopsis' => 'max:1000',
             'data.attributes.notes' => 'max:500',
 

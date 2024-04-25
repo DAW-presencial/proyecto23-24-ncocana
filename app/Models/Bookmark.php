@@ -12,6 +12,10 @@ class Bookmark extends Model
 {
     use HasFactory, HasTags;
 
+    protected $fillable = [
+        'user_id'
+    ];
+
     public function bookmarkable()
     {
         return $this->morphTo();
