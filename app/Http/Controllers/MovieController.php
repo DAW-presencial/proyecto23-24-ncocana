@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
+
+    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    {
+        $this->middleware('auth:sanctum')
+        ->only([
+            'store',
+            'update',
+            'destroy'
+        ]);
+        
+    }
+
+
     public function index()
     {
         $movies = Movie::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
