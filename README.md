@@ -4,13 +4,16 @@
   - [Introducción](#introducción)
     - [Esquema de la base de datos](#esquema-de-la-base-de-datos)
     - [Como colaborar](#como-colaborar)
-  - [Cómo instalar](#cómo-instalar)
+  - [Cómo instalar en local](#cómo-instalar-en-local)
+    - [Requisitos](#requisitos)
+    - [Instalación](#instalación)
+    - [Aplicación desplegada en remoto](#aplicación-desplegada-en-remoto)
   - [Cómo usar](#cómo-usar)
   - [Testing](#testing)
 
 ## Introducción
 
-(Descripcion de la aplicación y en qué consiste)
+MyBookmarks es una aplicación para guardar y gestionar marcadores, permitiendo al usuario guardar su progreso actual mientras lee un libro o ve una serie o película. Todo lo que tiene que hacer es crear un marcador, seleccionar uno de los tipos de marcadores disponibles y introducir los datos requeridos. Si tiene demasiados marcadores, también tiene la opción de agruparlos en colecciones. Además, MyBookmarks también cuenta con un sistema de tags que permite al usuario clasificar y filtrar sus marcadores y colecciones a placer.
 
 ### Esquema de la base de datos
 
@@ -20,9 +23,9 @@
 
 1. Clonar el proyecto en tu equipo local.
 
-2. Crear una nueva rama en la que se trabajará. El nombre de la rama debe describir el cambio que se está haciendo al proyecto. Por ejemplo: `añadir frontend` o `solucionar bug en frontend`.
+2. Crear una nueva rama en la que se trabajará. El nombre de la rama debe describir el cambio que se está haciendo al proyecto. Por ejemplo: `añadir-frontend` o `solucionar-bug-en frontend`.
 
-    Si el colaborador lo desea, también puede añadir al nombre de la rama el tipo de cambio que está haciendo en base a los [tipos de commits convencionales](https://theodorusclarence.com/shorts/conventional-commit-readme). Por ejemplo: `feat/añadir frontend` o `fix/bug en frontend`.
+    Si el colaborador lo desea, también puede añadir al nombre de la rama el tipo de cambio que está haciendo en base a los [tipos de commits convencionales](https://theodorusclarence.com/shorts/conventional-commit-readme). Por ejemplo: `feat/añadir-frontend` o `fix/bug-en-frontend`.
 
 3. Se harán commits cada vez que se termine de hacer un punto clave. Por ejemplo: si estás haciendo el frontend, hacer un commit cada vez que se termine de desarrollar una página, o al resolver un bug en una página ya creada.
 
@@ -46,9 +49,64 @@
 
 7. Si se encontrara algún bug en la rama `main` después de fusionarla con alguna rama, se creará un Issue en la sección "Issues" en el GitHub del proyecto explicando el problema y la posible causa. El colaborador causante del bug o cualquier otro es libre de asignarse así mismo el Issue y crear una rama `fix` para solucionar el bug. Se aconseja darle a "Watch" en el GitHub del proyecto para recibir una notificación cada vez que alguien comente o cree un Issue.
 
-## Cómo instalar
+## Cómo instalar en local
 
-(Instrucciones para instalar el proyecto en local. Link para acceder en remoto)
+### Requisitos
+
+- Apache
+- PHP
+- PostgreSQL (o cualquier otra base de datos)
+- Laravel
+- Composer
+
+### Instalación
+
+1. Descargar el repositorio o clonarlo con el comando `git clone`.
+
+2. Muevete dentro de la carpeta de la aplicacioón y ejecuta el comando `composer install` para instalar los paquetes vendor. Esto creará la carpeta `vendor` en el proyecto.
+
+3. Si estás en Linux, posiblemente también tengas que ejecutar el comando `chmod -R 777 storage` o `chown www-data:www-data storage` dentro de la carpeta del repositorio para otorgar permisos a la carpeta `storage`.
+
+4. Ejecutar el comando `npm install`. Esto creará la carpeta `node_modules` dentro de la carpeta de la aplicación.
+
+5. Ejecuta el comando `npm run build` para compilar la aplicación y crear la carpeta `public/build`.
+
+6. Abre el archivo `hosts` (en Windows lo puedes encontrar en la ruta `C:\Windows\System32\drivers\etc`) y editalo para añadir el host de la aplicación. El resultado final debería ser similar a esto:
+
+    ```
+    # MyBookmarks
+    127.0.0.1       mybookmarks.local
+    ```
+
+    `mybookmarks.local` corresponde al link de la aplicación. Puedes poner la que quieras a placer.
+
+7. Abre el archivo `httpd-vhosts.conf` (que se encuentra dentro de la carpeta de Apache en `conf/extra`) y editalo para añadir el virtual host de la aplicación:
+
+    ```
+    <VirtualHost mybookmarks.local:80>
+        ServerName mybookmarks.local
+        DocumentRoot "${SRVROOT}/htdocs/mybookmarks/public/"
+        <Directory "${SRVROOT}/htdocs/mybookmarks/public/">
+            DirectoryIndex index.php
+            AllowOverride All
+            Require all granted
+        </Directory>
+    </VirtualHost>
+    ```
+
+    **ATENCION:** Ten en cuenta que este ejemplo está hecho en un Apache instalado en Windows. La ruta a la carpeta de la aplicación (`${SRVROOT}/htdocs/mybookmarks/public/`) puede ser distinta dependiendo de tu sistema operativo, en cuyo caso tendrás que adaptarla en consecuencia para que funcione correctamente.
+
+8. Reinicia Apache si lo tenías iniciado al momento de crear el virtual host. En caso contrario, inicialo.
+
+9. Crea el archivo `.env` usando de base el `.env.example` y configura los parametros necesarios, como los de la base de datos y la APP_KEY.
+
+10. Ejecuta el comando `php artisan migrate` para crear las tablas en tu base de datos.
+
+11. Con Apache iniciado, abre el navegador y ve al link que indicaste al crear el host y el virtual host. En nuestro caso sería `mybookmarks.local`. Si todo salió bien, debería ser capaz de ver la página Home de la aplicación. ¡Ya puedes empezar a usarla!
+
+### Aplicación desplegada en remoto
+
+Actualmente, MyBookmarks se encuentra desplegada en remoto. Puedes acceder a ella a través de este link: (añadir link en remoto).
 
 ## Cómo usar
 
