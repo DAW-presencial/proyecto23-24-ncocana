@@ -48,3 +48,11 @@ Route::get('/prueba', function () {
 Route::get('/search', function () {
     return Inertia::render('SearchAdvanced');
 })->middleware(['auth', 'verified'])->name('searchadvanced');
+
+Route::get('/markers', function () {
+    return Inertia::render('Markers');
+})->middleware(['auth', 'verified'])->name('markers');
+
+Route::get('/singlebookmarker', function () {
+    return Inertia::render('SingleBookMarker');
+})->middleware(['auth', 'verified'])->name('singlebookmarker');
