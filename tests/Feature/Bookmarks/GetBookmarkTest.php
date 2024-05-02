@@ -11,112 +11,20 @@ use Tests\TestCase;
 class GetBookmarkTest extends TestCase
 {
     use RefreshDatabase;
-
-    /** @test */
-    public function can_get_all_bookmarks_when_no_type_is_provided()
-    {
-        // Arrange
-        $bookmarks = Bookmark::factory(10)->create();
-
-        // Act
-        $url = route('api.v1.bookmarks.index');
-        $response = $this->getJson($url);
-
-        // Assert
-        $response->assertStatus(200);
-        $response->assertJsonCount(10, 'data');
-        // $response->assertJsonStructure([
-        //     'current_page',
-        //     'data' => [
-        //         '*' => [
-        //             'id',
-        //             'user_id',
-        //             'bookmarkable_type',
-        //             'bookmarkable_id',
-        //             'created_at',
-        //             'updated_at',
-        //         ]
-        //     ],
-        //     'first_page_url',
-        //     'from',
-        //     'last_page',
-        //     'last_page_url',
-        //     'links',
-        //     'next_page_url',
-        //     'path',
-        //     'per_page',
-        //     'prev_page_url',
-        //     'to',
-        //     'total',
-        // ]);
-    }
-
-    // MEJORAR CREATE!!!!!!!!!
-    // Create works sometimes, and sometimes not. Mejorar factory
-    /** @test */
-    public function can_get_filtered_bookmarks_when_type_is_provided()
-    {
-        // Arrange
-        $movieBookmark = Bookmark::factory()->create([
-            'bookmarkable_type' => Movie::class
-        ]);
-        $seriesBookmark = Bookmark::factory()->create([
-            'bookmarkable_type' => 'App\Models\Series'
-        ]);
-        $bookBookmark = Bookmark::factory()->create([
-            'bookmarkable_type' => 'App\Models\Book'
-        ]);
-
-        // Act
-        $url = route('api.v1.bookmarks.index', [
-            'filter' => [
-                'bookmarkable_type' => 'Movie'
-            ]
-        ]);
-        $response = $this->getJson($url);
-
-        // Assert
-        $response->assertStatus(200);
-        $response->assertJsonCount(1, 'data');
-        // $response->assertJsonFragment(['id' => $movieBookmark->id]);
-    }
-
-    /** @test */
-    public function can_get_filtered_and_sorted_bookmarks_when_type_is_provided()
-    {
-        // Arrange: Create some bookmarks with a specific bookmark type
-        $bookmarks = Bookmark::factory(10)->create();
-
-        // Act: Make a GET request to the bookmarks endpoint with filter and sorting parameters
-        $url = route('api.v1.bookmarks.index', [
-            'filter' => [
-                'bookmarkable_type' => 'Movie'
-            ],
-            'sort' => 'user_id'
-        ]);
-        $response = $this->getJson($url);
-
-        // Assert: Ensure the response status is 200 and contains the expected data
-        $response->assertStatus(200);
-        // Add additional assertions to verify the response data and sorting order if needed
-    }
-
+    
     /** @test */
     public function can_fetch_a_single_bookmark(): void
     {
         $this->withoutExceptionHandling();
 
         $bookmark = Bookmark::factory()->create();
-        // dd(route('api.v1.articles.show', $article));
 
-        // "$article->getRouteKey()" por defecto devuelve el ID
-        // $response = $this->getJson('/api/v1/articles/'.$article->getRouteKey())->dump();
         $response = $this->getJson(route('api.v1.bookmarks.show', $bookmark));
 
         $bookmarkableArray = $bookmark->bookmarkable->toArray();
 
         $response->assertSee($bookmark->bookmarkable_id);
-        $response->assertJson([
+        $response->assertExactJson([
             'data' => [
                 'type' => 'bookmarks',
                 'id' => (string) $bookmark->getRouteKey(),
@@ -127,9 +35,69 @@ class GetBookmarkTest extends TestCase
                     "bookmarkable" => $bookmarkableArray
                 ],
                 'links' => [
-                    // 'self' => url('/api/v1/articles/'.$article->getRouteKey()),
                     'self' => url(route('api.v1.bookmarks.show', $bookmark))
                 ]
+            ]
+        ]);
+    }
+
+    /** @test */
+    public function can_fetch_all_bookmarks()
+    {
+        $this->withoutExceptionHandling();
+
+        $bookmarks = Bookmark::factory()->count(3)->create();
+
+        $response = $this->getJson(route('api.v1.bookmarks.index'));
+        
+        $bookmarkableArray0 = $bookmarks[0]->bookmarkable->toArray();
+        $bookmarkableArray1 = $bookmarks[1]->bookmarkable->toArray();
+        $bookmarkableArray2 = $bookmarks[2]->bookmarkable->toArray();
+
+        $response->assertJson([
+            'data' => [
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmarks[0]->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmarks[0]->user_id,
+                        'bookmarkable_type' => $bookmarks[0]->bookmarkable_type,
+                        'bookmarkable_id' => $bookmarks[0]->bookmarkable_id,
+                        "bookmarkable" => $bookmarkableArray0
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmarks[0])
+                    ]
+                ],
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmarks[1]->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmarks[1]->user_id,
+                        'bookmarkable_type' => $bookmarks[1]->bookmarkable_type,
+                        'bookmarkable_id' => $bookmarks[1]->bookmarkable_id,
+                        "bookmarkable" => $bookmarkableArray1
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmarks[1])
+                    ]
+                ],
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmarks[2]->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmarks[2]->user_id,
+                        'bookmarkable_type' => $bookmarks[2]->bookmarkable_type,
+                        'bookmarkable_id' => $bookmarks[2]->bookmarkable_id,
+                        "bookmarkable" => $bookmarkableArray2
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmarks[2])
+                    ]
+                ]
+            ],
+            'links' => [
+                'self' => route('api.v1.bookmarks.index')
             ]
         ]);
     }
