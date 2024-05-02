@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\movie;
+namespace App\Http\Requests\Movie;
 
 use Illuminate\Foundation\Http\FormRequest;
 use PHPUnit\Framework\Constraint\IsTrue;

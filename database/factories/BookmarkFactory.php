@@ -21,35 +21,55 @@ class BookmarkFactory extends Factory
      */
     public function definition(): array
     {
-        $bookmarkableType = fake()->randomElement([
-            'App\Models\Book',
-            'App\Models\Fanfic',
-            'App\Models\Series',
-            'App\Models\Movie'
-        ]);
-
-        $bookmarkable = null;
-
-        switch ($bookmarkableType) {
-            case 'App\Models\Book':
-                $bookmarkable = Book::factory()->create();
-                break;
-            case 'App\Models\Fanfic':
-                $bookmarkable = Fanfic::factory()->create();
-                break;
-            case 'App\Models\Series':
-                $bookmarkable = Series::factory()->create();
-                break;
-            case 'App\Models\Movie':
-                $bookmarkable = Movie::factory()->create();
-                break;
-        }
-
         return [
             'user_id' => User::factory()->create()->id,
-            'bookmarkable_id' => $bookmarkable->id,
-            'bookmarkable_type' => $bookmarkableType,
-            // You can add more fields as per your requirement
+            'bookmarkable_type' => $this->faker->randomElement([
+                'App\Models\Book',
+                'App\Models\Fanfic',
+                'App\Models\Series',
+                'App\Models\Movie'
+            ]),
+            'bookmarkable_id' => function (array $attributes) {
+                switch ($attributes['bookmarkable_type']) {
+                    case 'App\Models\Book':
+                        return Book::factory()->create()->id;
+                    case 'App\Models\Fanfic':
+                        return Fanfic::factory()->create()->id;
+                    case 'App\Models\Series':
+                        return Series::factory()->create()->id;
+                    case 'App\Models\Movie':
+                        return Movie::factory()->create()->id;
+                    default:
+                        return null;
+                }
+            },
         ];
+    }
+
+    /**
+     * Specify the type of bookmarkable.
+     *
+     * @param string $type
+     * @return $this
+     */
+    public function ofType(string $type): self
+    {
+        return $this->state([
+            'bookmarkable_type' => $type,
+            'bookmarkable_id' => function (array $attributes) use ($type) {
+                switch ($type) {
+                    case 'App\Models\Book':
+                        return Book::factory()->create()->id;
+                    case 'App\Models\Fanfic':
+                        return Fanfic::factory()->create()->id;
+                    case 'App\Models\Series':
+                        return Series::factory()->create()->id;
+                    case 'App\Models\Movie':
+                        return Movie::factory()->create()->id;
+                    default:
+                        return null;
+                }
+            }
+        ]);
     }
 }
