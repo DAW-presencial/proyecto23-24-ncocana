@@ -105,7 +105,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 const navigation = [
     { name: 'Dashboard', href: 'dashboard' },
     { name: 'Prueba', href: 'prueba' },
-    { name: 'BookMarkers', href: 'bookmarkers' },
+    { name: 'Bookmarks', href: 'bookmarks' },
     { name: 'Search Advanced', href: 'searchadvanced' }
 ]
 </script>

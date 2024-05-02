@@ -1,63 +1,71 @@
 <template>
 
-    <Head title="BookMarkers" />
+    <Head title="Bookmarks" />
     <AuthenticatedLayout>
         <main class="flex-1 p-5">
             <div class="flex flex-col max-w-7xl mx-auto">
                 <!-- BOTONES Y INPUT -->
-                <div class="flex justify-between mx-6">
-                    <div class="w-34">
+                <div class="flex justify-between w-full">
+                    <div>
                         <PrimaryButton>Create Bookmark</PrimaryButton>
                     </div>
                     <div class="flex gap-4">
-                        <TextInput></TextInput>
-                        <PrimaryButton class="w-32">Search</PrimaryButton>
+                        <TextInput class="w-64"></TextInput>
+                        <PrimaryButton>Search</PrimaryButton>
+
+
+
                     </div>
                 </div>
-                <div class="flex justify-between mt-4 gap-10 p-6 rounded-md max-h-screen bg-stone-50">
-                    <div class='flex flex-col w-4/6 h-1/3 rounded-sm space-y-4'>
-                        <!-- Cards -->
-                        <Card v-for="b in books" :key="b" class="ml-0">
-                            <p><strong>Title: </strong>{{ b.title }}</p>
-                            <p><strong>Author: </strong>{{ b.author }}</p>
-                            <p><strong>Language: </strong>{{ b.language }}</p>
-                            <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
-                            <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
-                            <div class="py-1">
-                                <p><strong>Synopsis: </strong></p>
-                                <p>{{ b.synopsis }}</p>
-                            </div>
-                            <div class="pb-1">
-                                <p><strong>Notes: </strong></p>
-                                <p>{{ b.notes }}</p>
+                <div class="mt-4 p-6 rounded-md max-h-screen bg-stone-50">
+                    <div class="flex justify-between gap-10">
+                        <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
+                            <!-- Cards -->
+                            <Card v-for="b in books" :key="b" class="ml-0">
+                                <p><strong>Title: </strong>{{ b.title }}</p>
+                                <p><strong>Author: </strong>{{ b.author }}</p>
+                                <p><strong>Language: </strong>{{ b.language }}</p>
+                                <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
+                                <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
+                                <div class="py-1">
+                                    <p><strong>Synopsis: </strong></p>
+                                    <p>{{ b.synopsis }}</p>
+                                </div>
+                                <div class="pb-1">
+                                    <p><strong>Notes: </strong></p>
+                                    <p>{{ b.notes }}</p>
+                                </div>
+
+                            </Card>
+                        </div>
+
+                        <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg'>
+                            <div class=" p-4">
+                                <InputLabel value="SORT"></InputLabel>
+                                <TextArea value="SORT" class="h-14"></TextArea>
                             </div>
 
-                        </Card>
+                            <div class="p-4">
+                                <InputLabel value="INCLUDE"></InputLabel>
+                                <TextArea value="INCLUDE" class="h-60"></TextArea>
+                            </div>
+
+                            <div class=" p-4">
+                                <InputLabel value="EXCLUDE"></InputLabel>
+                                <TextArea value="EXCLUDE" class="h-60"></TextArea>
+                            </div>
+
+                            <div class="p-4">
+                                <PrimaryButton>Search Bookmarks</PrimaryButton>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg'>
-                        <div class=" p-4">
-                            <InputLabel value="SORT"></InputLabel>
-                            <TextArea value="SORT" class="h-14"></TextArea>
-                        </div>
-
-                        <div class="p-4">
-                            <InputLabel value="INCLUDE"></InputLabel>
-                            <TextArea value="INCLUDE" class="h-72"></TextArea>
-                        </div>
-
-                        <div class="p-4">
-                            <InputLabel value="EXCLUDE"></InputLabel>
-                            <TextArea value="EXCLUDE" class="h-72"></TextArea>
-                        </div>
-
-                        <div class="p-4">
-                            <PrimaryButton>Search Bookmarks</PrimaryButton>
-                        </div>
+                    <div class="mt-6">
+                        <Pagination></Pagination>
                     </div>
                 </div>
             </div>
-            <Pagination></Pagination>
+
         </main>
     </AuthenticatedLayout>
 </template>

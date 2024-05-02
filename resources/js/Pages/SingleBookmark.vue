@@ -1,4 +1,6 @@
 <template>
+
+    <Head :title="book.title" />
     <AuthenticatedLayout>
         <div class="flex flex-col justify-center m-auto max-w-7xl h-screen items-center">
             <div class="container mx-4 h-3/4">
@@ -38,6 +40,7 @@
     </AuthenticatedLayout>
 </template>
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Card from '@/Components/Card.vue'

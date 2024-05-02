@@ -49,10 +49,10 @@ Route::get('/searchadvanced', function () {
     return Inertia::render('SearchAdvanced');
 })->middleware(['auth', 'verified'])->name('searchadvanced');
 
-Route::get('/bookmarkers', function () {
-    return Inertia::render('BookMarkers');
-})->middleware(['auth', 'verified'])->name('bookmarkers');
+Route::get('/bookmarks', function () {
+    return Inertia::render('Bookmarks');
+})->middleware(['auth', 'verified'])->name('bookmarks');
 
-Route::get('/singlebookmarker', function () {
-    return Inertia::render('SingleBookMarker');
+Route::get('/singlebookmark', function () {
+    return Inertia::render('SingleBookmark');
 })->middleware(['auth', 'verified'])->name('singlebookmarker');
