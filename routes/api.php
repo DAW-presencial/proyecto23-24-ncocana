@@ -1,15 +1,19 @@
 <?php
 
-// use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeriesController;
-// use App\Http\Middleware\ValidateJsonApiDocument;
+use App\Http\Middleware\ValidateJsonApiDocument;
 // use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// Route::withoutMiddleware(ValidateJsonApiDocument::class)
+//     ->post('login', LoginController::class)
+//     ->name('api.v1.login');
 
 // Rutas con Sanctum
 Route::middleware('auth:sanctum')->group(function() {
@@ -64,3 +68,5 @@ Route::apiResource('series', SeriesController::class)
 ->names('api.v1.series')
 ->only('index', 'show');
 
+// Ruta Bookmark
+Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookmarks');
