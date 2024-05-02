@@ -1,4 +1,6 @@
 <template>
+
+    <Head title="BookMarkers" />
     <AuthenticatedLayout>
         <main class="flex-1 p-5">
             <div class="flex flex-col max-w-7xl mx-auto">
@@ -61,6 +63,7 @@
 </template>
 
 <script setup>
+import { Head } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import Pagination from '@/Components/Pagination.vue'

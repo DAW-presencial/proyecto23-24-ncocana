@@ -1,4 +1,7 @@
 <template>
+
+    <Head title="Search Advanced" />
+
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
@@ -34,6 +37,7 @@
 </template>
 
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref, watch, onMounted } from "vue";
 

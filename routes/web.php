@@ -45,13 +45,13 @@ Route::get('/prueba', function () {
     return Inertia::render('Prueba');
 })->middleware(['auth', 'verified'])->name('prueba');
 
-Route::get('/search', function () {
+Route::get('/searchadvanced', function () {
     return Inertia::render('SearchAdvanced');
 })->middleware(['auth', 'verified'])->name('searchadvanced');
 
-Route::get('/markers', function () {
-    return Inertia::render('Markers');
-})->middleware(['auth', 'verified'])->name('markers');
+Route::get('/bookmarkers', function () {
+    return Inertia::render('BookMarkers');
+})->middleware(['auth', 'verified'])->name('bookmarkers');
 
 Route::get('/singlebookmarker', function () {
     return Inertia::render('SingleBookMarker');
