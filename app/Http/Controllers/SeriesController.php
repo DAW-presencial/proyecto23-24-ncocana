@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\series\SeriesRequest;
-use App\Http\Requests\series\SeriesUpdate;
-use App\Http\Resources\series\SeriesResource;
+use App\Http\Requests\Series\SeriesRequest;
+use App\Http\Requests\Series\SeriesUpdate;
+use App\Http\Resources\Series\SeriesResource;
 use App\Models\Series;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
