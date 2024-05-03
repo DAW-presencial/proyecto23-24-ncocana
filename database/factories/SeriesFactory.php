@@ -17,17 +17,16 @@ class SeriesFactory extends Factory
     public function definition(): array
     {
         // Generate a random duration in the format HH:MM:SS
-        $hours = $this->faker->numberBetween(0, 2);
-        $minutes = $this->faker->numberBetween(0, 59);
-        $seconds = $this->faker->numberBetween(0, 59);
+        $total_seasons = $this->faker->numberBetween(1, 20);
+        $total_episodes = $this->faker->numberBetween(1, 60);
 
-        $currentlyAt = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+        $currentlyAt = 'Season ' . rand(1, $total_seasons) . ', episode ' . rand(1, $total_episodes);
 
         return [
             'title' => fake()->words(3, true),
             'actors' => fake()->name(5),
-            'num_seasons' => fake()->numberBetween(1, 10),
-            'num_episodes' => fake()->numberBetween(1, 200),
+            'num_seasons' => $total_seasons,
+            'num_episodes' => $total_episodes,
             'currently_at' => $currentlyAt,
             'synopsis' => fake()->sentences(5, true),
             'notes' => fake()->sentences(5, true),
