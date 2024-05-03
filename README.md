@@ -106,7 +106,7 @@ MyBookmarks es una aplicación para guardar y gestionar marcadores, permitiendo 
 
 ### Aplicación desplegada en remoto
 
-Actualmente, MyBookmarks se encuentra desplegada en remoto. Puedes acceder a ella a través de este link: (añadir link en remoto).
+Actualmente, MyBookmarks se encuentra desplegada en remoto. Puedes acceder a ella a través de este link: [http://mybookmarks.randion.es/](http://mybookmarks.randion.es/).
 
 ## Cómo usar
 
