@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Movie;
+namespace App\Http\Resources\movie;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
