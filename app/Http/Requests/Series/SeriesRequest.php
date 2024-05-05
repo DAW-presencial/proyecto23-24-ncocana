@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Requests\movie;
+namespace App\Http\Requests\Series;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MovieRequest extends FormRequest
+class SeriesRequest extends FormRequest
 {
-  
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
         return true;
@@ -20,13 +22,13 @@ class MovieRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'title' => 'required|min:2',
-            'director' => 'required|min:4',
-            'actors' => 'max:500',
+            'actors' => 'min:4',
+            'num_seasons' => 'numeric',
+            'num_episodes' => 'numeric',
+            'currently_at' => 'max:150',
             'synopsis' => 'max:1000',
             'notes' => 'max:500',
-
         ];
     }
 }

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Requests\movie;
+namespace App\Http\Requests\Movie;
 
 use Illuminate\Foundation\Http\FormRequest;
-use PHPUnit\Framework\Constraint\IsTrue;
-use SebastianBergmann\Type\TrueType;
 
-class MovieUpdate extends FormRequest
+class MovieRequest extends FormRequest
 {
-
+  
     public function authorize(): bool
     {
         return true;
@@ -23,8 +21,8 @@ class MovieUpdate extends FormRequest
     {
         return [
 
-            'title' => 'min:2',
-            'director' => 'min:4',
+            'title' => 'required|min:2',
+            'director' => 'required|min:4',
             'actors' => 'max:500',
             'synopsis' => 'max:1000',
             'notes' => 'max:500',

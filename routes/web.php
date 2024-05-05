@@ -45,6 +45,14 @@ Route::get('/prueba', function () {
     return Inertia::render('Prueba');
 })->middleware(['auth', 'verified'])->name('prueba');
 
-Route::get('/search', function () {
+Route::get('/searchadvanced', function () {
     return Inertia::render('SearchAdvanced');
 })->middleware(['auth', 'verified'])->name('searchadvanced');
+
+Route::get('/bookmarks', function () {
+    return Inertia::render('Bookmarks');
+})->middleware(['auth', 'verified'])->name('bookmarks');
+
+Route::get('/singlebookmark', function () {
+    return Inertia::render('SingleBookmark');
+})->middleware(['auth', 'verified'])->name('singlebookmarker');

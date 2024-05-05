@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\series;
+namespace App\Http\Requests\Bookmark;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class SeriesUpdate extends FormRequest
+class BookmarkRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +23,14 @@ class SeriesUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'min:2',
-            'actors' => 'min:4',
-            'num_seasons' => 'numeric',
-            'num_episodes' => 'numeric',
-            'currently_at' => 'max:150',
-            'synopsis' => 'max:1000',
-            'notes' => 'max:500',
+            'filter.bookmarkable_type' => [
+                Rule::in([
+                    'Movie',
+                    'Series',
+                    'Book',
+                    'Fanfic'
+                ]),
+            ],
         ];
     }
 }

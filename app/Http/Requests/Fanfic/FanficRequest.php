@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\fanfic;
+namespace App\Http\Requests\Fanfic;
 
 use Illuminate\Foundation\Http\FormRequest;
 

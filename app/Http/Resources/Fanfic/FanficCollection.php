@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\series;
+namespace App\Http\Resources\Fanfic;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class SeriesCollection extends ResourceCollection
+class FanficCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -17,7 +17,7 @@ class SeriesCollection extends ResourceCollection
         return [
             'data' => $this->collection,
             'links' => [
-                'self' => route('api.v1.series.index')
+                'self' => route('api.v1.fanfics.index')
             ]
         ];
     }

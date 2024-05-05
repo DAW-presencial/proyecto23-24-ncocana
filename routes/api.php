@@ -1,15 +1,19 @@
 <?php
 
-// use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeriesController;
-// use App\Http\Middleware\ValidateJsonApiDocument;
+use App\Http\Middleware\ValidateJsonApiDocument;
 // use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// Route::withoutMiddleware(ValidateJsonApiDocument::class)
+//     ->post('login', LoginController::class)
+//     ->name('api.v1.login');
 
 // Rutas sin Sanctum, se aplica auth:sanctum en los controladores
 
@@ -30,3 +34,5 @@ Route::apiResource('fanfics', FanficController::class)->names('api.v1.fanfics');
 Route::apiResource('series', SeriesController::class)->names('api.v1.series');
 
 
+// Ruta Bookmark
+Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookmarks');

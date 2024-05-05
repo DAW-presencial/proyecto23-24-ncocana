@@ -1,4 +1,7 @@
 <template>
+
+    <Head title="Search Advanced" />
+
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
@@ -34,10 +37,9 @@
 </template>
 
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { ref, watch, onMounted } from "vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import TextInput from "@/Components/TextInput.vue";
 
 const types = ["Book", "Movie", "Series"];
 const selected_type = ref(null);
@@ -47,5 +49,10 @@ const fields = {
     Movie: ["id", "title", "director", "actors", "release_date", "currently_at", "notes"],
     Series: ["id", "title", "actors", "num_seasons", "num_episodes", "currently_at", "synopsis", "notes"]
 };
+
+// Poner el nombre de la página
+onMounted(() => {
+    document.title = "Search | MyBookMarks";
+});
 
 </script>

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\series;
+namespace App\Http\Requests\Series;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SeriesRequest extends FormRequest
+class SeriesUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class SeriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|min:2',
+            'title' => 'min:2',
             'actors' => 'min:4',
             'num_seasons' => 'numeric',
             'num_episodes' => 'numeric',
