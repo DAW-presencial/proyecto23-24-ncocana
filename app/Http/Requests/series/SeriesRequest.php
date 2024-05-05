@@ -22,13 +22,13 @@ class SeriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'data.attributes.title' => 'required|min:2',
-            'data.attributes.actors' => 'min:4',
-            'data.attributes.num_seasons' => 'numeric',
-            'data.attributes.num_episodes' => 'numeric',
-            'data.attributes.currently_at' => 'max:150',
-            'data.attributes.synopsis' => 'max:1000',
-            'data.attributes.notes' => 'max:500',
+            'title' => 'required|min:2',
+            'actors' => 'min:4',
+            'num_seasons' => 'numeric',
+            'num_episodes' => 'numeric',
+            'currently_at' => 'max:150',
+            'synopsis' => 'max:1000',
+            'notes' => 'max:500',
         ];
     }
 }
