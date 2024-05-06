@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('fanfics', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->string('author');
             $table->string('fandom')->nullable();
             $table->string('relationships')->nullable();
@@ -21,9 +20,6 @@ return new class extends Migration
             $table->integer('words')->nullable();
             $table->integer('read_chapters')->nullable();
             $table->integer('total_chapters')->nullable();
-            $table->mediumText('synopsis')->nullable();
-            $table->mediumText('notes')->nullable();
-            $table->timestamps();
         });
     }
 

@@ -21,6 +21,9 @@ class BookmarkResource extends JsonResource
                 'user_id' => $this->resource->user_id,
                 'bookmarkable_type' => $this->resource->bookmarkable_type,
                 'bookmarkable_id' => $this->resource->bookmarkable_id,
+                "title" => $this->resource->title,
+                "synopsis" => $this->resource->synopsis,
+                "notes" => $this->resource->notes,
                 "bookmarkable" => $this->resource->bookmarkable
             ],
             'links' =>[

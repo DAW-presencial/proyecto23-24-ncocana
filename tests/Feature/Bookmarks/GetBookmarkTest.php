@@ -32,6 +32,9 @@ class GetBookmarkTest extends TestCase
                     'user_id' => $bookmark->user_id,
                     'bookmarkable_type' => $bookmark->bookmarkable_type,
                     'bookmarkable_id' => $bookmark->bookmarkable_id,
+                    'title' => $bookmark->title,
+                    'synopsis' => $bookmark->synopsis,
+                    'notes' => $bookmark->notes,
                     "bookmarkable" => $bookmarkableArray
                 ],
                 'links' => [
@@ -63,6 +66,9 @@ class GetBookmarkTest extends TestCase
                         'user_id' => $bookmarks[0]->user_id,
                         'bookmarkable_type' => $bookmarks[0]->bookmarkable_type,
                         'bookmarkable_id' => $bookmarks[0]->bookmarkable_id,
+                        'title' => $bookmarks[0]->title,
+                        'synopsis' => $bookmarks[0]->synopsis,
+                        'notes' => $bookmarks[0]->notes,
                         "bookmarkable" => $bookmarkableArray0
                     ],
                     'links' => [
@@ -76,6 +82,9 @@ class GetBookmarkTest extends TestCase
                         'user_id' => $bookmarks[1]->user_id,
                         'bookmarkable_type' => $bookmarks[1]->bookmarkable_type,
                         'bookmarkable_id' => $bookmarks[1]->bookmarkable_id,
+                        'title' => $bookmarks[1]->title,
+                        'synopsis' => $bookmarks[1]->synopsis,
+                        'notes' => $bookmarks[1]->notes,
                         "bookmarkable" => $bookmarkableArray1
                     ],
                     'links' => [
@@ -89,6 +98,9 @@ class GetBookmarkTest extends TestCase
                         'user_id' => $bookmarks[2]->user_id,
                         'bookmarkable_type' => $bookmarks[2]->bookmarkable_type,
                         'bookmarkable_id' => $bookmarks[2]->bookmarkable_id,
+                        'title' => $bookmarks[2]->title,
+                        'synopsis' => $bookmarks[2]->synopsis,
+                        'notes' => $bookmarks[2]->notes,
                         "bookmarkable" => $bookmarkableArray2
                     ],
                     'links' => [

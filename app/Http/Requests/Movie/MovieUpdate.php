@@ -22,13 +22,10 @@ class MovieUpdate extends FormRequest
     public function rules(): array
     {
         return [
-
-            'title' => 'min:2',
-            'director' => 'min:4',
-            'actors' => 'max:500',
-            'synopsis' => 'max:1000',
-            'notes' => 'max:500',
-
+            'director' => 'string',
+            'actors' => 'string|max:500',
+            'release_date' => 'date',
+            'currently_at' => 'string|max:10',
         ];
     }
 }

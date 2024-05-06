@@ -43,6 +43,9 @@ class BookmarkFactory extends Factory
                         return null;
                 }
             },
+            'title' => fake()->words(3, true),
+            'synopsis' => fake()->sentences(5, true),
+            'notes' => fake()->sentences(5, true),
         ];
     }
 

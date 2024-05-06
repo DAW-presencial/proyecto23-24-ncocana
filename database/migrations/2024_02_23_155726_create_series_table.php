@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('series', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
             $table->string('actors')->nullable();
             $table->integer('num_seasons')->nullable();
             $table->integer('num_episodes')->nullable();
             $table->string('currently_at')->nullable();
-            $table->mediumText('synopsis')->nullable();
-            $table->mediumText('notes')->nullable();
-            $table->timestamps();
         });
     }
 

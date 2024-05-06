@@ -24,13 +24,10 @@ class MovieFactory extends Factory
         $currentlyAt = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
 
         return [
-            'title' => fake()->words(3, true),
             'director' => fake()->name(),
             'actors' => fake()->name(5),
             'release_date' => fake()->date(),
             'currently_at' => $currentlyAt,
-            'synopsis' => fake()->sentences(5, true),
-            'notes' => fake()->sentences(5, true),
         ];
     }
 }
