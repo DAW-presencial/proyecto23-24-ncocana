@@ -21,11 +21,11 @@ class MovieRequest extends FormRequest
     {
         return [
 
-            'data.attributes.title' => 'required|min:2',
-            'data.attributes.director' => 'required|min:4',
-            'data.attributes.actors' => 'max:500',
-            'data.attributes.synopsis' => 'max:1000',
-            'data.attributes.notes' => 'max:500',
+            'title' => 'required|min:2',
+            'director' => 'required|min:4',
+            'actors' => 'max:500',
+            'synopsis' => 'max:1000',
+            'notes' => 'max:500',
 
         ];
     }

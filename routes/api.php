@@ -15,58 +15,24 @@ use Illuminate\Support\Facades\Route;
 //     ->post('login', LoginController::class)
 //     ->name('api.v1.login');
 
-// Rutas con Sanctum
-Route::middleware('auth:sanctum')->group(function() {
-    //logout
-    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-
-    //libros
-    Route::apiResource('books', BookController::class)
-    ->names('api.v1.books')
-    ->only('store', 'update', 'destroy');
-
-    //películas
-    Route::apiResource('movies', MovieController::class)
-    ->names('api.v1.movies')
-    ->only('store', 'update', 'destroy');
-
-    //fanfics
-    Route::apiResource('fanfics', FanficController::class)
-    ->names('api.v1.fanfics')
-    ->only('store', 'update', 'destroy');
-
-    //series
-    Route::apiResource('series', SeriesController::class)
-    ->names('api.v1.series')
-    ->only('store', 'update', 'destroy');
-});
-
-
-// Rutas sin Sanctum
+// Rutas sin Sanctum, se aplica auth:sanctum en los controladores
 
 //login/register
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
 //Rutas Libro
-Route::apiResource('books', BookController::class)
-->names('api.v1.books')
-->only('index', 'show');
+Route::apiResource('books', BookController::class)->names('api.v1.books');
 
 //Rutas Película
-Route::apiResource('movies', MovieController::class)
-->names('api.v1.movies')
-->only('index', 'show');
+Route::apiResource('movies', MovieController::class)->names('api.v1.movies');
 
 //Rutas Fanfic
-Route::apiResource('fanfics', FanficController::class)
-->names('api.v1.fanfics')
-->only('index', 'show');
+Route::apiResource('fanfics', FanficController::class)->names('api.v1.fanfics');
 
 //Rutas Series
-Route::apiResource('series', SeriesController::class)
-->names('api.v1.series')
-->only('index', 'show');
+Route::apiResource('series', SeriesController::class)->names('api.v1.series');
+
 
 // Ruta Bookmark
 Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookmarks');

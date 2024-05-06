@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
+    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    {
+        $this->middleware('auth:sanctum')
+        ->only([
+            'store',
+            'update',
+            'destroy'
+        ]);
+        
+    }
    
     public function index()
     {
@@ -25,13 +35,13 @@ class BookController extends Controller
     public function store(BookRequest $request) // Se utiliza un form request para la validación
     {
         $book= Book::create([
-            'title' => $request->input('data.attributes.title'),
-            'author' => $request->input('data.attributes.author'),
-            'language' => $request->input('data.attributes.language'),
-            'read_pages' => $request->input('data.attributes.read_pages'),
-            'total_pages' => $request->input('data.attributes.total_pages'),
-            'synopsis' => $request->input('data.attributes.synopsis'),
-            'notes' => $request->input('data.attributes.notes'),
+            'title' => $request->title,
+            'author' => $request->author,
+            'language' => $request->language,
+            'read_pages' => $request->read_pages,
+            'total_pages' => $request->total_pages,
+            'synopsis' => $request->synopsis,
+            'notes' => $request->notes,
         ]);
 
         $user = Auth::id();  //Recoge el id del usuario autenticado
@@ -54,13 +64,13 @@ class BookController extends Controller
     public function update(BookUpdate $request, Book $book) { 
     //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
         $book->fill([
-            'title' => $request->input('data.attributes.title',$book->title ),
-            'author' => $request->input('data.attributes.author', $book->author),
-            'language' => $request->input('data.attributes.language', $book->language),
-            'read_pages' => $request->input('data.attributes.read_pages', $book->read_pages),
-            'total_pages' => $request->input('data.attributes.total_pages', $book->total_pages),
-            'synopsis' => $request->input('data.attributes.synopsis', $book->synopsis),
-            'notes' => $request->input('data.attributes.notes', $book->notes),
+            'title' => $request->input('title',$book->title) ,
+            'author' => $request->input('author', $book->author),
+            'language' => $request->input('language', $book->language),
+            'read_pages' => $request->input('read_pages', $book->read_pages),
+            'total_pages' => $request->input('total_pages', $book->total_pages),
+            'synopsis' => $request->input('synopsis', $book->synopsis),
+            'notes' => $request->input('notes', $book->notes),
         ])->save();
     // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
     // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
