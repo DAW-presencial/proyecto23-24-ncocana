@@ -24,7 +24,7 @@ class BookmarkController extends Controller
         // This returns a query builder instance
         $bookmarks = Bookmark::query()->with('bookmarkable');
     
-        $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'user_id', 'title', 'synopsis', 'notes', 'created_at', 'updated_at'])
+        $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'user_id', 'title', 'created_at', 'updated_at'])
                                ->allowedFilters(['bookmarkable_type', 'user_id', 'title', 'synopsis', 'notes'])
                                ->jsonPaginate();
     

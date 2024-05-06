@@ -128,6 +128,31 @@ class SortBookmarkTest extends TestCase
         $this->assertDatabaseCount('series', 1);
         $this->assertDatabaseCount('movies', 1);
     }
+
+    /** @test */
+    public function can_sort_bookmarks_by_title(): void
+    {
+        Bookmark::factory()->ofType('App\Models\Movie')->create(['title' => 'B title']);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create(['title' => 'A title']);
+        Bookmark::factory()->ofType('App\Models\Book')->create(['title' => 'D title']);
+        Bookmark::factory()->ofType('App\Models\Series')->create(['title' => 'C title']);
+
+        // Query Sort = "/bookmarks?sort=title"
+        $url = route('api.v1.bookmarks.index', ['sort' => 'title']);
+        
+        $this->getJson($url)->assertSeeInOrder([
+            'A title',
+            'B title',
+            'C title',
+            'D title',
+        ]);
+        
+        $this->assertDatabaseCount('bookmarks', 4);
+        $this->assertDatabaseCount('books', 1);
+        $this->assertDatabaseCount('fanfics', 1);
+        $this->assertDatabaseCount('series', 1);
+        $this->assertDatabaseCount('movies', 1);
+    }
     
     /** @test */
     public function cannot_sort_articles_by_unknown_fields(): void
