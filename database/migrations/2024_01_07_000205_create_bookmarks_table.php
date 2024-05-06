@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->morphs('bookmarkable');
+            $table->string('title');
+            $table->mediumText('synopsis')->nullable();
+            $table->mediumText('notes')->nullable();
             $table->timestamps();
         });
     }

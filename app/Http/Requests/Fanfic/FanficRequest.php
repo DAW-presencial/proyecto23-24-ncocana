@@ -22,16 +22,13 @@ class FanficRequest extends FormRequest
     public function rules(): array
     {
         return [
-                'title' => 'required|min:2|max:25',
-                'author' => 'required|min:2|max:25',
-                'language' => 'min:2|max:10',
-                'fandom' => 'min:3|max:25',
-                'relationships' => 'min:3|max:50',
-                'words' => 'numeric',
-                'read_chapters' => 'numeric',
-                'total_chapters' => 'numeric',
-                'synopsis' => 'min:3|max:500',
-                'notes' => 'min:3|max:355'
+            'author' => 'required|string|max:50',
+            'language' => 'string|max:50',
+            'fandom' => 'string|max:100',
+            'relationships' => 'string|max:100',
+            'words' => 'numeric',
+            'read_chapters' => 'numeric',
+            'total_chapters' => 'numeric',
         ];
     }
 }

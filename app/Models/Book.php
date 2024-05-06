@@ -9,14 +9,13 @@ class Book extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'title',
         'author',
         'language',
         'read_pages',
         'total_pages',
-        'synopsis',
-        'notes',
     ];
 
     public function bookmarks()

@@ -29,16 +29,16 @@ class PaginateBookmarkTest extends TestCase
 
         // Con "size" 2 y "number" 2, se obtienen los bookmarks 2 y 3.
         $response->assertSee([
-            $bookmarks[2]->bookmarkable->title,
-            $bookmarks[3]->bookmarkable->title,
+            $bookmarks[2]->title,
+            $bookmarks[3]->title,
         ]);
 
         // No se deben ver el resto de bookmarks.
         $response->assertDontSee([
-            $bookmarks[0]->bookmarkable->title,
-            $bookmarks[1]->bookmarkable->title,
-            $bookmarks[4]->bookmarkable->title,
-            $bookmarks[5]->bookmarkable->title,
+            $bookmarks[0]->title,
+            $bookmarks[1]->title,
+            $bookmarks[4]->title,
+            $bookmarks[5]->title,
         ]);
 
         // Las cabeceras las añade el trait "MakesJsonApiRequests" en "/tests".

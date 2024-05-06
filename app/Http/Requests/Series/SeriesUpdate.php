@@ -22,13 +22,10 @@ class SeriesUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'min:2',
-            'actors' => 'min:4',
+            'actors' => 'string',
             'num_seasons' => 'numeric',
             'num_episodes' => 'numeric',
-            'currently_at' => 'max:150',
-            'synopsis' => 'max:1000',
-            'notes' => 'max:500',
+            'currently_at' => 'string|max:50',
         ];
     }
 }

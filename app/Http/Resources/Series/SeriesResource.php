@@ -18,13 +18,10 @@ class SeriesResource extends JsonResource
             'type' => 'series',
             'id' => (string) $this->resource->getRouteKey(),
             'attributes' => [
-                'title' => $this->resource->title,
                 'actors' => $this->resource->actors,
                 'num_seasons' => $this->resource->num_seasons,
                 'num_episodes' => $this->resource->num_episodes,
-                'currently_at' => $this->resource->currently_at,
-                'synopsis' => $this->resource->synopsis,
-                'notes' => $this->resource->notes
+                'currently_at' => $this->resource->currently_at
 
             ],
             'links' =>[

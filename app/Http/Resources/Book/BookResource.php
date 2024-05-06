@@ -18,13 +18,10 @@ class BookResource extends JsonResource
             'type' => 'books',
             'id' => (string) $this->resource->getRouteKey(),
             'attributes' => [
-                'title' => $this->resource->title,
                 'author' => $this->resource->author,
                 'language' => $this->resource->language,
                 'read_pages' => $this->resource->read_pages,
-                'total_pages' => $this->resource->total_pages,
-                'synopsis' => $this->resource->synopsis,
-                'notes' => $this->resource->notes
+                'total_pages' => $this->resource->total_pages
 
             ],
             'links' =>[

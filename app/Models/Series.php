@@ -9,14 +9,13 @@ class Series extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'title',
         'actors',
         'num_seasons',
         'num_episodes',
         'currently_at',
-        'synopsis',
-        'notes',
     ];
 
     public function bookmarks()

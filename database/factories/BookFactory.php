@@ -19,13 +19,10 @@ class BookFactory extends Factory
         $total_pages = rand(1, 1000);
 
         return [
-            'title' => fake()->words(3, true),
             'author' => fake()->name(),
             'language' => fake()->languageCode(),
             'read_pages' => rand(1, $total_pages),
             'total_pages' => $total_pages,
-            'synopsis' => fake()->sentences(5, true),
-            'notes' => fake()->sentences(5, true),
         ];
     }
 }

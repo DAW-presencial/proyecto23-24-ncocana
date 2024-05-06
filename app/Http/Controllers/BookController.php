@@ -24,8 +24,9 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
-        ->allowedSorts(['title', 'author'])
-        ->jsonPaginate();
+            ->allowedSorts(['author', 'language', 'read_pages', 'total_pages'])
+            ->allowedFilters(['author', 'language', 'read_pages', 'total_pages'])
+            ->jsonPaginate();
         
         return BookResource::collection($books);
         //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
@@ -35,18 +36,20 @@ class BookController extends Controller
     public function store(BookRequest $request) // Se utiliza un form request para la validación
     {
         $book= Book::create([
-            'title' => $request->title,
             'author' => $request->author,
             'language' => $request->language,
             'read_pages' => $request->read_pages,
             'total_pages' => $request->total_pages,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
         ]);
 
         $user = Auth::id();  //Recoge el id del usuario autenticado
 
-        $book->bookmarks()->create(['user_id' => $user]);
+        $book->bookmarks()->create([
+            'user_id' => $user,
+            'title' => $request->title,
+            'synopsis' => $request->synopsis,
+            'notes' => $request->notes,
+        ]);
         //Crea un bookmark relacioando al libro y al usuario autenticado
 
         return BookResource::make($book);
@@ -56,24 +59,28 @@ class BookController extends Controller
   
     public function show(Book $book)
     {
-       return BookResource::make($book);
+        return BookResource::make($book);
     }
 
 
 
     public function update(BookUpdate $request, Book $book) { 
-    //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
+        //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
         $book->fill([
-            'title' => $request->input('title',$book->title) ,
             'author' => $request->input('author', $book->author),
             'language' => $request->input('language', $book->language),
             'read_pages' => $request->input('read_pages', $book->read_pages),
             'total_pages' => $request->input('total_pages', $book->total_pages),
-            'synopsis' => $request->input('synopsis', $book->synopsis),
-            'notes' => $request->input('notes', $book->notes),
         ])->save();
-    // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-    // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
+        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+        
+        $book->bookmarks()->update([
+            'title' => $request->title,
+            'synopsis' => $request->synopsis,
+            'notes' => $request->notes,
+        ]);
+        
         BookResource::make($book);
     }
 
@@ -83,7 +90,7 @@ class BookController extends Controller
     {
         $book->delete();
         return response()->json([
-            "Succes"=> "Libro ".$book->id."ha sido eliminado con éxito"
+            "Succes"=> "Libro ".$book->id." ha sido eliminado con éxito"
         ]);
     }
 }

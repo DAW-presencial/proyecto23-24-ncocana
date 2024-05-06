@@ -9,8 +9,9 @@ class Fanfic extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'title',
         'author',
         'fandom',
         'relationships',
@@ -18,8 +19,6 @@ class Fanfic extends Model
         'words',
         'read_chapters',
         'total_chapters',
-        'synopsis',
-        'notes',
     ];
 
     public function bookmarks()

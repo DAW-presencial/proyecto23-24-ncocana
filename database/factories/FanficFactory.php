@@ -20,7 +20,6 @@ class FanficFactory extends Factory
         $total_chapters = rand(1, 100);
 
         return [
-            'title' => fake()->words(3, true),
             'author' => fake()->name(),
             'fandom' => fake()->words(2, true),
             'relationships' => fake()->name() . "/" . fake()->name(),
@@ -28,8 +27,6 @@ class FanficFactory extends Factory
             'words' => rand(1, 200000),
             'read_chapters' => rand(1, $total_chapters),
             'total_chapters' => $total_chapters,
-            'synopsis' => fake()->sentences(5, true),
-            'notes' => fake()->sentences(5, true),
         ];
     }
 }

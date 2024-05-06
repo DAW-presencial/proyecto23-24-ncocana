@@ -23,13 +23,10 @@ class SeriesFactory extends Factory
         $currentlyAt = 'Season ' . rand(1, $total_seasons) . ', episode ' . rand(1, $total_episodes);
 
         return [
-            'title' => fake()->words(3, true),
             'actors' => fake()->name(5),
             'num_seasons' => $total_seasons,
             'num_episodes' => $total_episodes,
             'currently_at' => $currentlyAt,
-            'synopsis' => fake()->sentences(5, true),
-            'notes' => fake()->sentences(5, true),
         ];
     }
 }

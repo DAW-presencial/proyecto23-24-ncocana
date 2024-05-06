@@ -13,7 +13,10 @@ class Bookmark extends Model
     use HasFactory, HasTags;
 
     protected $fillable = [
-        'user_id'
+        'user_id',
+        'title',
+        'synopsis',
+        'notes',
     ];
 
     public function bookmarkable()
