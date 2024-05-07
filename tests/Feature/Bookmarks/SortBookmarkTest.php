@@ -69,33 +69,28 @@ class SortBookmarkTest extends TestCase
     /** @test */
     public function can_sort_bookmarks_by_created_at_descending(): void
     {
-        $bookmark1 = Bookmark::factory()->ofType('App\Models\Movie')->create();
-        $bookmark2 =  Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        $bookmark3 = Bookmark::factory()->ofType('App\Models\Book')->create();
-        $bookmark4 = Bookmark::factory()->ofType('App\Models\Series')->create();
+        $bookmark1 = Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'created_at' => now()->year(2023)
+        ]);
+        $bookmark2 = Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'created_at' => now()->year(2021)
+        ]);
+        $bookmark3 = Bookmark::factory()->ofType('App\Models\Book')->create([
+            'created_at' => now()->month(3)
+        ]);
+        $bookmark4 = Bookmark::factory()->ofType('App\Models\Series')->create([
+            'created_at' => now()->month(1)
+        ]);
 
         // Query Sort = "/bookmarks?sort=-created_at"
         $url = route('api.v1.bookmarks.index', ['sort' => '-created_at']);
     
-        $response = $this->getJson($url);
-        
-        // Extract and format the created_at timestamps from the response
-        $created_at_values = collect($response->json()['data'])
-        ->pluck('attributes.created_at')
-        ->map(function ($timestamp) {
-            return Carbon::parse($timestamp)->toIso8601String();
-        })
-        ->toArray();
-
-        // Compare the formatted timestamps with the expected order
-        $expectedTimestamps = [
-            $bookmark4->created_at->toIso8601String(),
-            $bookmark3->created_at->toIso8601String(),
-            $bookmark2->created_at->toIso8601String(),
-            $bookmark1->created_at->toIso8601String(),
-        ];
-
-        $this->assertSame($expectedTimestamps, $created_at_values);
+        $this->getJson($url)->assertSeeInOrder([
+            $bookmark3->title,
+            $bookmark4->title,
+            $bookmark1->title,
+            $bookmark2->title,
+        ]);
         
         $this->assertDatabaseCount('bookmarks', 4);
         $this->assertDatabaseCount('books', 1);
