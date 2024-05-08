@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\collection;
+namespace App\Http\Requests\Collection;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +22,9 @@ class CollectionUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'string|max:100',
+            'description' => 'string|max:500',
+    
         ];
     }
 }

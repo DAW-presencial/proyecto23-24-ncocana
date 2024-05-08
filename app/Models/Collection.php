@@ -29,6 +29,6 @@ class Collection extends Model
 
     public function bookmarks() : BelongsToMany
     {
-        return $this->BelongsToMany(Bookmark::class);
+        return $this->BelongsToMany(Bookmark::class)->withPivot('bookmark_collection');
     }
 }

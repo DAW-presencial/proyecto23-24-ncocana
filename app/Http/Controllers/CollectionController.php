@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\collection\CollectionRequest;
-use App\Http\Requests\collection\CollectionUpdate;
-use App\Http\Resources\collection\CollectionResource;
+use App\Http\Requests\Collection\CollectionRequest;
+use App\Http\Requests\Collection\CollectionUpdate;
+use App\Http\Resources\Collection\CollectionResource;
 use App\Models\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CollectionController extends Controller
@@ -53,12 +52,13 @@ class CollectionController extends Controller
     public function update(CollectionUpdate $request, Collection $collection) { 
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $collection->fill([
-            'actors' => $request->input('actors', $collection->actors),
-            'num_seasons' => $request->input('num_seasons', $collection->num_seasons),
+            'name' => $request->input('name', $collection->name),
+            'description' => $request->input('description', $collection->description),
             'user_id' => $collection->user_id
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
         // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+
 
         collectionResource::make($collection);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\collection;
+namespace App\Http\Resources\Collection;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -14,6 +14,11 @@ class CollectionCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection,
+            'links' => [
+                'self' => route('api.v1.collections.index')
+            ]
+        ];
     }
 }

@@ -31,6 +31,6 @@ class Bookmark extends Model
 
     public function collections() : BelongsToMany
     {
-        return $this->BelongsToMany(Collection::class);
+        return $this->BelongsToMany(Collection::class)->withPivot('bookmark_collection');
     }
 }
