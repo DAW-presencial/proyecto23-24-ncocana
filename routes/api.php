@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeriesController;
@@ -33,6 +34,8 @@ Route::apiResource('fanfics', FanficController::class)->names('api.v1.fanfics');
 //Rutas Series
 Route::apiResource('series', SeriesController::class)->names('api.v1.series');
 
-
 // Ruta Bookmark
 Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookmarks');
+
+//Rutas Collection
+Route::apiResource('collections', CollectionController::class)->names('api.v1.collections');
