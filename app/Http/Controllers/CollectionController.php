@@ -7,6 +7,7 @@ use App\Http\Requests\collection\CollectionUpdate;
 use App\Http\Resources\collection\CollectionResource;
 use App\Models\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CollectionController extends Controller
 {
@@ -38,6 +39,7 @@ class CollectionController extends Controller
         $collection= Collection::create([
             'name' => $request->name,
             'description' => $request->descrption,
+            'user_id' => Auth::id()
         ]);
 
         collectionResource::make($collection);
@@ -53,6 +55,7 @@ class CollectionController extends Controller
         $collection->fill([
             'actors' => $request->input('actors', $collection->actors),
             'num_seasons' => $request->input('num_seasons', $collection->num_seasons),
+            'user_id' => $collection->user_id
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
         // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
