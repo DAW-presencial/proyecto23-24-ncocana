@@ -7,8 +7,6 @@ import { Head } from '@inertiajs/vue3';
 
     <Head title="Prueba" />
     <AuthenticatedLayout>
-        <v-btn>
-            Button
-        </v-btn>
+        <v-btn color="#6366f1" class="m-5"> Button </v-btn>
     </AuthenticatedLayout>
 </template>
