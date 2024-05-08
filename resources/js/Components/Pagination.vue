@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div class="flex justify-center">
         <div class="flex space-x-2">
             <button class="px-4 py-2 rounded-md hover:text-indigo-600">Previous</button>
@@ -9,9 +9,11 @@
             <button class="px-4 py-2 rounded-md hover:text-indigo-600">Next</button>
         </div>
     </div>
+</template> -->
+<template>
 </template>
 
 <script setup>
-const pages = [1, 2, 3, 4, 5, 6];
+import { TailwindPagination } from 'laravel-vue-pagination';
 
 </script>

@@ -7,7 +7,11 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { i18nVue } from 'laravel-vue-i18n';
 
-// /var/www / html / mybookmarks / public / img / nuevo - logo.png
+// Configuración de axios
+import axios from 'axios';
+axios.defaults.headers.common['Accept'] = 'application/vnd.api+json';
+
+
 createInertiaApp({
     title: (title) => `${title} - MyBookMarks`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
