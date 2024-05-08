@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddBookmarkController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
@@ -39,3 +40,8 @@ Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookma
 
 //Rutas Collection
 Route::apiResource('collections', CollectionController::class)->names('api.v1.collections');
+
+//Ruta AddBookmark
+
+Route::post('addBookmark', [AddBookmarkController::class, 'AddBookmark'])->name('api.v1.collections.addBookmark');
+

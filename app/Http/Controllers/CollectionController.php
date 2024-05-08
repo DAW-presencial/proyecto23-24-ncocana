@@ -37,7 +37,7 @@ class CollectionController extends Controller
     {
         $collection= Collection::create([
             'name' => $request->name,
-            'description' => $request->descrption,
+            'description' => $request->description,
             'user_id' => Auth::id()
         ]);
 
