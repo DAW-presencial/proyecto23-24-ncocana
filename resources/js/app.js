@@ -7,16 +7,31 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { i18nVue } from 'laravel-vue-i18n';
 
+// Vuetify
+import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
+// import vuetify from './plugins/vuetify'
+import { loadFonts } from './plugins/webfontloader'
+
+loadFonts()
+
 // Configuración de axios
 import axios from 'axios';
 axios.defaults.headers.common['Accept'] = 'application/vnd.api+json';
 
+const vuetify = createVuetify({
+    components,
+    directives
+});
 
 createInertiaApp({
     title: (title) => `${title} - MyBookMarks`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
+            .use(vuetify)
             .use(plugin)
             .use(ZiggyVue)
             .use(i18nVue, {
