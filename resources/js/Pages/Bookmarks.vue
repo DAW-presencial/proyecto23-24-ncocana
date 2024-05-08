@@ -20,8 +20,8 @@
                             <!-- Cards -->
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0">
                                 <p><strong>Title: </strong>{{ b.director }}</p>
-                                <!-- <p><strong>Author: </strong>{{ b.author }}</p>
-                                <p><strong>Language: </strong>{{ b.language }}</p>
+                                <p><strong>Author: </strong>{{ b.tipo }}</p>
+                                <!-- <p><strong>Language: </strong>{{ b.language }}</p>
                                 <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
                                 <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
                                 <div class="py-1">
@@ -98,8 +98,12 @@ const getBookmarks = () => {
             bookmarks.value = [];
             for (let i = 0; i < data.length; i++) {
                 // console.log(data[i].attributes.bookmarkable_type);
-                bookmarks.value.push(data[i].attributes.bookmarkable)
-                bookmarks.value[0].tipo = data[i].attributes.bookmarkable_type;
+
+                // Saca el Json con los datos del marcador
+                let json = data[i].attributes.bookmarkable;
+                json.tipo = data[i].attributes.bookmarkable_type;
+
+                bookmarks.value.push(json);
                 console.log(bookmarks.value[i])
             }
 
