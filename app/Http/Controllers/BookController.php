@@ -35,23 +35,31 @@ class BookController extends Controller
 
     public function store(BookRequest $request) // Se utiliza un form request para la validación
     {
-        $book= Book::create([
-            'author' => $request->author,
-            'language' => $request->language,
-            'read_pages' => $request->read_pages,
-            'total_pages' => $request->total_pages,
+        // Get validated input data directly
+        $validatedData = $request->input();
+        
+        // Create the book using validated data
+        $book = Book::create([
+            'author' => $validatedData['bookmarkable']['author'],
+            'language' => $validatedData['bookmarkable']['language'],
+            'read_pages' => $validatedData['bookmarkable']['read_pages'],
+            'total_pages' => $validatedData['bookmarkable']['total_pages'],
         ]);
 
-        $user = Auth::id();  //Recoge el id del usuario autenticado
+        // Get the authenticated user's ID
+        $user = Auth::id();
 
+        // Create the bookmark associated with the book and user
         $book->bookmarks()->create([
             'user_id' => $user,
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+            'title' => $validatedData['title'],
+            'synopsis' => $validatedData['synopsis'],
+            'notes' => $validatedData['notes'],
         ]);
-        //Crea un bookmark relacioando al libro y al usuario autenticado
 
+        // dd($book->bookmarks()->with('bookmarkable')->get());
+
+        // Return the book resource
         return BookResource::make($book);
     }
 

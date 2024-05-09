@@ -22,7 +22,7 @@ class SeriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'actors' => 'string',
+            'actors' => 'string|max:500',
             'num_seasons' => 'numeric',
             'num_episodes' => 'numeric',
             'currently_at' => 'string|max:50',

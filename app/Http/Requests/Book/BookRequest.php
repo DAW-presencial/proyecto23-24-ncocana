@@ -22,10 +22,13 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'author' => 'required|string',
-            'language' => 'string|max:50',
-            'read_pages' => 'numeric',
-            'total_pages'=> 'numeric',
+            'title' => 'required|string|max:100',
+            'synopsis' => 'nullable|string|max:1000',
+            'notes' => 'nullable|string|max:2000',
+            'bookmarkable.author' => 'required|string',
+            'bookmarkable.language' => 'nullable|string|max:50',
+            'bookmarkable.read_pages' => 'nullable|numeric',
+            'bookmarkable.total_pages' => 'nullable|numeric'
         ];
     }
 }

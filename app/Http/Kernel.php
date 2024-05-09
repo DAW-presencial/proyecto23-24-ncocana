@@ -46,7 +46,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\ValidateJsonApiHeaders::class,
-            // \App\Http\Middleware\ValidateJsonApiDocument::class,
+            \App\Http\Middleware\ValidateJsonApiDocument::class,
             //Se ha deshabilitado el middleware para que las peticiones no necesiten formato JsonApi
         ],
     ];

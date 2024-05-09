@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Book\BookRequest;
+use App\Http\Requests\Bookmark\BookmarkRequest;
 use App\Http\Resources\Bookmark\BookmarkCollection;
 use App\Http\Resources\Bookmark\BookmarkResource;
 use App\Models\Bookmark;
@@ -37,11 +39,56 @@ class BookmarkController extends Controller
         return BookmarkCollection::make($bookmarks);
     }
 
-    public function store()
+    public function store(BookmarkRequest $request)
     {
+        // Get the request data
+        $requestData = $request->validated();
         
+        // Extract the attributes from the request data
+        $attributes = $requestData['data']['attributes'][0];
+
+        // Get the bookmarkable type
+        $bookmarkableType = $attributes['bookmarkable_type'];
+
+        // Determine the controller class based on the bookmarkable type
+        $controllerClass = 'App\Http\Controllers\\' . class_basename($bookmarkableType) . 'Controller';
+        $requestClass = 'App\Http\Requests\\' . class_basename($bookmarkableType) . '\\' . class_basename($bookmarkableType) . 'Request';
+        
+        // Check if the controller class exists
+        if (!class_exists($controllerClass)) {
+            return response()->json(['message' => 'Controller class not found'], 500);
+        }
+        // Check if the controller class exists
+        if (!class_exists($requestClass)) {
+            return response()->json(['message' => 'Request class not found'], 500);
+        }
+        
+        // Call the store method of the determined controller
+        $controllerInstance = app($controllerClass);
+        // Create an instance of the appropriate request class based on the bookmarkable type
+        $bookmarkRequest = new $requestClass($attributes);
+        // Call the store method of the controller with the appropriate request
+        $resource = $controllerInstance->store($bookmarkRequest);
+        // dd($resource);
+        
+        // Find the bookmark associated with the created resource
+        $bookmark = Bookmark::where('bookmarkable_type', 'App\Models\\' . $bookmarkableType)
+            ->where('bookmarkable_id', $resource->id)
+            ->first();
+
+        // Check if the bookmark is found
+        if (!$bookmark) {
+            return response()->json(['message' => 'Bookmark not found'], 404);
+        }
+        // dd(BookmarkResource::make($bookmark));
+
+        // Eager load the bookmarkable entity
+        $bookmark->load('bookmarkable');
+
+        // Return the created bookmark resource
+        return BookmarkResource::make($bookmark);
     }
-  
+
     public function show(Bookmark $bookmark)
     {
         // Get the currently authenticated user's ID
