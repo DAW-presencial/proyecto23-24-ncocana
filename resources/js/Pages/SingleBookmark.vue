@@ -47,7 +47,6 @@ import Card from '@/Components/Card.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import TextInput from '@/Components/TextInput.vue'
 
-
 const book = ref({
     "id": 1,
     "title": "The Great Gatsby",
@@ -58,5 +57,4 @@ const book = ref({
     "synopsis": "The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.",
     "notes": "Amazing book, must-read!"
 });
-
 </script>

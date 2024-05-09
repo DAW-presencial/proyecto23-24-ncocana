@@ -18,17 +18,21 @@
                     <div class="flex justify-between gap-10">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
-                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0">
-                                <div v-if="b.tipo == 'App\\Models\\Movie'">
-                                    <h2>Movie</h2>
+                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="getLink(b.id)">
+                                <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
+                                    <h1 class="text-xl mb-4">Movie</h1>
+                                    <p><strong>Title: </strong>{{ b.title }}</p>
                                     <p><strong>Director: </strong>{{ b.director }}</p>
                                     <p><strong>Actors: </strong>{{ b.actors }}</p>
-                                    <p><strong>Relase date: </strong>{{ b.release_date }}</p>
+                                    <p><strong>Relase date: </strong>{{ formatDate(b.release_date) }}</p>
                                     <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
+                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Fanfic'">
-                                    <h2>Fanfic</h2>
+                                    <h1 class="text-xl mb-4">Fanfic</h1>
+                                    <p><strong>Title: </strong>{{ b.title }}</p>
                                     <p><strong>Author: </strong>{{ b.author }}</p>
                                     <p><strong>Fandom: </strong>{{ b.fandom }}</p>
                                     <p><strong>Original fiction: </strong>{{ b.relationships }}</p>
@@ -36,39 +40,35 @@
                                     <p><strong>Words: </strong>{{ b.words }}</p>
                                     <p><strong>Read chapters: </strong>{{ b.read_chapters }}</p>
                                     <p><strong>Total chapters: </strong>{{ b.total_chapters }}</p>
+                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
 
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Book'">
-                                    <h2>Book</h2>
+                                    <h1 class="text-xl mb-4">Book</h1>
+                                    <p><strong>Title: </strong>{{ b.title }}</p>
                                     <p><strong>Author: </strong>{{ b.author }}</p>
                                     <p><strong>Language: </strong>{{ b.language }}</p>
                                     <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
                                     <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
-                                    <p><strong>Synopsis: ": </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Series'">
-                                    <h2>Series</h2>
+                                    <h1 class="text-xl mb-4">Series</h1>
+                                    <p><strong>Title: </strong>{{ b.title }}</p>
                                     <p><strong>Actors: </strong>{{ b.actors }}</p>
                                     <p><strong>Number seasons: </strong>{{ b.num_seasons }}</p>
                                     <p><strong>Number episodes: </strong>{{ b.num_episodes }}</p>
-                                    <p><strong>Currently at": </strong>{{ b.currently_at }}</p>
+                                    <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
+                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
 
                                 </div>
-
-                                <!-- <p><strong>Language: </strong>{{ b.language }}</p>
-                                <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
-                                <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
-                                <div class="py-1">
-                                    <p><strong>Synopsis: </strong></p>
-                                    <p>{{ b.synopsis }}</p>
-                                </div>
-                                <div class="pb-1">
-                                    <p><strong>Notes: </strong></p>
-                                    <p>{{ b.notes }}</p>
-                                </div> -->
                             </Card>
+
                         </div>
                         <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg'>
                             <div class=" p-4">
@@ -109,7 +109,7 @@ import TextInput from '@/Components/TextInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import TextArea from '@/Components/TextArea.vue'
 import { onMounted, ref } from 'vue'
-
+import moment from 'moment'; // Importa moment aquí
 // Variables
 const currentPage = ref(1);
 const lastPage = ref(null);
@@ -118,7 +118,7 @@ const bookmarks = ref([]);
 
 const getBookmarks = () => {
     // Petición para obtener un array con todos los libros
-    axios.get(`http://127.0.0.1:8000/api/v1/bookmarks?page[size]=3&page[number]=${currentPage.value}`)
+    axios.get(`?page[size]=2&page[number]=${currentPage.value}`)
         .then(response => {
             const res = response.data
             const data = res.data;
@@ -135,9 +135,12 @@ const getBookmarks = () => {
             for (let i = 0; i < data.length; i++) {
                 // console.log(data[i].attributes.bookmarkable_type);
 
-                // Saca el Json con los datos del marcador
+                // creamos una variable donde vamos a tener todos los campos
                 let json = data[i].attributes.bookmarkable;
                 json.tipo = data[i].attributes.bookmarkable_type;
+                json.title = data[i].attributes.title;
+                json.synopsis = data[i].attributes.synopsis;
+                json.notes = data[i].attributes.notes;
 
                 bookmarks.value.push(json);
                 console.log(bookmarks.value[i])
@@ -162,8 +165,17 @@ const prevPage = () => {
     }
 }
 
+const getLink = (id) => {
+    return `http://127.0.0.1:8000/singlebookmark/` + id;
+}
+
+const formatDate = (date) => {
+    return moment(date).format('YYYY/MM/DD');
+}
+
 onMounted(() => {
     getBookmarks();
+    formatDate();
 });
 
 </script>

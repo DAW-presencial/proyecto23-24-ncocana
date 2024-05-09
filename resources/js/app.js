@@ -10,8 +10,14 @@ import { i18nVue } from 'laravel-vue-i18n';
 // Configuración Vuetify
 import vuetify from './plugins/vuetify';
 
-// Configuración de axios
+// AXIOS
 import axios from 'axios';
+
+// URL base de la API
+const baseURL = "http://127.0.0.1:8000/api/v1/bookmarks";
+
+// Configuración axios
+axios.defaults.baseURL = baseURL;
 axios.defaults.headers.common['Accept'] = 'application/vnd.api+json';
 
 createInertiaApp({
