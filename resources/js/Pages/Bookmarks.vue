@@ -19,8 +19,44 @@
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0">
-                                <p><strong>Title: </strong>{{ b.director }}</p>
-                                <p><strong>Author: </strong>{{ b.tipo }}</p>
+                                <div v-if="b.tipo == 'App\\Models\\Movie'">
+                                    <h2>Movie</h2>
+                                    <p><strong>Director: </strong>{{ b.director }}</p>
+                                    <p><strong>Actors: </strong>{{ b.actors }}</p>
+                                    <p><strong>Relase date: </strong>{{ b.release_date }}</p>
+                                    <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
+                                </div>
+
+                                <div v-if="b.tipo == 'App\\Models\\Fanfic'">
+                                    <h2>Fanfic</h2>
+                                    <p><strong>Author: </strong>{{ b.author }}</p>
+                                    <p><strong>Fandom: </strong>{{ b.fandom }}</p>
+                                    <p><strong>Original fiction: </strong>{{ b.relationships }}</p>
+                                    <p><strong>Language: </strong>{{ b.language }}</p>
+                                    <p><strong>Words: </strong>{{ b.words }}</p>
+                                    <p><strong>Read chapters: </strong>{{ b.read_chapters }}</p>
+                                    <p><strong>Total chapters: </strong>{{ b.total_chapters }}</p>
+
+                                </div>
+
+                                <div v-if="b.tipo == 'App\\Models\\Book'">
+                                    <h2>Book</h2>
+                                    <p><strong>Author: </strong>{{ b.author }}</p>
+                                    <p><strong>Language: </strong>{{ b.language }}</p>
+                                    <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
+                                    <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
+                                    <p><strong>Synopsis: ": </strong>{{ b.synopsis }}</p>
+                                </div>
+
+                                <div v-if="b.tipo == 'App\\Models\\Series'">
+                                    <h2>Series</h2>
+                                    <p><strong>Actors: </strong>{{ b.actors }}</p>
+                                    <p><strong>Number seasons: </strong>{{ b.num_seasons }}</p>
+                                    <p><strong>Number episodes: </strong>{{ b.num_episodes }}</p>
+                                    <p><strong>Currently at": </strong>{{ b.currently_at }}</p>
+
+                                </div>
+
                                 <!-- <p><strong>Language: </strong>{{ b.language }}</p>
                                 <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
                                 <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
