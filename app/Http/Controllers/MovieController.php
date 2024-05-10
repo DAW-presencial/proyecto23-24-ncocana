@@ -10,59 +10,72 @@ use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
-
     public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
     {
         $this->middleware('auth:sanctum')
-        ->only([
-            'store',
-            'update',
-            'destroy'
-        ]);
-        
+            ->only([
+                'index',
+                'store',
+                'show',
+                'update',
+                'destroy'
+            ]); 
     }
-
 
     public function index()
     {
-        $movies = Movie::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        $movies = Movie::query()
+            ->where('user_id', $userId)
             ->allowedSorts(['director', 'actors', 'release_date', 'currently_at'])
             ->allowedFilters(['director', 'actors', 'release_date', 'currently_at'])
             ->jsonPaginate();
         
         return MovieResource::collection($movies);
-        //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
 
-
-    public function store(MovieRequest $request) // Se utiliza un form request para la validación
+    public function store(MovieRequest $request)
     {
-        $movie= Movie::create([
-            'director' => $request->director,
-            'actors' => $request->actors,
-            'release_date' => $request->release_date,
-            'currently_at' => $request->currently_at,
+        // Get validated input data directly
+        $validatedData = $request->input();
+        
+        // Create the movie using validated data
+        $movie = Movie::create([
+            'director' => $validatedData['bookmarkable']['director'],
+            'actors' => $validatedData['bookmarkable']['actors'],
+            'release_date' => $validatedData['bookmarkable']['release_date'],
+            'currently_at' => $validatedData['bookmarkable']['currently_at'],
         ]);
 
-        $user = Auth::id();  //Recoge el id del usuario autenticado
+        // Get the authenticated user's ID
+        $user = Auth::id();
 
+        // Create the bookmark associated with the series and user
         $movie->bookmarks()->create([
             'user_id' => $user,
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+            'title' => $validatedData['title'],
+            'synopsis' => $validatedData['synopsis'],
+            'notes' => $validatedData['notes'],
         ]);
-        //Crea un bookmark relacioando al libro y al usuario autenticado
 
-        MovieResource::make($movie);
-    }
-
-
-    public function show(Movie $movie)
-    {
+        // Return the series resource
         return MovieResource::make($movie);
     }
 
+    public function show(Movie $movie)
+    {
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if the movie belongs to the current user
+        if ($movie->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        return MovieResource::make($movie);
+    }
 
     public function update(MovieUpdate $request, Movie $movie) { 
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
@@ -81,15 +94,15 @@ class MovieController extends Controller
             'notes' => $request->notes,
         ]);
         
-        MovieResource::make($movie);
+        return MovieResource::make($movie);
     }
-
    
     public function destroy(Movie $movie)
     {
         $movie->delete();
+
         return response()->json([
-            "succes" =>"La película ".$movie->id." ha sido borrada con éxito"
+            "message" => 'The movie "' . $movie->id . '" has been successfully deleted.'
         ]);
     }
 }

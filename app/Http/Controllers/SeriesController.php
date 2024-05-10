@@ -11,59 +11,73 @@ use Illuminate\Support\Facades\Auth;
 
 class SeriesController extends Controller
 {
-
-    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    public function __construct()
     {
         $this->middleware('auth:sanctum')
-        ->only([
-            'store',
-            'update',
-            'destroy'
-        ]);
-        
+            ->only([
+                'index',
+                'store',
+                'show',
+                'update',
+                'destroy'
+            ]);
     }
-    
+
     public function index()
     {
-        $series = Series::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        $series = Series::query()
+            ->where('user_id', $userId)
             ->allowedSorts(['actors', 'num_seasons', 'num_episodes', 'currently_at'])
             ->allowedFilters(['actors', 'num_seasons', 'num_episodes', 'currently_at'])
             ->jsonPaginate();
         
         return SeriesResource::collection($series);
-        //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
 
-  
-    public function store(SeriesRequest $request) // Se utiliza un form request para la validación
+    public function store(SeriesRequest $request)
     {
-        $series= Series::create([
-            'actors' => $request->actors,
-            'num_seasons' => $request->num_seasons,
-            'num_episodes' => $request->num_episodes,
-            'currently_at' => $request->currently_at,
+        // Get validated input data directly
+        $validatedData = $request->input();
+        
+        // Create the series using validated data
+        $series = Series::create([
+            'actors' => $validatedData['bookmarkable']['actors'],
+            'num_seasons' => $validatedData['bookmarkable']['num_seasons'],
+            'num_episodes' => $validatedData['bookmarkable']['num_episodes'],
+            'currently_at' => $validatedData['bookmarkable']['currently_at'],
         ]);
 
-        $user = Auth::id();  //Recoge el id del usuario autenticado
+        // Get the authenticated user's ID
+        $user = Auth::id();
 
+        // Create the bookmark associated with the series and user
         $series->bookmarks()->create([
             'user_id' => $user,
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+            'title' => $validatedData['title'],
+            'synopsis' => $validatedData['synopsis'],
+            'notes' => $validatedData['notes'],
         ]);
-        //Crea un bookmark relacioando al libro y al usuario autenticado
 
-        SeriesResource::make($series);
-    }
-
- 
-    public function show(Series $series)
-    {
+        // Return the series resource
         return SeriesResource::make($series);
     }
 
-   
+    public function show(Series $series)
+    {
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if the series belongs to the current user
+        if ($series->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        return SeriesResource::make($series);
+    }
+
     public function update(SeriesUpdate $request, Series $series) { 
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $series->fill([
@@ -81,15 +95,15 @@ class SeriesController extends Controller
             'notes' => $request->notes,
         ]);
         
-        SeriesResource::make($series);
+        return SeriesResource::make($series);
     }
 
-   
     public function destroy(Series $series)
     {
         $series->delete();
+        
         return response()->json([
-            "succes" =>"La serie ".$series->id." ha sido borrada con éxito"
+            "message" => 'The series "' . $series->id . '" has been successfully deleted.'
         ]);
     }
 }

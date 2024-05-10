@@ -10,30 +10,33 @@ use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    public function __construct()
     {
         $this->middleware('auth:sanctum')
-        ->only([
-            'store',
-            'update',
-            'destroy'
-        ]);
-        
+            ->only([
+                'index',
+                'store',
+                'show',
+                'update',
+                'destroy'
+            ]);
     }
-   
+
     public function index()
     {
-        $books = Book::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        $books = Book::query()
+            ->where('user_id', $userId)
             ->allowedSorts(['author', 'language', 'read_pages', 'total_pages'])
             ->allowedFilters(['author', 'language', 'read_pages', 'total_pages'])
             ->jsonPaginate();
         
         return BookResource::collection($books);
-        //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
 
-
-    public function store(BookRequest $request) // Se utiliza un form request para la validación
+    public function store(BookRequest $request)
     {
         // Get validated input data directly
         $validatedData = $request->input();
@@ -62,15 +65,19 @@ class BookController extends Controller
         // Return the book resource
         return BookResource::make($book);
     }
-
-
   
     public function show(Book $book)
     {
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if the book belongs to the current user
+        if ($book->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         return BookResource::make($book);
     }
-
-
 
     public function update(BookUpdate $request, Book $book) { 
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
@@ -89,16 +96,15 @@ class BookController extends Controller
             'notes' => $request->notes,
         ]);
         
-        BookResource::make($book);
+        return BookResource::make($book);
     }
 
-
-  
     public function destroy(Book $book)
     {
         $book->delete();
+
         return response()->json([
-            "Succes"=> "Libro ".$book->id." ha sido eliminado con éxito"
+            "message" => 'The book "' . $book->id . '" has been successfully deleted.'
         ]);
     }
 }

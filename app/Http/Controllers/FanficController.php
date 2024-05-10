@@ -11,61 +11,75 @@ use Illuminate\Support\Facades\Auth;
 
 class FanficController extends Controller
 {
-
-    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    public function __construct()
     {
         $this->middleware('auth:sanctum')
-        ->only([
-            'store',
-            'update',
-            'destroy'
-        ]);
-        
+            ->only([
+                'index',
+                'store',
+                'show',
+                'update',
+                'destroy'
+            ]);
     }
- 
+
     public function index()
     {
-        $fanfics = Fanfic::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        $fanfics = Fanfic::query()
+            ->where('user_id', $userId)
             ->allowedSorts(['author', 'language', 'fandom', 'relationships', 'words', 'read_chapters', 'total_chapters'])
             ->allowedFilters(['author', 'language', 'fandom', 'relationships', 'words', 'read_chapters', 'total_chapters'])
             ->jsonPaginate();
         
         return FanficResource::collection($fanfics);
-        //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
 
-
-    public function store(FanficRequest $request) // Se utiliza un form request para la validación
+    public function store(FanficRequest $request)
     {
+        // Get validated input data directly
+        $validatedData = $request->input();
+        
+        // Create the fanfic using validated data
         $fanfic= Fanfic::create([
-            'author' => $request->author,
-            'language' => $request->language,
-            'fandom' => $request->fandom,
-            'relationships' => $request->relationships,
-            'words' => $request->words,
-            'read_chapters' => $request->read_chapters,
-            'total_chapters' => $request->total_chapters,
+            'author' => $validatedData['bookmarkable']['author'],
+            'language' => $validatedData['bookmarkable']['language'],
+            'fandom' => $validatedData['bookmarkable']['fandom'],
+            'relationships' => $validatedData['bookmarkable']['relationships'],
+            'words' => $validatedData['bookmarkable']['words'],
+            'read_chapters' => $validatedData['bookmarkable']['read_chapters'],
+            'total_chapters' => $validatedData['bookmarkable']['total_chapters'],
         ]);
 
-        $user = Auth::id();  //Recoge el id del usuario autenticado
+        // Get the authenticated user's ID
+        $user = Auth::id();
 
+        // Create the bookmark associated with the fanfic and user
         $fanfic->bookmarks()->create([
             'user_id' => $user,
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+            'title' => $validatedData['title'],
+            'synopsis' => $validatedData['synopsis'],
+            'notes' => $validatedData['notes'],
         ]);
-        //Crea un Fanficmark relacioando al libro y al usuario autenticado
 
+        // Return the fanfic resource
         return FanficResource::make($fanfic);
     }
 
-  
     public function show(Fanfic $fanfic)
     {
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if the fanfic belongs to the current user
+        if ($fanfic->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         return FanficResource::make($fanfic);
     }
-
 
     public function update(FanficUpdate $request, Fanfic $fanfic) { 
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
@@ -87,15 +101,15 @@ class FanficController extends Controller
             'notes' => $request->notes,
         ]);
 
-        FanficResource::make($fanfic);
+        return FanficResource::make($fanfic);
     }
 
-  
     public function destroy(Fanfic $fanfic)
     {
         $fanfic->delete();
+
         return response()->json([
-            "Succes"=> "El fanfic ".$fanfic->id." ha sido eliminado con éxito"
+            "message"=> 'The fanfic "' . $fanfic->id . '" has been successfully deleted.'
         ]);
     }
 }
