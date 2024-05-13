@@ -3,94 +3,115 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Book\BookRequest;
-use App\Http\Requests\Book\BookUpdate;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
-    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    public function __construct()
     {
         $this->middleware('auth:sanctum')
-        ->only([
-            'store',
-            'update',
-            'destroy'
-        ]);
-        
+            ->only([
+                'index',
+                'store',
+                'show',
+                'update',
+                'destroy'
+            ]);
     }
-   
+
     public function index()
     {
-        $books = Book::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        $books = Book::query()
+            ->where('user_id', $userId)
             ->allowedSorts(['author', 'language', 'read_pages', 'total_pages'])
             ->allowedFilters(['author', 'language', 'read_pages', 'total_pages'])
             ->jsonPaginate();
         
         return BookResource::collection($books);
-        //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
 
-
-    public function store(BookRequest $request) // Se utiliza un form request para la validación
+    public function store(BookRequest $request)
     {
-        $book= Book::create([
-            'author' => $request->author,
-            'language' => $request->language,
-            'read_pages' => $request->read_pages,
-            'total_pages' => $request->total_pages,
+        // Get validated input data directly
+        $validatedData = $request->input();
+        
+        // Create the book using validated data
+        $book = Book::create([
+            'author' => $validatedData['bookmarkable']['author'],
+            'language' => $validatedData['bookmarkable']['language'],
+            'read_pages' => $validatedData['bookmarkable']['read_pages'],
+            'total_pages' => $validatedData['bookmarkable']['total_pages'],
         ]);
 
-        $user = Auth::id();  //Recoge el id del usuario autenticado
+        // Get the authenticated user's ID
+        $user = Auth::id();
 
+        // Create the bookmark associated with the book and user
         $book->bookmarks()->create([
             'user_id' => $user,
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+            'title' => $validatedData['title'],
+            'synopsis' => $validatedData['synopsis'],
+            'notes' => $validatedData['notes'],
         ]);
-        //Crea un bookmark relacioando al libro y al usuario autenticado
+        // dd($book->bookmarks()->with('bookmarkable')->get());
 
+        // Return the book resource
         return BookResource::make($book);
     }
-
-
   
     public function show(Book $book)
     {
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if the book belongs to the current user
+        if ($book->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
         return BookResource::make($book);
     }
 
-
-
-    public function update(BookUpdate $request, Book $book) { 
-        //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
-        $book->fill([
-            'author' => $request->input('author', $book->author),
-            'language' => $request->input('language', $book->language),
-            'read_pages' => $request->input('read_pages', $book->read_pages),
-            'total_pages' => $request->input('total_pages', $book->total_pages),
-        ])->save();
-        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+    public function update(Book $book, BookRequest $request)
+    {
+        // Get validated input data directly
+        $validatedData = $request->input();
         
-        $book->bookmarks()->update([
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+        // Update the book using validated data
+        // If some field is not in the request, use the existing data from the model instead
+        $book->update([
+            'author' => $validatedData['bookmarkable']['author'] ?? $book->author,
+            'language' => $validatedData['bookmarkable']['language'] ?? $book->language,
+            'read_pages' => $validatedData['bookmarkable']['read_pages'] ?? $book->read_pages,
+            'total_pages' => $validatedData['bookmarkable']['total_pages'] ?? $book->total_pages,
         ]);
         
-        BookResource::make($book);
+        // Get the first bookmark associated with the book
+        $bookmark = $book->bookmarks()->first();
+        // Update the bookmark associated with the book and user
+        if ($bookmark) {
+            $bookmark->update([
+                'title' => $validatedData['title'] ?? $bookmark->title,
+                'synopsis' => $validatedData['synopsis'] ?? $bookmark->synopsis,
+                'notes' => $validatedData['notes'] ?? $bookmark->notes,
+            ]);
+        }
+            
+        // Return the book resource
+        return BookResource::make($book);
     }
 
-
-  
     public function destroy(Book $book)
     {
         $book->delete();
+
         return response()->json([
-            "Succes"=> "Libro ".$book->id." ha sido eliminado con éxito"
+            "message" => 'The book "' . $book->id . '" has been successfully deleted.'
         ]);
     }
 }

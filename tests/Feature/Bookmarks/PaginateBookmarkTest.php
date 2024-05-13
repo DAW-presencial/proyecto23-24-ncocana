@@ -3,18 +3,34 @@
 namespace Tests\Feature\Bookmarks;
 
 use App\Models\Bookmark;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class PaginateBookmarkTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Creating and authenticating a user
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+    }
+    
     /** @test */
     public function can_paginate_bookmarks(): void
     {
-        $bookmarks = Bookmark::factory(6)->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        $bookmarks = Bookmark::factory(6)->create([
+            'user_id' => $user->id
+        ]);
 
         // Route: "/api/v1/bookmarks?page[size]=2&page[number]=2"
         $url = route('api.v1.bookmarks.index', [
@@ -69,10 +85,21 @@ class PaginateBookmarkTest extends TestCase
     /** @test */
     public function can_paginate_sorted_bookmarks(): void
     {
-        Bookmark::factory()->ofType('App\Models\Movie')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Book')->create();
-        Bookmark::factory()->ofType('App\Models\Series')->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Book')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Series')->create([
+            'user_id' => $user->id
+        ]);
 
         // Route: "/api/v1/bookmarks?sort=bookmarkable_type&page[size]=1&page[number]=2"
         $url = route('api.v1.bookmarks.index', [
@@ -112,12 +139,27 @@ class PaginateBookmarkTest extends TestCase
     /** @test */
     public function can_paginate_filtered_bookmarks(): void
     {
-        Bookmark::factory()->ofType('App\Models\Movie')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Book')->create();
-        Bookmark::factory()->ofType('App\Models\Series')->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Book')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Series')->create([
+            'user_id' => $user->id
+        ]);
 
         // Route: "/api/v1/bookmarks?filter[bookmarkable_type]=Fanfic&page[size]=1&page[number]=2"
         $url = route('api.v1.bookmarks.index', [
