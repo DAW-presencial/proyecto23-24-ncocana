@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Bookmark;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -50,9 +52,17 @@ Route::get('/searchadvanced', function () {
 })->middleware(['auth', 'verified'])->name('searchadvanced');
 
 Route::get('/bookmarks', function () {
+    $bookmarkController = new BookmarkController();
+    $bookmarkResource = $bookmarkController->index();
+
     return Inertia::render('Bookmarks');
 })->middleware(['auth', 'verified'])->name('bookmarks');
 
-Route::get('/singlebookmark', function () {
-    return Inertia::render('SingleBookmark');
+Route::get('/bookmarks/{bookmark}', function (Bookmark $bookmark) {
+    $bookmarkController = new BookmarkController();
+    $bookmarkResource = $bookmarkController->show($bookmark);
+
+    return Inertia::render('SingleBookmark', [
+        'bookmark' => $bookmarkResource
+    ]);
 })->middleware(['auth', 'verified'])->name('singlebookmarker');

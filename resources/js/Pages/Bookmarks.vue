@@ -18,7 +18,8 @@
                     <div class="flex justify-between gap-10">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
-                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="getLink(b.id)">
+                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="getLink(b.id)"
+                                nameButton="SHOW">
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
                                     <h1 class="text-xl mb-4">Movie</h1>
                                     <p><strong>Title: </strong>{{ b.title }}</p>
@@ -118,15 +119,16 @@ const bookmarks = ref([]);
 
 const getBookmarks = () => {
     // Petición para obtener un array con todos los libros
-    axios.get(`?page[size]=2&page[number]=${currentPage.value}`)
+    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`)
         .then(response => {
             const res = response.data
             const data = res.data;
 
             // Pagination
-
             currentPage.value = res.meta.current_page;
             lastPage.value = res.meta.last_page;
+
+
 
             // console.log("Current Page: ", currentPage.value)
             // console.log("Last Page: ", lastPage.value)
@@ -138,6 +140,7 @@ const getBookmarks = () => {
                 // creamos una variable donde vamos a tener todos los campos
                 let json = data[i].attributes.bookmarkable;
                 json.tipo = data[i].attributes.bookmarkable_type;
+                json.id = data[i].id;
                 json.title = data[i].attributes.title;
                 json.synopsis = data[i].attributes.synopsis;
                 json.notes = data[i].attributes.notes;
@@ -166,7 +169,8 @@ const prevPage = () => {
 }
 
 const getLink = (id) => {
-    return `http://127.0.0.1:8000/singlebookmark/` + id;
+    const url = `http://127.0.0.1:8000/bookmarks/${id}`;
+    return url;
 }
 
 const formatDate = (date) => {

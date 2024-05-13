@@ -3,7 +3,7 @@
         <!-- BUTTONS -->
         <div class="flex gap-2 justify-end h-6 float-end">
             <SecundaryButton class="bg-red-700 text-white hover:bg-red-800" :href="deleteLink">DELETE</SecundaryButton>
-            <SecundaryButton class="bg-green-700 text-white hover:bg-green-800" :href="modifyLink">MODIFY
+            <SecundaryButton class="bg-green-700 text-white hover:bg-green-800" :href="modifyLink">{{ nameButton }}
             </SecundaryButton>
         </div>
         <div>
@@ -19,6 +19,7 @@ import SecundaryButton from '@/Components/SecondaryButton.vue'
 
 const props = defineProps({
     deleteLink: String,
-    modifyLink: String
+    modifyLink: String,
+    nameButton: String
 });
 </script>

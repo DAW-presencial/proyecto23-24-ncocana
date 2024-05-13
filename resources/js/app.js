@@ -14,7 +14,7 @@ import vuetify from './plugins/vuetify';
 import axios from 'axios';
 
 // URL base de la API
-const baseURL = "http://127.0.0.1:8000/api/v1/bookmarks";
+const baseURL = "http://127.0.0.1:8000/api/v1";
 
 // Configuración axios
 axios.defaults.baseURL = baseURL;
