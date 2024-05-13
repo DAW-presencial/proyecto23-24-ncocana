@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Fanfic\FanficRequest;
-use App\Http\Requests\Fanfic\FanficUpdate;
 use App\Http\Resources\Fanfic\FanficResource;
 use App\Models\Fanfic;
 use Illuminate\Http\Request;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Book\BookRequest;
 use App\Http\Requests\Bookmark\BookmarkRequest;
 use App\Http\Resources\Bookmark\BookmarkCollection;
 use App\Http\Resources\Bookmark\BookmarkResource;

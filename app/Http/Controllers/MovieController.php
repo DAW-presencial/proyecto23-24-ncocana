@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Movie\MovieRequest;
-use App\Http\Requests\Movie\MovieUpdate;
 use App\Http\Resources\Movie\MovieResource;
 use App\Models\Movie;
 use Illuminate\Support\Facades\Auth;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Series\SeriesRequest;
-use App\Http\Requests\Series\SeriesUpdate;
 use App\Http\Resources\Series\SeriesResource;
 use App\Models\Series;
 use Illuminate\Http\Request;

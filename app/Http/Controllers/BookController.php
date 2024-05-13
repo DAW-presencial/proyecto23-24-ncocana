@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Book\BookRequest;
-use App\Http\Requests\Book\BookUpdate;
 use App\Http\Resources\Book\BookResource;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
