@@ -59,7 +59,6 @@ class BookController extends Controller
             'synopsis' => $validatedData['synopsis'],
             'notes' => $validatedData['notes'],
         ]);
-
         // dd($book->bookmarks()->with('bookmarkable')->get());
 
         // Return the book resource
@@ -79,23 +78,32 @@ class BookController extends Controller
         return BookResource::make($book);
     }
 
-    public function update(BookUpdate $request, Book $book) { 
-        //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
-        $book->fill([
-            'author' => $request->input('author', $book->author),
-            'language' => $request->input('language', $book->language),
-            'read_pages' => $request->input('read_pages', $book->read_pages),
-            'total_pages' => $request->input('total_pages', $book->total_pages),
-        ])->save();
-        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+    public function update(Book $book, BookRequest $request)
+    {
+        // Get validated input data directly
+        $validatedData = $request->input();
         
-        $book->bookmarks()->update([
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+        // Update the book using validated data
+        // If some field is not in the request, use the existing data from the model instead
+        $book->update([
+            'author' => $validatedData['bookmarkable']['author'] ?? $book->author,
+            'language' => $validatedData['bookmarkable']['language'] ?? $book->language,
+            'read_pages' => $validatedData['bookmarkable']['read_pages'] ?? $book->read_pages,
+            'total_pages' => $validatedData['bookmarkable']['total_pages'] ?? $book->total_pages,
         ]);
         
+        // Get the first bookmark associated with the book
+        $bookmark = $book->bookmarks()->first();
+        // Update the bookmark associated with the book and user
+        if ($bookmark) {
+            $bookmark->update([
+                'title' => $validatedData['title'] ?? $bookmark->title,
+                'synopsis' => $validatedData['synopsis'] ?? $bookmark->synopsis,
+                'notes' => $validatedData['notes'] ?? $bookmark->notes,
+            ]);
+        }
+            
+        // Return the book resource
         return BookResource::make($book);
     }
 

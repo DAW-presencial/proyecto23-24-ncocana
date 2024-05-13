@@ -81,26 +81,35 @@ class FanficController extends Controller
         return FanficResource::make($fanfic);
     }
 
-    public function update(FanficUpdate $request, Fanfic $fanfic) { 
-        //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
-        $fanfic->fill([
-            'author' => $request->input('author', $fanfic->author),
-            'language' => $request->input('language', $fanfic->language),
-            'fandom' => $request->input('fandom', $fanfic->fandom),
-            'relationships' => $request->input('relationships', $fanfic->relationships),
-            'words' => $request->input('words', $fanfic->words),
-            'read_chapters' => $request->input('read_chapters', $fanfic->read_chapters),
-            'total_chapters' => $request->input('total_chapters', $fanfic->total_chapters),
-        ])->save();
-        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
-
-        $fanfic->bookmarks()->update([
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+    public function update(Fanfic $fanfic, FanficRequest $request)
+    {
+        // Get validated input data directly
+        $validatedData = $request->input();
+        
+        // Update the fanfic using validated data
+        // If some field is not in the request, use the existing data from the model instead
+        $fanfic->update([
+            'author' => $validatedData['bookmarkable']['author'] ?? $fanfic->author,
+            'language' => $validatedData['bookmarkable']['language'] ?? $fanfic->language,
+            'fandom' => $validatedData['bookmarkable']['fandom'] ?? $fanfic->language,
+            'relationships' => $validatedData['bookmarkable']['relationships'] ?? $fanfic->language,
+            'words' => $validatedData['bookmarkable']['words'] ?? $fanfic->language,
+            'read_chapters' => $validatedData['bookmarkable']['read_chapters'] ?? $fanfic->language,
+            'total_chapters' => $validatedData['bookmarkable']['total_chapters'] ?? $fanfic->language,
         ]);
 
+        // Get the first bookmark associated with the fanfic
+        $bookmark = $fanfic->bookmarks()->first();
+        // Update the bookmark associated with the fanfic and user
+        if ($bookmark) {
+            $bookmark->update([
+                'title' => $validatedData['title'] ?? $bookmark->title,
+                'synopsis' => $validatedData['synopsis'] ?? $bookmark->synopsis,
+                'notes' => $validatedData['notes'] ?? $bookmark->notes,
+            ]);
+        }
+
+        // Return the fanfic resource
         return FanficResource::make($fanfic);
     }
 

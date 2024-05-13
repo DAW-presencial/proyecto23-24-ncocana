@@ -78,23 +78,32 @@ class SeriesController extends Controller
         return SeriesResource::make($series);
     }
 
-    public function update(SeriesUpdate $request, Series $series) { 
-        //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
-        $series->fill([
-            'actors' => $request->input('actors', $series->actors),
-            'num_seasons' => $request->input('num_seasons', $series->num_seasons),
-            'num_episodes' => $request->input('num_episodes', $series->num_episdodes),
-            'currently_at' => $request->input('currently_at', $series->curretly_at),
-        ])->save();
-        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+    public function update(Series $series, SeriesRequest $request)
+    {
+        // Get validated input data directly
+        $validatedData = $request->input();
         
-        $series->bookmarks()->update([
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+        // Update the series using validated data
+        // If some field is not in the request, use the existing data from the model instead
+        $series->update([
+            'actors' => $validatedData['bookmarkable']['actors'] ?? $series->actors,
+            'num_seasons' => $validatedData['bookmarkable']['num_seasons'] ?? $series->num_seasons,
+            'num_episodes' => $validatedData['bookmarkable']['num_episodes'] ?? $series->num_episodes,
+            'currently_at' => $validatedData['bookmarkable']['currently_at'] ?? $series->currently_at,
         ]);
         
+        // Get the first bookmark associated with the series
+        $bookmark = $series->bookmarks()->first();
+        // Update the bookmark associated with the series and user
+        if ($bookmark) {
+            $bookmark->update([
+                'title' => $validatedData['title'] ?? $bookmark->title,
+                'synopsis' => $validatedData['synopsis'] ?? $bookmark->synopsis,
+                'notes' => $validatedData['notes'] ?? $bookmark->notes,
+            ]);
+        }
+        
+        // Return the series resource
         return SeriesResource::make($series);
     }
 

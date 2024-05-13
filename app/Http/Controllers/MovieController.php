@@ -52,7 +52,7 @@ class MovieController extends Controller
         // Get the authenticated user's ID
         $user = Auth::id();
 
-        // Create the bookmark associated with the series and user
+        // Create the bookmark associated with the movie and user
         $movie->bookmarks()->create([
             'user_id' => $user,
             'title' => $validatedData['title'],
@@ -60,7 +60,7 @@ class MovieController extends Controller
             'notes' => $validatedData['notes'],
         ]);
 
-        // Return the series resource
+        // Return the movie resource
         return MovieResource::make($movie);
     }
 
@@ -77,23 +77,32 @@ class MovieController extends Controller
         return MovieResource::make($movie);
     }
 
-    public function update(MovieUpdate $request, Movie $movie) { 
-        //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
-        $movie->fill([
-            'director' => $request->input('director', $movie->director),
-            'actors' => $request->input('actors', $movie->actors),
-            'release_date' => $request->input('release_date', $movie->release_date),
-            'currently_at' => $request->input('currently_at', $movie->currently_at),
-        ])->save();
-        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+    public function update(Movie $movie, MovieRequest $request)
+    {
+        // Get validated input data directly
+        $validatedData = $request->input();
         
-        $movie->bookmarks()->update([
-            'title' => $request->title,
-            'synopsis' => $request->synopsis,
-            'notes' => $request->notes,
+        // Update the movie using validated data
+        // If some field is not in the request, use the existing data from the model instead
+        $movie->update([
+            'director' => $validatedData['bookmarkable']['director'] ?? $movie->director,
+            'actors' => $validatedData['bookmarkable']['actors'] ?? $movie->actors,
+            'release_date' => $validatedData['bookmarkable']['release_date'] ?? $movie->release_date,
+            'currently_at' => $validatedData['bookmarkable']['currently_at'] ?? $movie->currently_at,
         ]);
         
+        // Get the first bookmark associated with the movie
+        $bookmark = $movie->bookmarks()->first();
+        // Update the bookmark associated with the movie and user
+        if ($bookmark) {
+            $bookmark->update([
+                'title' => $validatedData['title'] ?? $bookmark->title,
+                'synopsis' => $validatedData['synopsis'] ?? $bookmark->synopsis,
+                'notes' => $validatedData['notes'] ?? $bookmark->notes,
+            ]);
+        }
+        
+        // Return the movie resource
         return MovieResource::make($movie);
     }
    
