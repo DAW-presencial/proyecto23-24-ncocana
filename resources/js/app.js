@@ -6,19 +6,8 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import { i18nVue } from 'laravel-vue-i18n';
-
-// Configuración Vuetify
-import vuetify from './plugins/vuetify';
-
-// AXIOS
-import axios from 'axios';
-
-// URL base de la API
-const baseURL = "http://127.0.0.1:8000/api/v1";
-
-// Configuración axios
-axios.defaults.baseURL = baseURL;
-axios.defaults.headers.common['Accept'] = 'application/vnd.api+json';
+import vuetify from './config/vuetify';
+import axios from './config/axios-config'
 
 createInertiaApp({
     title: (title) => `${title} - MyBookMarks`,

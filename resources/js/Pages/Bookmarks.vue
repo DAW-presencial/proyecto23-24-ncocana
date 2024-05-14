@@ -7,7 +7,9 @@
                 <!-- BOTONES Y INPUT -->
                 <div class="flex justify-between w-full">
                     <div>
-                        <PrimaryButton>Create Bookmark</PrimaryButton>
+                        <PrimaryButton>
+                            <Link href='/createbookmark'>Create Bookmark</Link>
+                        </PrimaryButton>
                     </div>
                     <div class="flex gap-4">
                         <TextInput class="w-64" v-model="buscar"></TextInput>
@@ -18,8 +20,8 @@
                     <div class="flex justify-between gap-10">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
-                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="getLink(b.id)"
-                                nameButton="SHOW">
+                            <Card v-for="( b ) in  bookmarks " :key="b.id" class="ml-0" :modifyLink="getLink(b.id)"
+                                :id="b.id" nameButton="SHOW" :token="token">
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
                                     <h1 class="text-xl mb-4">Movie</h1>
                                     <p><strong>Title: </strong>{{ b.title }}</p>
@@ -102,7 +104,7 @@
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3'
+import { Head, Link, usePage } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import Card from '@/Components/Card.vue'
@@ -111,6 +113,9 @@ import InputLabel from '@/Components/InputLabel.vue'
 import TextArea from '@/Components/TextArea.vue'
 import { onMounted, ref } from 'vue'
 import moment from 'moment'; // Importa moment aquí
+
+const { props } = usePage();
+const { token } = props;
 // Variables
 const currentPage = ref(1);
 const lastPage = ref(null);
@@ -128,8 +133,6 @@ const getBookmarks = () => {
             currentPage.value = res.meta.current_page;
             lastPage.value = res.meta.last_page;
 
-
-
             // console.log("Current Page: ", currentPage.value)
             // console.log("Last Page: ", lastPage.value)
 
@@ -146,7 +149,6 @@ const getBookmarks = () => {
                 json.notes = data[i].attributes.notes;
 
                 bookmarks.value.push(json);
-                console.log(bookmarks.value[i])
             }
 
 
