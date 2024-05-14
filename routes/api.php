@@ -37,5 +37,7 @@ Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookma
 //Rutas Collection
 Route::apiResource('collections', CollectionController::class)->names('api.v1.collections');
 
-//Ruta Addbookmark
-Route::post('collections/{collection}/bookmarks/{bookmark}', [CollectionController::class, 'addBookmark'])->name('api.v1.bookmark_collection');
+//Rutas Addbookmark y removebookmark para insertar y eliminar registros de la tabla pivot
+Route::post('collections/{collection}/bookmarks/{bookmark}', [CollectionController::class, 'addBookmark'])->name('api.v1.add_bookmark');
+
+Route::delete('collections/{collection}/bookmarks/{bookmark}', [CollectionController::class, 'removeBookmark'])->name('api.v1.remove_bookmark');

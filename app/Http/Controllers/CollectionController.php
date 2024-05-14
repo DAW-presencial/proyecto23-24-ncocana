@@ -80,4 +80,12 @@ class CollectionController extends Controller
             "succes" => "El marcador " . $bookmark->id . " ha sido añadido a la colección " . $collection->id
         ]);
     }
+
+    public function removeBookmark(Collection $collection, Bookmark $bookmark)
+    {
+        $collection->bookmarks()->detach($bookmark);
+        return response()->json([
+            "succes" => "El marcador " . $bookmark->id . " ha sido eliminado de la colección " . $collection->id
+        ]);
+    }
 }
