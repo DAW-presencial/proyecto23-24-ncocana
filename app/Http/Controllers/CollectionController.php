@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\collection\CollectionRequest;
-use App\Http\Requests\collection\CollectionUpdate;
-use App\Http\Resources\collection\CollectionResource;
+use App\Http\Requests\Collection\CollectionRequest;
+use App\Http\Requests\Collection\CollectionUpdate;
+use App\Http\Resources\Collection\CollectionResource;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

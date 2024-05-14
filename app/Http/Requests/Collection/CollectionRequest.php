@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Requests\Movie;
+namespace App\Http\Requests\Collection;
 
 use Illuminate\Foundation\Http\FormRequest;
-use PHPUnit\Framework\Constraint\IsTrue;
-use SebastianBergmann\Type\TrueType;
 
-class MovieUpdate extends FormRequest
+class CollectionRequest extends FormRequest
 {
-
+    /**
+     * Determine if the user is authorized to make this request.
+     */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,10 +22,7 @@ class MovieUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            'director' => 'string',
-            'actors' => 'string|max:500',
-            'release_date' => 'date',
-            'currently_at' => 'string|max:10',
+            //
         ];
     }
 }

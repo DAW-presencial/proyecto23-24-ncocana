@@ -3,23 +3,46 @@
 namespace Tests\Feature\Bookmarks;
 
 use App\Models\Bookmark;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class SortBookmarkTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Creating and authenticating a user
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+    }
+    
     /** @test */
     public function can_sort_bookmarks_by_bookmarkable_type(): void
     {
-        Bookmark::factory()->ofType('App\Models\Movie')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Book')->create();
-        Bookmark::factory()->ofType('App\Models\Series')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Book')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Series')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
 
         // Query Sort = "/bookmarks?sort=bookmarkable_type"
         $url = route('api.v1.bookmarks.index', ['sort' => 'bookmarkable_type']);
@@ -42,11 +65,24 @@ class SortBookmarkTest extends TestCase
     /** @test */
     public function can_sort_bookmarks_by_bookmarkable_type_descending(): void
     {
-        Bookmark::factory()->ofType('App\Models\Movie')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Book')->create();
-        Bookmark::factory()->ofType('App\Models\Series')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Book')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Series')->create([
+            'user_id' => $user->id
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id
+        ]);
 
         // Query Sort = "/bookmarks?sort=-bookmarkable_type"
         $url = route('api.v1.bookmarks.index', ['sort' => '-bookmarkable_type']);
@@ -69,33 +105,35 @@ class SortBookmarkTest extends TestCase
     /** @test */
     public function can_sort_bookmarks_by_created_at_descending(): void
     {
-        $bookmark1 = Bookmark::factory()->ofType('App\Models\Movie')->create();
-        $bookmark2 =  Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        $bookmark3 = Bookmark::factory()->ofType('App\Models\Book')->create();
-        $bookmark4 = Bookmark::factory()->ofType('App\Models\Series')->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        $bookmark1 = Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'created_at' => now()->year(2023),
+            'user_id' => $user->id,
+        ]);
+        $bookmark2 = Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'created_at' => now()->year(2021),
+            'user_id' => $user->id,
+        ]);
+        $bookmark3 = Bookmark::factory()->ofType('App\Models\Book')->create([
+            'created_at' => now()->month(3),
+            'user_id' => $user->id,
+        ]);
+        $bookmark4 = Bookmark::factory()->ofType('App\Models\Series')->create([
+            'created_at' => now()->month(1),
+            'user_id' => $user->id,
+        ]);
 
         // Query Sort = "/bookmarks?sort=-created_at"
         $url = route('api.v1.bookmarks.index', ['sort' => '-created_at']);
     
-        $response = $this->getJson($url);
-        
-        // Extract and format the created_at timestamps from the response
-        $created_at_values = collect($response->json()['data'])
-        ->pluck('attributes.created_at')
-        ->map(function ($timestamp) {
-            return Carbon::parse($timestamp)->toIso8601String();
-        })
-        ->toArray();
-
-        // Compare the formatted timestamps with the expected order
-        $expectedTimestamps = [
-            $bookmark4->created_at->toIso8601String(),
-            $bookmark3->created_at->toIso8601String(),
-            $bookmark2->created_at->toIso8601String(),
-            $bookmark1->created_at->toIso8601String(),
-        ];
-
-        $this->assertSame($expectedTimestamps, $created_at_values);
+        $this->getJson($url)->assertSeeInOrder([
+            $bookmark3->title,
+            $bookmark4->title,
+            $bookmark1->title,
+            $bookmark2->title,
+        ]);
         
         $this->assertDatabaseCount('bookmarks', 4);
         $this->assertDatabaseCount('books', 1);
@@ -105,22 +143,42 @@ class SortBookmarkTest extends TestCase
     }
 
     /** @test */
-    public function can_sort_bookmarks_by_bookmarkable_type_and_user_id(): void
+    public function can_sort_bookmarks_by_bookmarkable_type_and_title(): void
     {
-        Bookmark::factory()->ofType('App\Models\Movie')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        Bookmark::factory()->ofType('App\Models\Book')->create();
-        Bookmark::factory()->ofType('App\Models\Series')->create();
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create();
+        // Retrieve the authenticated user
+        $user = User::first();
 
-        // Query Sort = "/bookmarks?sort=-bookmarkable_type,user_id"
-        $url = route('api.v1.bookmarks.index', ['sort' => '-bookmarkable_type,user_id']);
+        Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'user_id' => $user->id,
+            'title' => 'B title',
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id,
+            'title' => 'A title',
+        ]);
+        Bookmark::factory()->ofType('App\Models\Book')->create([
+            'user_id' => $user->id,
+            'title' => 'D title',
+        ]);
+        Bookmark::factory()->ofType('App\Models\Series')->create([
+            'user_id' => $user->id,
+            'title' => 'E title',
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'user_id' => $user->id,
+            'title' => 'C title',
+        ]);
+
+        // Query Sort = "/bookmarks?sort=-bookmarkable_type,title"
+        $url = route('api.v1.bookmarks.index', ['sort' => '-bookmarkable_type,title']);
         
-        $response = $this->getJson($url);
-
-        $userIds = collect($response->json()['data'])->pluck('attributes.user_id')->toArray();
-
-        $this->assertSame([4, 1, 2, 5, 3], $userIds);
+        $this->getJson($url)->assertSeeInOrder([
+            'E title',
+            'B title',
+            'A title',
+            'C title',
+            'D title',
+        ]);
         
         $this->assertDatabaseCount('bookmarks', 5);
         $this->assertDatabaseCount('books', 1);
@@ -132,10 +190,25 @@ class SortBookmarkTest extends TestCase
     /** @test */
     public function can_sort_bookmarks_by_title(): void
     {
-        Bookmark::factory()->ofType('App\Models\Movie')->create(['title' => 'B title']);
-        Bookmark::factory()->ofType('App\Models\Fanfic')->create(['title' => 'A title']);
-        Bookmark::factory()->ofType('App\Models\Book')->create(['title' => 'D title']);
-        Bookmark::factory()->ofType('App\Models\Series')->create(['title' => 'C title']);
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        Bookmark::factory()->ofType('App\Models\Movie')->create([
+            'title' => 'B title',
+            'user_id' => $user->id,
+        ]);
+        Bookmark::factory()->ofType('App\Models\Fanfic')->create([
+            'title' => 'A title',
+            'user_id' => $user->id,
+        ]);
+        Bookmark::factory()->ofType('App\Models\Book')->create([
+            'title' => 'D title',
+            'user_id' => $user->id,
+        ]);
+        Bookmark::factory()->ofType('App\Models\Series')->create([
+            'title' => 'C title',
+            'user_id' => $user->id,
+        ]);
 
         // Query Sort = "/bookmarks?sort=title"
         $url = route('api.v1.bookmarks.index', ['sort' => 'title']);
@@ -157,7 +230,12 @@ class SortBookmarkTest extends TestCase
     /** @test */
     public function cannot_sort_articles_by_unknown_fields(): void
     {
-        Bookmark::factory(3)->create();
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        Bookmark::factory(3)->create([
+            'user_id' => $user->id
+        ]);
 
         // Query Sort = "/bookmarks?sort=unknown"
         $url = route('api.v1.bookmarks.index', ['sort' => 'unknown']);

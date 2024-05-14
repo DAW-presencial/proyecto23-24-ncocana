@@ -35,7 +35,7 @@ class BookmarkResource extends JsonResource
     public function toResponse($request)
     {
         return parent::toResponse($request)->withHeaders([
-            'Location' => route('api.v1.books.show', $this->resource)
+            'Location' => route('api.v1.bookmarks.show', $this->resource)
         ]);
     }
 }

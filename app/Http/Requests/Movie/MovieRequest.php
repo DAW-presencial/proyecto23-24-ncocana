@@ -20,10 +20,13 @@ class MovieRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'director' => 'string',
-            'actors' => 'string|max:500',
-            'release_date' => 'date',
-            'currently_at' => 'string|max:10',
+            'title' => 'required|string|max:100',
+            'synopsis' => 'nullable|string|max:1000',
+            'notes' => 'nullable|string|max:2000',
+            'bookmarkable.director' => 'string',
+            'bookmarkable.actors' => 'string|max:500',
+            'bookmarkable.release_date' => 'date',
+            'bookmarkable.currently_at' => 'string|max:10',
         ];
     }
 }

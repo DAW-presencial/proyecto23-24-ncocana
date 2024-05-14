@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\collection;
+namespace App\Http\Requests\Collection;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CollectionRequest extends FormRequest
+class CollectionUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
