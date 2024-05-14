@@ -20,21 +20,21 @@ class SeriesController extends Controller
             'update',
             'destroy'
         ]);
-        
+
     }
-    
+
     public function index()
     {
         $series = Series::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
             ->allowedSorts(['actors', 'num_seasons', 'num_episodes', 'currently_at'])
             ->allowedFilters(['actors', 'num_seasons', 'num_episodes', 'currently_at'])
             ->jsonPaginate();
-        
+
         return SeriesResource::collection($series);
         //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
 
-  
+
     public function store(SeriesRequest $request) // Se utiliza un form request para la validación
     {
         $series= Series::create([
@@ -54,17 +54,17 @@ class SeriesController extends Controller
         ]);
         //Crea un bookmark relacioando al libro y al usuario autenticado
 
-        SeriesResource::make($series);
+       return SeriesResource::make($series);
     }
 
- 
+
     public function show(Series $series)
     {
         return SeriesResource::make($series);
     }
 
-   
-    public function update(SeriesUpdate $request, Series $series) { 
+
+    public function update(SeriesUpdate $request, Series $series) {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $series->fill([
             'actors' => $request->input('actors', $series->actors),
@@ -74,17 +74,17 @@ class SeriesController extends Controller
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
         // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
-        
+
         $series->bookmarks()->update([
             'title' => $request->title,
             'synopsis' => $request->synopsis,
             'notes' => $request->notes,
         ]);
-        
-        SeriesResource::make($series);
+
+        return SeriesResource::make($series);
     }
 
-   
+
     public function destroy(Series $series)
     {
         $series->delete();

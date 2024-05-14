@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CollectionController extends Controller
 {
-  
+
     public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
     {
         $this->middleware('auth:sanctum')
@@ -19,7 +19,7 @@ class CollectionController extends Controller
             'update',
             'destroy'
         ]);
-        
+
     }
 
     public function index()
@@ -28,7 +28,7 @@ class CollectionController extends Controller
             ->allowedSorts(['name', 'description'])
             ->allowedFilters(['name', 'description'])
             ->jsonPaginate();
-        
+
         return CollectionResource::collection($collection);
         //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
@@ -41,7 +41,7 @@ class CollectionController extends Controller
             'user_id' => Auth::id()
         ]);
 
-        collectionResource::make($collection);
+        return collectionResource::make($collection);
     }
 
     public function show(Collection $collection)
@@ -49,7 +49,7 @@ class CollectionController extends Controller
         return CollectionResource::make($collection);
     }
 
-    public function update(CollectionUpdate $request, Collection $collection) { 
+    public function update(CollectionUpdate $request, Collection $collection) {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $collection->fill([
             'name' => $request->input('name', $collection->name),
@@ -60,7 +60,7 @@ class CollectionController extends Controller
         // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
 
 
-        collectionResource::make($collection);
+        return collectionResource::make($collection);
     }
 
     public function destroy(Collection $collection)

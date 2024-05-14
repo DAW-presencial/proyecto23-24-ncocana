@@ -19,7 +19,7 @@ class MovieController extends Controller
             'update',
             'destroy'
         ]);
-        
+
     }
 
 
@@ -29,7 +29,7 @@ class MovieController extends Controller
             ->allowedSorts(['director', 'actors', 'release_date', 'currently_at'])
             ->allowedFilters(['director', 'actors', 'release_date', 'currently_at'])
             ->jsonPaginate();
-        
+
         return MovieResource::collection($movies);
         //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
@@ -54,7 +54,7 @@ class MovieController extends Controller
         ]);
         //Crea un bookmark relacioando al libro y al usuario autenticado
 
-        MovieResource::make($movie);
+        return MovieResource::make($movie);
     }
 
 
@@ -64,7 +64,7 @@ class MovieController extends Controller
     }
 
 
-    public function update(MovieUpdate $request, Movie $movie) { 
+    public function update(MovieUpdate $request, Movie $movie) {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $movie->fill([
             'director' => $request->input('director', $movie->director),
@@ -74,17 +74,17 @@ class MovieController extends Controller
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
         // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
-        
+
         $movie->bookmarks()->update([
             'title' => $request->title,
             'synopsis' => $request->synopsis,
             'notes' => $request->notes,
         ]);
-        
-        MovieResource::make($movie);
+
+        return MovieResource::make($movie);
     }
 
-   
+
     public function destroy(Movie $movie)
     {
         $movie->delete();

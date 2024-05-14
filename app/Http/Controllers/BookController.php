@@ -18,16 +18,16 @@ class BookController extends Controller
             'update',
             'destroy'
         ]);
-        
+
     }
-   
+
     public function index()
     {
         $books = Book::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
             ->allowedSorts(['author', 'language', 'read_pages', 'total_pages'])
             ->allowedFilters(['author', 'language', 'read_pages', 'total_pages'])
             ->jsonPaginate();
-        
+
         return BookResource::collection($books);
         //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
@@ -56,7 +56,7 @@ class BookController extends Controller
     }
 
 
-  
+
     public function show(Book $book)
     {
         return BookResource::make($book);
@@ -64,7 +64,7 @@ class BookController extends Controller
 
 
 
-    public function update(BookUpdate $request, Book $book) { 
+    public function update(BookUpdate $request, Book $book) {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
         $book->fill([
             'author' => $request->input('author', $book->author),
@@ -74,18 +74,18 @@ class BookController extends Controller
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
         // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
-        
+
         $book->bookmarks()->update([
             'title' => $request->title,
             'synopsis' => $request->synopsis,
             'notes' => $request->notes,
         ]);
-        
-        BookResource::make($book);
+
+        return BookResource::make($book);
     }
 
 
-  
+
     public function destroy(Book $book)
     {
         $book->delete();

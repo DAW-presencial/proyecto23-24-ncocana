@@ -20,16 +20,16 @@ class FanficController extends Controller
             'update',
             'destroy'
         ]);
-        
+
     }
- 
+
     public function index()
     {
         $fanfics = Fanfic::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
             ->allowedSorts(['author', 'language', 'fandom', 'relationships', 'words', 'read_chapters', 'total_chapters'])
             ->allowedFilters(['author', 'language', 'fandom', 'relationships', 'words', 'read_chapters', 'total_chapters'])
             ->jsonPaginate();
-        
+
         return FanficResource::collection($fanfics);
         //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
     }
@@ -60,14 +60,14 @@ class FanficController extends Controller
         return FanficResource::make($fanfic);
     }
 
-  
+
     public function show(Fanfic $fanfic)
     {
         return FanficResource::make($fanfic);
     }
 
 
-    public function update(FanficUpdate $request, Fanfic $fanfic) { 
+    public function update(FanficUpdate $request, Fanfic $fanfic) {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y author requeridos
         $fanfic->fill([
             'author' => $request->input('author', $fanfic->author),
@@ -87,10 +87,10 @@ class FanficController extends Controller
             'notes' => $request->notes,
         ]);
 
-        FanficResource::make($fanfic);
+        return FanficResource::make($fanfic);
     }
 
-  
+
     public function destroy(Fanfic $fanfic)
     {
         $fanfic->delete();
