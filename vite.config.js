@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import envCompatible from 'vite-plugin-env-compatible';
 import i18n from 'laravel-vue-i18n/vite';
+import vuetify from 'vite-plugin-vuetify'
 
 export default defineConfig({
     plugins: [
@@ -16,6 +18,9 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
+        }),
+        envCompatible({
+            dotenvPath: '.env'
         }),
         i18n('resources/lang'),
     ],

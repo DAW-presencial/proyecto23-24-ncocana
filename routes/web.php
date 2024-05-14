@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Bookmark;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -49,10 +52,33 @@ Route::get('/searchadvanced', function () {
     return Inertia::render('SearchAdvanced');
 })->middleware(['auth', 'verified'])->name('searchadvanced');
 
+
+// INDEX
 Route::get('/bookmarks', function () {
-    return Inertia::render('Bookmarks');
+    $user = Auth::user();
+    $token = $user->getRememberToken();
+    $bookmarkController = new BookmarkController();
+    $bookmarkResource = $bookmarkController->index();
+
+    return Inertia::render('Bookmarks', [
+        'token' => $token
+    ]);
 })->middleware(['auth', 'verified'])->name('bookmarks');
 
-Route::get('/singlebookmark', function () {
-    return Inertia::render('SingleBookmark');
+
+//
+Route::get('/bookmarks/{bookmark}', function (Bookmark $bookmark) {
+    $user = Auth::user();
+    $token = $user->getRememberToken();
+    $bookmarkController = new BookmarkController();
+    $bookmarkResource = $bookmarkController->show($bookmark);
+
+    return Inertia::render('SingleBookmark', [
+        'bookmark' => $bookmarkResource,
+        'token' => $token
+    ]);
 })->middleware(['auth', 'verified'])->name('singlebookmarker');
+
+Route::get('/createbookmark', function () {
+    return Inertia::render('CreateBookmark');
+})->middleware(['auth', 'verified'])->name('createbookmark');
