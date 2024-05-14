@@ -15,11 +15,9 @@ class CollectionController extends Controller
     public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
     {
         $this->middleware('auth:sanctum')
-            ->only([
-                'store',
-                'update',
-                'destroy',
-                'addBookmark'
+            ->except([
+                'index',
+                'show'
             ]);
     }
 
