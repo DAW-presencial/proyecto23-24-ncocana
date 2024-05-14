@@ -7,7 +7,9 @@
                 <!-- BOTONES Y INPUT -->
                 <div class="flex justify-between w-full">
                     <div>
-                        <PrimaryButton>Create Bookmark</PrimaryButton>
+                        <PrimaryButton>
+                            <Link href='/createbookmark'>Create Bookmark</Link>
+                        </PrimaryButton>
                     </div>
                     <div class="flex gap-4">
                         <TextInput class="w-64" v-model="buscar"></TextInput>
@@ -18,7 +20,8 @@
                     <div class="flex justify-between gap-10">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
-                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="getLink(b.id)">
+                            <Card v-for="( b ) in  bookmarks " :key="b.id" class="ml-0" :modifyLink="getLink(b.id)"
+                                :id="b.id" nameButton="SHOW" :token="token">
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
                                     <h1 class="text-xl mb-4">Movie</h1>
                                     <p><strong>Title: </strong>{{ b.title }}</p>
@@ -101,7 +104,7 @@
 </template>
 
 <script setup>
-import { Head } from '@inertiajs/vue3'
+import { Head, Link, usePage } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import Card from '@/Components/Card.vue'
@@ -110,6 +113,9 @@ import InputLabel from '@/Components/InputLabel.vue'
 import TextArea from '@/Components/TextArea.vue'
 import { onMounted, ref } from 'vue'
 import moment from 'moment'; // Importa moment aquí
+
+const { props } = usePage();
+const { token } = props;
 // Variables
 const currentPage = ref(1);
 const lastPage = ref(null);
@@ -118,13 +124,12 @@ const bookmarks = ref([]);
 
 const getBookmarks = () => {
     // Petición para obtener un array con todos los libros
-    axios.get(`?page[size]=2&page[number]=${currentPage.value}`)
+    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`)
         .then(response => {
             const res = response.data
             const data = res.data;
 
             // Pagination
-
             currentPage.value = res.meta.current_page;
             lastPage.value = res.meta.last_page;
 
@@ -138,12 +143,12 @@ const getBookmarks = () => {
                 // creamos una variable donde vamos a tener todos los campos
                 let json = data[i].attributes.bookmarkable;
                 json.tipo = data[i].attributes.bookmarkable_type;
+                json.id = data[i].id;
                 json.title = data[i].attributes.title;
                 json.synopsis = data[i].attributes.synopsis;
                 json.notes = data[i].attributes.notes;
 
                 bookmarks.value.push(json);
-                console.log(bookmarks.value[i])
             }
 
 
@@ -166,7 +171,8 @@ const prevPage = () => {
 }
 
 const getLink = (id) => {
-    return `http://127.0.0.1:8000/singlebookmark/` + id;
+    const url = `http://127.0.0.1:8000/bookmarks/${id}`;
+    return url;
 }
 
 const formatDate = (date) => {
