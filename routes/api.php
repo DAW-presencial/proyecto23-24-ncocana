@@ -10,12 +10,8 @@ use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Middleware\ValidateJsonApiDocument;
-// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::withoutMiddleware(ValidateJsonApiDocument::class)
-//     ->post('login', LoginController::class)
-//     ->name('api.v1.login');
 
 // Rutas sin Sanctum, se aplica auth:sanctum en los controladores
 
@@ -41,7 +37,5 @@ Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookma
 //Rutas Collection
 Route::apiResource('collections', CollectionController::class)->names('api.v1.collections');
 
-//Ruta AddBookmark
-
-Route::post('addBookmark', [AddBookmarkController::class, 'AddBookmark'])->name('api.v1.collections.addBookmark');
-
+//Ruta Addbookmark
+Route::post('collections/{collection}/bookmarks/{bookmark}', [CollectionController::class, 'addBookmark'])->name('api.v1.bookmark_collection');

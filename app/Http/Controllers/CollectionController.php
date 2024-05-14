@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Collection\CollectionRequest;
 use App\Http\Requests\Collection\CollectionUpdate;
 use App\Http\Resources\Collection\CollectionResource;
+use App\Models\Bookmark;
 use App\Models\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,12 +15,12 @@ class CollectionController extends Controller
     public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
     {
         $this->middleware('auth:sanctum')
-        ->only([
-            'store',
-            'update',
-            'destroy'
-        ]);
-
+            ->only([
+                'store',
+                'update',
+                'destroy',
+                'addBookmark'
+            ]);
     }
 
     public function index()
@@ -35,7 +36,7 @@ class CollectionController extends Controller
 
     public function store(CollectionRequest $request) // Se utiliza un form request para la validación
     {
-        $collection= Collection::create([
+        $collection = Collection::create([
             'name' => $request->name,
             'description' => $request->description,
             'user_id' => Auth::id()
@@ -49,7 +50,8 @@ class CollectionController extends Controller
         return CollectionResource::make($collection);
     }
 
-    public function update(CollectionUpdate $request, Collection $collection) {
+    public function update(CollectionUpdate $request, Collection $collection)
+    {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $collection->fill([
             'name' => $request->input('name', $collection->name),
@@ -67,7 +69,15 @@ class CollectionController extends Controller
     {
         $collection->delete();
         return response()->json([
-            "succes" =>"La colección ".$collection->id." ha sido borrada con éxito"
+            "succes" => "La colección " . $collection->id . " ha sido borrada con éxito"
+        ]);
+    }
+
+    public function addBookmark(Collection $collection, Bookmark $bookmark)
+    {
+        $collection->bookmarks()->attach($bookmark);
+        return response()->json([
+            "succes" => "El marcador " . $bookmark->id . " ha sido añadido a la colección " . $collection->id
         ]);
     }
 }
