@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddBookmarkController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
@@ -9,12 +10,8 @@ use App\Http\Controllers\FanficController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\SeriesController;
 use App\Http\Middleware\ValidateJsonApiDocument;
-// use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::withoutMiddleware(ValidateJsonApiDocument::class)
-//     ->post('login', LoginController::class)
-//     ->name('api.v1.login');
 
 // Rutas sin Sanctum, se aplica auth:sanctum en los controladores
 
@@ -41,3 +38,8 @@ Route::apiResource('bookmarks', BookmarkController::class)->names('api.v1.bookma
 
 //Rutas Collection
 Route::apiResource('collections', CollectionController::class)->names('api.v1.collections');
+
+//Rutas Addbookmark y removebookmark para insertar y eliminar registros de la tabla pivot
+Route::post('collections/{collection}/bookmarks/{bookmark}', [CollectionController::class, 'addBookmark'])->name('api.v1.add_bookmark');
+
+Route::delete('collections/{collection}/bookmarks/{bookmark}', [CollectionController::class, 'removeBookmark'])->name('api.v1.remove_bookmark');

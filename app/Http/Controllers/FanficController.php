@@ -13,6 +13,7 @@ class FanficController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')
+
             ->only([
                 'index',
                 'store',
@@ -20,19 +21,17 @@ class FanficController extends Controller
                 'update',
                 'destroy'
             ]);
+
     }
 
     public function index()
     {
         // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
         $fanfics = Fanfic::query()
-            ->where('user_id', $userId)
             ->allowedSorts(['author', 'language', 'fandom', 'relationships', 'words', 'read_chapters', 'total_chapters'])
             ->allowedFilters(['author', 'language', 'fandom', 'relationships', 'words', 'read_chapters', 'total_chapters'])
             ->jsonPaginate();
-        
+
         return FanficResource::collection($fanfics);
     }
 
@@ -40,7 +39,7 @@ class FanficController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Create the fanfic using validated data
         $fanfic= Fanfic::create([
             'author' => $validatedData['bookmarkable']['author'],
@@ -69,14 +68,6 @@ class FanficController extends Controller
 
     public function show(Fanfic $fanfic)
     {
-        // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
-        // Check if the fanfic belongs to the current user
-        if ($fanfic->user_id !== $userId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
         return FanficResource::make($fanfic);
     }
 
@@ -84,7 +75,7 @@ class FanficController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Update the fanfic using validated data
         // If some field is not in the request, use the existing data from the model instead
         $fanfic->update([

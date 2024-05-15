@@ -14,6 +14,25 @@ class CollectionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'type' => 'collections',
+            'id' => (string) $this->resource->getRouteKey(),
+            'attributes' => [
+                'user_id' => $this->resource->user_id,
+                'name' => $this->resource->name,
+                'description' => $this->resource->description,
+            ],
+            'links' =>[
+                'self' => route('api.v1.collections.show', $this->resource)
+
+            ]
+         ];
+    }
+
+    public function toResponse($request)
+    {
+        return parent::toResponse($request)->withHeaders([
+            'Location' => route('api.v1.collections.show', $this->resource)
+        ]);
     }
 }

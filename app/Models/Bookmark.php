@@ -32,6 +32,7 @@ class Bookmark extends Model
 
     public function collections() : BelongsToMany
     {
+
         return $this->BelongsToMany(Collection::class, 'bookmark_collection');
     }
 
@@ -43,5 +44,6 @@ class Bookmark extends Model
     public function scopeMonth(Builder $query, $month)
     {
         $query->whereMonth('created_at', $month);
+
     }
 }

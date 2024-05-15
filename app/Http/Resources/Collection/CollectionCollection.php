@@ -14,6 +14,11 @@ class CollectionCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection,
+            'links' => [
+                'self' => route('api.v1.collections.index')
+            ]
+        ];
     }
 }

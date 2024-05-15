@@ -13,6 +13,7 @@ class SeriesController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')
+
             ->only([
                 'index',
                 'store',
@@ -25,22 +26,20 @@ class SeriesController extends Controller
     public function index()
     {
         // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
         $series = Series::query()
-            ->where('user_id', $userId)
             ->allowedSorts(['actors', 'num_seasons', 'num_episodes', 'currently_at'])
             ->allowedFilters(['actors', 'num_seasons', 'num_episodes', 'currently_at'])
             ->jsonPaginate();
-        
+
         return SeriesResource::collection($series);
     }
 
     public function store(SeriesRequest $request)
+
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Create the series using validated data
         $series = Series::create([
             'actors' => $validatedData['bookmarkable']['actors'],
@@ -66,14 +65,6 @@ class SeriesController extends Controller
 
     public function show(Series $series)
     {
-        // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
-        // Check if the series belongs to the current user
-        if ($series->user_id !== $userId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
         return SeriesResource::make($series);
     }
 
@@ -81,7 +72,7 @@ class SeriesController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Update the series using validated data
         // If some field is not in the request, use the existing data from the model instead
         $series->update([
@@ -90,7 +81,7 @@ class SeriesController extends Controller
             'num_episodes' => $validatedData['bookmarkable']['num_episodes'] ?? $series->num_episodes,
             'currently_at' => $validatedData['bookmarkable']['currently_at'] ?? $series->currently_at,
         ]);
-        
+
         // Get the first bookmark associated with the series
         $bookmark = $series->bookmarks()->first();
         // Update the bookmark associated with the series and user
@@ -101,15 +92,16 @@ class SeriesController extends Controller
                 'notes' => $validatedData['notes'] ?? $bookmark->notes,
             ]);
         }
-        
+
         // Return the series resource
         return SeriesResource::make($series);
     }
 
+
     public function destroy(Series $series)
     {
         $series->delete();
-        
+
         return response()->json([
             "message" => 'The series "' . $series->id . '" has been successfully deleted.'
         ]);

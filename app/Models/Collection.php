@@ -18,6 +18,7 @@ class Collection extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id', //Se añade el campo user_id para la relación con el usuario
         'name',
         'description',
     ];
@@ -27,8 +28,10 @@ class Collection extends Model
         return $this->BelongsTo(User::class);
     }
 
-    public function bookmarks() : BelongsToMany
+    public function bookmarks(): BelongsToMany
     {
+
         return $this->belongsToMany(Bookmark::class, 'bookmark_collection');
+
     }
 }
