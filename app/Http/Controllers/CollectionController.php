@@ -34,13 +34,14 @@ class CollectionController extends Controller
 
     public function store(CollectionRequest $request) // Se utiliza un form request para la validación
     {
+
         $collection = Collection::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'name' => $request->input("data.attributes.name"),
+            'description' => $request->input("data.attributes.description"),
         ]);
 
-        return collectionResource::make($collection);
+        return CollectionResource::make($collection);
     }
 
     public function show(Collection $collection)
@@ -52,8 +53,8 @@ class CollectionController extends Controller
     {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $collection->fill([
-            'name' => $request->input('name', $collection->name),
-            'description' => $request->input('description', $collection->description),
+            'name' => $request->input('data.attributes.name', $collection->name),
+            'description' => $request->input('data.attributes.description', $collection->description),
             'user_id' => $collection->user_id
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos

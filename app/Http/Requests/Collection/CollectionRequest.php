@@ -22,9 +22,10 @@ class CollectionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
-            'description' => 'string|max:500',
-    
+            'data.type' => 'required|in:collections',
+            'data.attributes.name' => 'required|string|max:100',
+            'data.attributes.description' => 'string|max:500',
+
         ];
     }
 }

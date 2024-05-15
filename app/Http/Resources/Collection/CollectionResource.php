@@ -18,6 +18,7 @@ class CollectionResource extends JsonResource
             'type' => 'collections',
             'id' => (string) $this->resource->getRouteKey(),
             'attributes' => [
+                'user_id' => $this->resource->user_id,
                 'name' => $this->resource->name,
                 'description' => $this->resource->description,
             ],
