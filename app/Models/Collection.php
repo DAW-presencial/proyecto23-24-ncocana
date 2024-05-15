@@ -18,6 +18,7 @@ class Collection extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id', //Se añade el campo user_id para la relación con el usuario
         'name',
         'description',
     ];
