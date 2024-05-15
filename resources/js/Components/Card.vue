@@ -47,17 +47,18 @@ const props = defineProps({
     deleteLink: String,
     modifyLink: String,
     nameButton: String,
-    id: String,
-    token: String
+    id: String
 });
 
 const showModal = ref(false);
 
 
 const deleteBookmark = () => {
+    const token = localStorage.getItem('token');
+
     axios.delete(`/bookmarks/${props.id}`, {
         headers: {
-            Authorization: `Bearer ${props.token}`
+            Authorization: token
         }
     })
         .then(() => {

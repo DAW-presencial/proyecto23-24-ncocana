@@ -21,7 +21,7 @@
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
                             <Card v-for="( b ) in  bookmarks " :key="b.id" class="ml-0" :modifyLink="getLink(b.id)"
-                                :id="b.id" nameButton="SHOW" :token="token">
+                                :id="b.id" nameButton="SHOW">
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
                                     <h1 class="text-xl mb-4">Movie</h1>
                                     <p><strong>Title: </strong>{{ b.title }}</p>
@@ -115,7 +115,8 @@ import { onMounted, ref } from 'vue'
 import moment from 'moment'; // Importa moment aquí
 
 const { props } = usePage();
-const { token } = props;
+const { user } = props;
+
 // Variables
 const currentPage = ref(1);
 const lastPage = ref(null);
@@ -123,9 +124,15 @@ const buscar = ref('');
 const bookmarks = ref([]);
 
 const getBookmarks = () => {
-    // Petición para obtener un array con todos los libros
-    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`)
+    const token = localStorage.getItem('token');
+    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`, {
+        headers: {
+            Authorization: token
+        }
+    })
         .then(response => {
+
+
             const res = response.data
             const data = res.data;
 
