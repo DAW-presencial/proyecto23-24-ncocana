@@ -14,11 +14,8 @@ class CollectionController extends Controller
 
     public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
     {
-        $this->middleware('auth:sanctum')
-            ->except([
-                'index',
-                'show'
-            ]);
+        $this->middleware('auth:sanctum');
+
     }
 
     public function index()
@@ -34,7 +31,6 @@ class CollectionController extends Controller
 
     public function store(CollectionRequest $request) // Se utiliza un form request para la validación
     {
-
         $collection = Collection::create([
             'user_id' => Auth::id(),
             'name' => $request->input("data.attributes.name"),
@@ -58,10 +54,10 @@ class CollectionController extends Controller
             'user_id' => $collection->user_id
         ])->save();
         // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del libro por defecto
+        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del objeto por defecto
 
 
-        return collectionResource::make($collection);
+        return CollectionResource::make($collection);
     }
 
     public function destroy(Collection $collection)

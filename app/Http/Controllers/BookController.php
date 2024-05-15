@@ -26,10 +26,7 @@ class BookController extends Controller
     public function index()
     {
         // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
         $books = Book::query()
-            ->where('user_id', $userId)
             ->allowedSorts(['author', 'language', 'read_pages', 'total_pages'])
             ->allowedFilters(['author', 'language', 'read_pages', 'total_pages'])
             ->jsonPaginate();
@@ -41,7 +38,7 @@ class BookController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Create the book using validated data
         $book = Book::create([
             'author' => $validatedData['bookmarkable']['author'],
@@ -68,14 +65,6 @@ class BookController extends Controller
 
     public function show(Book $book)
     {
-        // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
-        // Check if the book belongs to the current user
-        if ($book->user_id !== $userId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
         return BookResource::make($book);
     }
 
@@ -83,7 +72,7 @@ class BookController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Update the book using validated data
         // If some field is not in the request, use the existing data from the model instead
         $book->update([
@@ -92,7 +81,7 @@ class BookController extends Controller
             'read_pages' => $validatedData['bookmarkable']['read_pages'] ?? $book->read_pages,
             'total_pages' => $validatedData['bookmarkable']['total_pages'] ?? $book->total_pages,
         ]);
-        
+
         // Get the first bookmark associated with the book
         $bookmark = $book->bookmarks()->first();
         // Update the bookmark associated with the book and user
@@ -103,7 +92,7 @@ class BookController extends Controller
                 'notes' => $validatedData['notes'] ?? $bookmark->notes,
             ]);
         }
-            
+
         // Return the book resource
         return BookResource::make($book);
     }

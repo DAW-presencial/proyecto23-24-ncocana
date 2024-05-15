@@ -19,17 +19,14 @@ class MovieController extends Controller
                 'show',
                 'update',
                 'destroy'
-            ]); 
+            ]);
 
     }
 
     public function index()
     {
         // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
         $movies = Movie::query()
-            ->where('user_id', $userId)
             ->allowedSorts(['director', 'actors', 'release_date', 'currently_at'])
             ->allowedFilters(['director', 'actors', 'release_date', 'currently_at'])
             ->jsonPaginate();
@@ -41,7 +38,7 @@ class MovieController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Create the movie using validated data
         $movie = Movie::create([
             'director' => $validatedData['bookmarkable']['director'],
@@ -68,15 +65,6 @@ class MovieController extends Controller
 
     public function show(Movie $movie)
     {
-        // Get the currently authenticated user's ID
-        $userId = Auth::id();
-
-        // Check if the movie belongs to the current user
-        if ($movie->user_id !== $userId) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-
         return MovieResource::make($movie);
     }
 
@@ -85,7 +73,7 @@ class MovieController extends Controller
     {
         // Get validated input data directly
         $validatedData = $request->input();
-        
+
         // Update the movie using validated data
         // If some field is not in the request, use the existing data from the model instead
         $movie->update([
@@ -94,7 +82,7 @@ class MovieController extends Controller
             'release_date' => $validatedData['bookmarkable']['release_date'] ?? $movie->release_date,
             'currently_at' => $validatedData['bookmarkable']['currently_at'] ?? $movie->currently_at,
         ]);
-        
+
         // Get the first bookmark associated with the movie
         $bookmark = $movie->bookmarks()->first();
         // Update the bookmark associated with the movie and user
@@ -105,11 +93,11 @@ class MovieController extends Controller
                 'notes' => $validatedData['notes'] ?? $bookmark->notes,
             ]);
         }
-        
+
         // Return the movie resource
         return MovieResource::make($movie);
     }
-   
+
 
     public function destroy(Movie $movie)
     {
