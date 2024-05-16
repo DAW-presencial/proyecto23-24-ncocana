@@ -67,6 +67,7 @@ class CreateBookmarkTest extends TestCase
                     'title' => $bookmark->title,
                     'synopsis' => $bookmark->synopsis,
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'author' => $bookmark->bookmarkable->author,
@@ -133,6 +134,7 @@ class CreateBookmarkTest extends TestCase
                     'title' => $bookmark->title,
                     'synopsis' => $bookmark->synopsis,
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'author' => $bookmark->bookmarkable->author,
@@ -199,6 +201,7 @@ class CreateBookmarkTest extends TestCase
                     'title' => $bookmark->title,
                     'synopsis' => $bookmark->synopsis,
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'actors' => $bookmark->bookmarkable->actors,
@@ -262,6 +265,7 @@ class CreateBookmarkTest extends TestCase
                     'title' => $bookmark->title,
                     'synopsis' => $bookmark->synopsis,
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'director' => $bookmark->bookmarkable->director,
@@ -306,7 +310,7 @@ class CreateBookmarkTest extends TestCase
                 'read_chapters' => '5',
                 'total_chapters' => '60',
             ],
-            'tags' => ['tag', 'tag2'],
+            'tags' => ['tag1', 'tag2'],
         ];
 
         $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
@@ -329,6 +333,13 @@ class CreateBookmarkTest extends TestCase
                     'title' => $bookmark->title,
                     'synopsis' => $bookmark->synopsis,
                     'notes' => $bookmark->notes,
+                    'tags' => $bookmark->tags->map(function ($tag) {
+                        return [
+                            'id' => $tag->id,
+                            'name' => $tag->name,
+                            'slug' => $tag->slug,
+                        ];
+                    }),
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'author' => $bookmark->bookmarkable->author,

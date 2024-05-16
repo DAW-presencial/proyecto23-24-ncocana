@@ -49,7 +49,7 @@ class BookmarkRequest extends FormRequest
 
         // Validate 'tags' only if it's a string or an array
         if (is_string($this->input('data.attributes.tags')) || is_array($this->input('data.attributes.tags'))) {
-            $rules['data.attributes.tags'] = 'required';
+            $rules['data.attributes.tags'] = 'nullable';
         }
 
         return $rules;

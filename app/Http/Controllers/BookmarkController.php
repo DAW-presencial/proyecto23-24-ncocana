@@ -29,7 +29,7 @@ class BookmarkController extends Controller
         $userId = Auth::id();
 
         // Query bookmarks for the current user
-        $bookmarks = Bookmark::query()->where('user_id', $userId)->with('bookmarkable');
+        $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
     
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
                                ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
@@ -86,8 +86,8 @@ class BookmarkController extends Controller
             app(TagController::class)->store($bookmark, $attributes['tags']);
         }
 
-        // Eager load the bookmarkable entity
-        $bookmark->load('bookmarkable');
+        // Eager load the bookmarkable entity and tags relationship
+        $bookmark->load(['bookmarkable', 'tags']);
 
         // Return the created bookmark resource
         return BookmarkResource::make($bookmark);
@@ -103,8 +103,8 @@ class BookmarkController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        // Eager load the bookmarkable entity
-        $bookmark->load('bookmarkable');
+        // Eager load the bookmarkable entity and tags relationship
+        $bookmark->load(['bookmarkable', 'tags']);
 
         return BookmarkResource::make($bookmark);
     }
@@ -167,8 +167,8 @@ class BookmarkController extends Controller
             app(TagController::class)->store($bookmark, $attributes['tags']);
         }
 
-        // Eager load the bookmarkable entity
-        $bookmark->load('bookmarkable');
+        // Eager load the bookmarkable entity and tags relationship
+        $bookmark->load(['bookmarkable', 'tags']);
 
         // Return the updated bookmark resource
         return BookmarkResource::make($bookmark);

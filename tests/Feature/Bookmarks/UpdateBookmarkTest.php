@@ -62,6 +62,7 @@ class UpdateBookmarkTest extends TestCase
                     'title' => $requestData['title'],
                     'synopsis' => $requestData['synopsis'],
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'author' => $requestData['bookmarkable']['author'],
@@ -126,6 +127,7 @@ class UpdateBookmarkTest extends TestCase
                     'title' => $requestData['title'],
                     'synopsis' => $requestData['synopsis'],
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'author' => $requestData['bookmarkable']['author'],
@@ -190,6 +192,7 @@ class UpdateBookmarkTest extends TestCase
                     'title' => $requestData['title'],
                     'synopsis' => $requestData['synopsis'],
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'actors' => $bookmark->bookmarkable->actors,
@@ -251,6 +254,7 @@ class UpdateBookmarkTest extends TestCase
                     'title' => $requestData['title'],
                     'synopsis' => $requestData['synopsis'],
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     'bookmarkable' => [
                         'id' => $bookmark->bookmarkable->id,
                         'director' => $bookmark->bookmarkable->director,

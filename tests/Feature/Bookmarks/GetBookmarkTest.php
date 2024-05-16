@@ -51,6 +51,7 @@ class GetBookmarkTest extends TestCase
                     'title' => $bookmark->title,
                     'synopsis' => $bookmark->synopsis,
                     'notes' => $bookmark->notes,
+                    'tags' => [],
                     "bookmarkable" => $bookmarkableArray
                 ],
                 'links' => [
@@ -90,6 +91,7 @@ class GetBookmarkTest extends TestCase
                         'title' => $bookmarks[0]->title,
                         'synopsis' => $bookmarks[0]->synopsis,
                         'notes' => $bookmarks[0]->notes,
+                        'tags' => [],
                         "bookmarkable" => $bookmarkableArray0
                     ],
                     'links' => [
@@ -106,6 +108,7 @@ class GetBookmarkTest extends TestCase
                         'title' => $bookmarks[1]->title,
                         'synopsis' => $bookmarks[1]->synopsis,
                         'notes' => $bookmarks[1]->notes,
+                        'tags' => [],
                         "bookmarkable" => $bookmarkableArray1
                     ],
                     'links' => [
@@ -122,6 +125,7 @@ class GetBookmarkTest extends TestCase
                         'title' => $bookmarks[2]->title,
                         'synopsis' => $bookmarks[2]->synopsis,
                         'notes' => $bookmarks[2]->notes,
+                        'tags' => [],
                         "bookmarkable" => $bookmarkableArray2
                     ],
                     'links' => [
