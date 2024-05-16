@@ -22,7 +22,7 @@ class BookmarkRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'data.attributes.bookmarkable_type' => [
                 'required',
                 Rule::in(['Movie', 'Series', 'Book', 'Fanfic']),
@@ -46,5 +46,12 @@ class BookmarkRequest extends FormRequest
             'data.attributes.bookmarkable.num_episodes' => 'nullable|numeric',
             'data.attributes.bookmarkable.currently_at' => 'nullable|string|max:50',
         ];
+
+        // Validate 'tags' only if it's a string or an array
+        if (is_string($this->input('data.attributes.tags')) || is_array($this->input('data.attributes.tags'))) {
+            $rules['data.attributes.tags'] = 'required';
+        }
+
+        return $rules;
     }
 }

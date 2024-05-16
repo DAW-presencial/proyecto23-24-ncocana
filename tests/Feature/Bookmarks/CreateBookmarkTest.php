@@ -306,14 +306,12 @@ class CreateBookmarkTest extends TestCase
                 'read_chapters' => '5',
                 'total_chapters' => '60',
             ],
-            // 'tags' => ['tag', 'tag2'],
+            'tags' => ['tag', 'tag2'],
         ];
 
         $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
 
         $bookmark = Bookmark::first();
-
-        $bookmark->attachTag('tag1');
 
         $response->assertHeader(
             'Location',
@@ -353,7 +351,7 @@ class CreateBookmarkTest extends TestCase
         $this->assertDatabaseCount('fanfics', 1);
         $this->assertDatabaseCount('series', 0);
         $this->assertDatabaseCount('movies', 0);
-        $this->assertDatabaseCount('tags', 1);
-        $this->assertDatabaseCount('taggables', 1);
+        $this->assertDatabaseCount('tags', 2);
+        $this->assertDatabaseCount('taggables', 2);
     }
 }

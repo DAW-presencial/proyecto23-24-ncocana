@@ -81,6 +81,11 @@ class BookmarkController extends Controller
         }
         // dd(BookmarkResource::make($bookmark));
 
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags']) {
+            app(TagController::class)->store($bookmark, $attributes['tags']);
+        }
+
         // Eager load the bookmarkable entity
         $bookmark->load('bookmarkable');
 
@@ -155,6 +160,11 @@ class BookmarkController extends Controller
         // Check if the bookmark is found
         if (!$bookmark) {
             return response()->json(['message' => 'Bookmark not found'], 404);
+        }
+
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags']) {
+            app(TagController::class)->store($bookmark, $attributes['tags']);
         }
 
         // Eager load the bookmarkable entity
