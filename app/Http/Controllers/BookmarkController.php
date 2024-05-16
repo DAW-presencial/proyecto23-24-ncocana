@@ -44,7 +44,7 @@ class BookmarkController extends Controller
         $requestData = $request->validated();
         
         // Extract the attributes from the request data
-        $attributes = $requestData['data']['attributes'][0];
+        $attributes = $requestData['data']['attributes'];
 
         // Get the bookmarkable type
         $bookmarkableType = $attributes['bookmarkable_type'];
@@ -109,7 +109,7 @@ class BookmarkController extends Controller
         // Get the request data
         $requestData = $request->validated();
         // Extract the attributes from the request data
-        $attributes = $requestData['data']['attributes'][0];
+        $attributes = $requestData['data']['attributes'];
 
         // Get the bookmarkable type
         $bookmarkableType = $attributes['bookmarkable_type'];

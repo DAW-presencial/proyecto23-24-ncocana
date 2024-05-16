@@ -44,9 +44,7 @@ class UpdateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), [
-            $requestData
-        ])->assertOk();
+        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), $requestData)->assertOk();
 
         $response->assertHeader(
             'Location',
@@ -110,9 +108,7 @@ class UpdateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), [
-            $requestData
-        ])->assertOk();
+        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), $requestData)->assertOk();
 
         $response->assertHeader(
             'Location',
@@ -176,9 +172,7 @@ class UpdateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), [
-            $requestData
-        ])->assertOk();
+        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), $requestData)->assertOk();
 
         $response->assertHeader(
             'Location',
@@ -239,9 +233,7 @@ class UpdateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), [
-            $requestData
-        ])->assertOk();
+        $response = $this->patchJson(route('api.v1.bookmarks.update', $bookmark), $requestData)->assertOk();
 
         $response->assertHeader(
             'Location',

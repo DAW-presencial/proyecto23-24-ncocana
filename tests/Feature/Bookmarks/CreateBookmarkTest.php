@@ -47,9 +47,7 @@ class CreateBookmarkTest extends TestCase
         ];
         // dump($requestData);
 
-        $response = $this->postJson(route('api.v1.bookmarks.store'), [
-            $requestData
-        ]);
+        $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
 
         $bookmark = Bookmark::first();
 
@@ -115,9 +113,7 @@ class CreateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->postJson(route('api.v1.bookmarks.store'), [
-            $requestData
-        ]);
+        $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
 
         $bookmark = Bookmark::first();
 
@@ -183,9 +179,7 @@ class CreateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->postJson(route('api.v1.bookmarks.store'), [
-            $requestData
-        ]);
+        $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
 
         $bookmark = Bookmark::first();
 
@@ -248,9 +242,7 @@ class CreateBookmarkTest extends TestCase
             ]
         ];
 
-        $response = $this->postJson(route('api.v1.bookmarks.store'), [
-            $requestData
-        ]);
+        $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
 
         $bookmark = Bookmark::first();
 
@@ -289,5 +281,79 @@ class CreateBookmarkTest extends TestCase
         $this->assertDatabaseCount('fanfics', 0);
         $this->assertDatabaseCount('series', 0);
         $this->assertDatabaseCount('movies', 1);
+    }
+
+    /** @test */
+    public function can_create_tagged_bookmark(): void
+    {
+        // Creating and authenticating a user
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $this->withoutExceptionHandling();
+
+        $requestData = [
+            'bookmarkable_type' => 'Fanfic',
+            'title' => 'Nuevo bookmark',
+            'synopsis' => 'Esto es una sinopsis',
+            'notes' => 'Esto son las notas',
+            'bookmarkable' => [
+                'author' => 'Noa',
+                'language' => 'Spanish',
+                'fandom' => 'Genshin Impact',
+                'relationships' => 'Tartaglia/Diluc Ragnvindr',
+                'words' => '67000',
+                'read_chapters' => '5',
+                'total_chapters' => '60',
+            ],
+            // 'tags' => ['tag', 'tag2'],
+        ];
+
+        $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
+
+        $bookmark = Bookmark::first();
+
+        $bookmark->attachTag('tag1');
+
+        $response->assertHeader(
+            'Location',
+            route('api.v1.bookmarks.show', $bookmark)
+        );
+
+        $response->assertExactJson([
+            'data' => [
+                'type' => 'bookmarks',
+                'id' => (string) $bookmark->getRouteKey(),
+                'attributes' => [
+                    'user_id' => $bookmark->user_id,
+                    'bookmarkable_type' => $bookmark->bookmarkable_type,
+                    'bookmarkable_id' => $bookmark->bookmarkable_id,
+                    'title' => $bookmark->title,
+                    'synopsis' => $bookmark->synopsis,
+                    'notes' => $bookmark->notes,
+                    'bookmarkable' => [
+                        'id' => $bookmark->bookmarkable->id,
+                        'author' => $bookmark->bookmarkable->author,
+                        'language' => $bookmark->bookmarkable->language,
+                        'fandom' => $bookmark->bookmarkable->fandom,
+                        'relationships' => $bookmark->bookmarkable->relationships,
+                        'words' => $bookmark->bookmarkable->words,
+                        'read_chapters' => $bookmark->bookmarkable->read_chapters,
+                        'total_chapters' => $bookmark->bookmarkable->total_chapters,
+                    ]
+                ],
+                'links' => [
+                    'self' => route('api.v1.bookmarks.show', $bookmark)
+                ]
+            ],
+        ]);
+
+        $this->assertDatabaseCount('bookmarks', 1);
+        $this->assertDatabaseCount('books', 0);
+        $this->assertDatabaseCount('fanfics', 1);
+        $this->assertDatabaseCount('series', 0);
+        $this->assertDatabaseCount('movies', 0);
+        $this->assertDatabaseCount('tags', 1);
+        $this->assertDatabaseCount('taggables', 1);
     }
 }
