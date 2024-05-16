@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Collection\CollectionRequest;
-use App\Http\Requests\Collection\CollectionUpdate;
 use App\Http\Resources\Collection\CollectionResource;
 use App\Models\Bookmark;
 use App\Models\Collection;
@@ -45,7 +44,7 @@ class CollectionController extends Controller
         return CollectionResource::make($collection);
     }
 
-    public function update(CollectionUpdate $request, Collection $collection)
+    public function update(CollectionRequest $request, Collection $collection)
     {
         //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
         $collection->fill([
