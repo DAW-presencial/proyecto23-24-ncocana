@@ -47,6 +47,11 @@ class BookmarkResource extends JsonResource
             'id' => $tag->id,
             'name' => $tag->name,
             'slug' => $tag->slug,
+            'pivot' => [
+                'taggable_type' => $tag->pivot->taggable_type,
+                'taggable_id' => $tag->pivot->taggable_id,
+                'tag_id' => $tag->pivot->tag_id,
+            ]
         ];
     });
 }
