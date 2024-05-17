@@ -4,7 +4,7 @@
     <AuthenticatedLayout>
         <div class="flex flex-col justify-center m-auto max-w-7xl h-screen items-center">
             <div class="container mx-4 h-3/4">
-                <Card class="h-auto" nameButton="UPDATE" :token="token" :id="bookmark_data.id">
+                <Card class="h-auto" nameButton="UPDATE" :data="bookmark_data" :id="bookmark_data.id">
                     <div class="mt-3">
                         <InputLabel value="Title"></InputLabel>
                         <TextInput v-model="bookmark_data.title"></TextInput>
@@ -127,8 +127,6 @@ const bookmark_data = ref('');
 const getBookmarks = () => {
     const { props } = usePage();
     const { bookmark } = props;
-    const { token } = props;
-
 
     const data = bookmark.data.attributes;
 

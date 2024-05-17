@@ -4,7 +4,11 @@
         <div class="flex gap-2 justify-end h-6 float-end">
             <SecundaryButton class="bg-red-700 text-white hover:bg-red-800" @click="showModal = true">DELETE
             </SecundaryButton>
-            <SecundaryButton class="bg-green-700 text-white hover:bg-green-800" :href="modifyLink">{{ nameButton }}
+            <SecundaryButton v-if="nameButton == 'UPDATE'" class="bg-green-700 text-white hover:bg-green-800">{{
+                nameButton }}
+            </SecundaryButton>
+            <SecundaryButton v-if="nameButton == 'SHOW'" class="bg-green-700 text-white hover:bg-green-800"
+                :href="modifyLink">{{ nameButton }}
             </SecundaryButton>
         </div>
         <div>
@@ -48,21 +52,27 @@ const props = defineProps({
     modifyLink: String,
     nameButton: String,
     id: String,
-    token: String
+    data: Object
 });
 
 const showModal = ref(false);
+const token = localStorage.getItem('token');
 
 
 const deleteBookmark = () => {
+
     axios.delete(`/bookmarks/${props.id}`, {
         headers: {
-            Authorization: `Bearer ${props.token}`
+            Authorization: token
         }
     })
         .then(() => {
             window.location.href = '/bookmarks';
         })
 }
+
+// const updateBookmark = () => {
+//     axios.put(`/bookmarks/${props.id}`),
+// }
 
 </script>

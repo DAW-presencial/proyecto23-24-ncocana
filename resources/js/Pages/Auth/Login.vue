@@ -6,6 +6,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+import axios from 'axios';
 
 defineProps({
     canResetPassword: {
@@ -23,10 +25,27 @@ const form = useForm({
 });
 
 const submit = () => {
+    login()
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
 };
+
+const login = () => {
+    let params = {
+        "email": email.value,
+        "password": password.value
+    }
+    console.log(JSON.stringify(params));
+
+    axios.post('/login', JSON.stringify(params))
+        .then(response => {
+            console.log(response);
+            const resultado = response.data;
+            localStorage.setItem('token', resultado.token_type + ' ' + resultado.access_token);
+        })
+}
+
 </script>
 
 <template>
@@ -34,12 +53,13 @@ const submit = () => {
         <GuestLayout>
 
             <Head title="Log in" />
-            <h2 class=" mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
+            <h2 class=" mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your
+                account</h2>
 
 
             <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
+                {{ status }}
+            </div>
 
             <form @submit.prevent="submit">
                 <div>

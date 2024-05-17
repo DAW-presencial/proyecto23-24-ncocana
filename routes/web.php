@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,12 +57,11 @@ Route::get('/searchadvanced', function () {
 // INDEX
 Route::get('/bookmarks', function () {
     $user = Auth::user();
-    $token = $user->getRememberToken();
-    $bookmarkController = new BookmarkController();
-    $bookmarkResource = $bookmarkController->index();
+    // $bookmarkController = new BookmarkController();
+    // $bookmarkResource = $bookmarkController->index();
 
     return Inertia::render('Bookmarks', [
-        'token' => $token
+        'user' => $user,
     ]);
 })->middleware(['auth', 'verified'])->name('bookmarks');
 
