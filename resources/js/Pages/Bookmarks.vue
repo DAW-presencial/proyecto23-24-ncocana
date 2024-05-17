@@ -122,9 +122,9 @@ const currentPage = ref(1);
 const lastPage = ref(null);
 const buscar = ref('');
 const bookmarks = ref([]);
+const request = ref();
 
 const getBookmarks = () => {
-
     const token = localStorage.getItem('token');
     axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`, {
         headers: {
@@ -132,8 +132,6 @@ const getBookmarks = () => {
         }
     })
         .then(response => {
-
-
             const res = response.data
             const data = res.data;
 
@@ -147,6 +145,7 @@ const getBookmarks = () => {
             bookmarks.value = [];
             for (let i = 0; i < data.length; i++) {
                 // console.log(data[i].attributes.bookmarkable_type);
+                console.log(data[i]);
 
                 // creamos una variable donde vamos a tener todos los campos
                 let json = data[i].attributes.bookmarkable;
@@ -157,9 +156,8 @@ const getBookmarks = () => {
                 json.notes = data[i].attributes.notes;
 
                 bookmarks.value.push(json);
+
             }
-
-
         })
         .catch(error => console.log('Ha ocurrido un error: ' + error))
 }
