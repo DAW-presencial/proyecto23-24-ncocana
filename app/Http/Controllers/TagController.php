@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
+    public function index($model, $tags)
+    {
+        if ($model instanceof Bookmark || $model instanceof Collection) {
+            $modelCollection = $model::withAnyTagsOfAnyType($tags)->get();
+
+            return $modelCollection;
+        } else {
+            // Handle other cases or throw an exception
+            throw new \InvalidArgumentException('The parameter $model should be either a Bookmark object or a Collection object.');
+        }
+    }
+
     public function store($model, $tags)
     {
         if ($model instanceof Bookmark || $model instanceof Collection) {
@@ -19,6 +31,16 @@ class TagController extends Controller
                 // Handle other cases or throw an exception
                 throw new \InvalidArgumentException('The parameter $tags should be either a string or an array.');
             }
+        } else {
+            // Handle other cases or throw an exception
+            throw new \InvalidArgumentException('The parameter $model should be either a Bookmark object or a Collection object.');
+        }
+    }
+
+    public function update($model, $tags)
+    {
+        if ($model instanceof Bookmark || $model instanceof Collection) {
+            $model->syncTags($tags);
         } else {
             // Handle other cases or throw an exception
             throw new \InvalidArgumentException('The parameter $model should be either a Bookmark object or a Collection object.');

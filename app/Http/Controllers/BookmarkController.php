@@ -23,13 +23,18 @@ class BookmarkController extends Controller
             ]);
     }
 
-    public function index()
+    public function index($tags = null)
     {
         // Get the currently authenticated user's ID
         $userId = Auth::id();
 
         // Query bookmarks for the current user
         $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
+
+        // Check if 'tags' key exists before accessing it
+        if (isset($tags) && $tags) {
+            $bookmarks = app(TagController::class)->index($bookmarks, $tags);
+        }
     
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
                                ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
@@ -164,7 +169,7 @@ class BookmarkController extends Controller
 
         // Check if 'tags' key exists before accessing it
         if (isset($attributes['tags']) && $attributes['tags']) {
-            app(TagController::class)->store($bookmark, $attributes['tags']);
+            app(TagController::class)->update($bookmark, $attributes['tags']);
         }
 
         // Eager load the bookmarkable entity and tags relationship
