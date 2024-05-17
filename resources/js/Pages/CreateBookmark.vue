@@ -51,7 +51,7 @@ const dataInput = ref({});
 
 const fields = {
     Book: ["title", "author", "language", "read_pages", "total_pages", "synopsis", "notes"],
-    Movie: ["title", "director", "actors", "release_date", "currently_at", "notes"],
+    Movie: ["title", "director", "actors", "release_date", "currently_at", "notes", "synopsis"],
     Series: ["title", "actors", "num_seasons", "num_episodes", "currently_at", "synopsis", "notes"],
     Fanfic: ["title", "author", "language", "chapters", "status", "synopsis", "notes"]
 };
@@ -75,7 +75,10 @@ const enviar = async () => {
     // event.preventDefault();
 
     try {
-        await axios.post('/bookmarks/', dataToSend);
+        await axios.post('/bookmarks/', dataToSend)
+            .then(() => {
+                window.location.href = "/bookmarks";
+            });
 
     } catch (error) {
         console.error(error);

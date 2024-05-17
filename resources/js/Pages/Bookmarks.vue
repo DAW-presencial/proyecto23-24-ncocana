@@ -170,7 +170,7 @@ const prevPage = () => {
 }
 
 const getLink = (id) => {
-    const url = window.location.hostname + `/${id}`;
+    const url = `bookmarks/${id}`;
     return url;
 }
 

@@ -55,103 +55,12 @@ const props = defineProps({
 });
 
 const showModal = ref(false);
-const token = localStorage.getItem("token");
-
 
 const deleteBookmark = () => {
     axios
-        .delete(`/bookmarks/${props.id}`, {
-            headers: {
-                Authorization: token,
-            },
-        })
+        .delete(`/bookmarks/${props.id}`)
         .then(() => {
             window.location.href = "/bookmarks";
         });
 };
-
-// const updateBookmark = () => {
-//     const { props } = usePage();
-//     let { bookmark } = props;
-//     const datas = props.dataInput;
-
-//     console.log(datas);
-//     bookmark = bookmark.data;
-
-//     const getParamsBookmark = () => {
-//         if (bookmark.attributes.bookmarkable_type === "App\\Models\\Movie") {
-//             bookmark.attributes.bookmarkable_type = "Movie";
-//             return {
-//                 actors: bookmark.attributes.bookmarkable.actors,
-//                 currently_at: bookmark.attributes.bookmarkable.currently_at,
-//                 director: bookmark.attributes.bookmarkable.director,
-//                 release_date: bookmark.attributes.bookmarkable.release_date,
-//             };
-//         } else if (
-//             bookmark.attributes.bookmarkable_type === "App\\Models\\Fanfic"
-//         ) {
-//             bookmark.attributes.bookmarkable_type = "Fanfic";
-//             return {
-//                 author: bookmark.attributes.bookmarkable.author,
-//                 fandom: bookmark.attributes.bookmarkable.fandom,
-//                 language: bookmark.attributes.bookmarkable.language,
-//                 words: bookmark.attributes.bookmarkable.words,
-//                 read_chapters: bookmark.attributes.bookmarkable.read_chapters,
-//                 total_chapters: bookmark.attributes.bookmarkable.total_chapters,
-//                 relationships: bookmark.attributes.bookmarkable.relationships,
-//             };
-//         } else if (
-//             bookmark.attributes.bookmarkable_type === "App\\Models\\Book"
-//         ) {
-//             bookmark.attributes.bookmarkable_type = "Book";
-
-//             return {
-//                 author: bookmark.attributes.bookmarkable.author,
-//                 language: bookmark.attributes.bookmarkable.language,
-//                 read_pages: bookmark.attributes.bookmarkable.read_pages,
-//                 total_pages: bookmark.attributes.bookmarkable.total_pages,
-//             };
-//         } else if (
-//             bookmark.attributes.bookmarkable_type === "App\\Models\\Series"
-//         ) {
-//             bookmark.attributes.bookmarkable_type = "Serie";
-
-//             return {
-//                 actors: bookmark.attributes.bookmarkable.actors,
-//                 currently_at: bookmark.attributes.bookmarkable.currently_at,
-//                 num_episodes: bookmark.attributes.bookmarkable.num_episodes,
-//                 num_seasons: bookmark.attributes.bookmarkable.num_seasons,
-//             };
-//         }
-//     };
-
-//     const data = {
-//         data: {
-//             type: bookmark.type,
-//             id: bookmark.id,
-//             attributes:
-//                 [
-//                     {
-//                         title: bookmark.attributes.title,
-//                         synopsis: bookmark.attributes.synopsis,
-//                         notes: bookmark.attributes.notes,
-//                         bookmarkable: getParamsBookmark(),
-//                         bookmarkable_type: bookmark.attributes.bookmarkable_type,
-//                     }
-//                 ]
-//         },
-//     };
-//     console.log(data);
-//     axios
-//         .patch(`/bookmarks/${data.data.id}`, data, {
-//             headers: {
-//                 "Content-Type": "application/vnd.api+json",
-//                 Authorization: token,
-//             },
-//         })
-//         .then((response) => console.log(response.data));
-// };
-// onMounted(() => {
-
-// });
 </script>

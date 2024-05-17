@@ -1,4 +1,6 @@
 export const getParamsBookmark = async (type, bookmark_data) => {
+    console.log(type);
+    console.log(bookmark_data);
     if (type === "App\\Models\\Movie" || type === "Movie") {
         type = "Movie";
 
