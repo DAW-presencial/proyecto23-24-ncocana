@@ -128,7 +128,6 @@ import axios from 'axios';
 
 const bookmark_data = ref({});
 const request = ref(null);
-const token = localStorage.getItem('token');
 
 const getBookmarks = () => {
     const { props } = usePage();
@@ -146,12 +145,25 @@ const getBookmarks = () => {
     request.value = bookmark;
     bookmark_data.value = json;
 
-    console.log(bookmark_data.value);
+    // console.log(bookmark_data.value);
 };
 
 const updateBookmark = async () => {
     const bookmark = request.value.data;
-    console.log(request.value);
+    let tipo = '';
+
+    if (bookmark.attributes.bookmarkable_type === "App\\Models\\Movie") {
+        tipo = "Movie";
+    }
+    if (bookmark.attributes.bookmarkable_type === "App\\Models\\Fanfic") {
+        tipo = "Fanfic";
+    }
+    if (bookmark.attributes.bookmarkable_type === "App\\Models\\Book") {
+        tipo = "Book";
+    }
+    if (bookmark.attributes.bookmarkable_type === "App\\Models\\Series") {
+        tipo = "Series";
+    }
 
     const data = {
         data: {
@@ -162,8 +174,8 @@ const updateBookmark = async () => {
                     title: bookmark_data.value.title,
                     synopsis: bookmark_data.value.synopsis,
                     notes: bookmark_data.value.notes,
-                    bookmarkable: await getParamsBookmark(bookmark.attributes.bookmarkable_type, bookmark_data),
-                    bookmarkable_type: bookmark.attributes.bookmarkable_type,
+                    bookmarkable: await getParamsBookmark(bookmark.attributes.bookmarkable_type, bookmark_data.value),
+                    bookmarkable_type: tipo
                 }
             ]
         }
@@ -174,7 +186,6 @@ const updateBookmark = async () => {
         await axios.patch(`/bookmarks/${bookmark.id}`, data, {
             headers: {
                 'Content-Type': 'application/vnd.api+json',
-                Authorization: `${token}`,
             },
         }).then(() => {
             window.location.href = "/bookmarks";
