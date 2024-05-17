@@ -117,6 +117,7 @@
 </template>
 
 <script setup>
+import { getParamsBookmark } from '@/utils/functions';
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -150,75 +151,23 @@ const getBookmarks = () => {
 
 const updateBookmark = async () => {
     const bookmark = request.value.data;
-    console.log(request.value)
-
-    const getParamsBookmark = async () => {
-        if (bookmark.attributes.bookmarkable_type === "App\\Models\\Movie") {
-            bookmark.attributes.bookmarkable_type = "Movie";
-
-            return {
-                actors: bookmark_data.value.actors,
-                currently_at: bookmark_data.value.currently_at,
-                director: bookmark_data.value.director,
-                release_date: bookmark_data.value.release_date,
-            };
-        }
-        if (
-            bookmark.attributes.bookmarkable_type === "App\\Models\\Fanfic"
-        ) {
-            bookmark.attributes.bookmarkable_type = "Fanfic";
-            return {
-                author: bookmark_data.value.author,
-                fandom: bookmark_data.value.fandom,
-                language: bookmark_data.value.language,
-                words: bookmark_data.value.words, // Asegúrate de que sea un entero
-                read_chapters: bookmark_data.value.read_chapters, // Asegúrate de que sea un entero
-                total_chapters: bookmark_data.value.total_chapters,
-                relationships: bookmark_data.value.relationships,
-            };
-        }
-        if (
-            bookmark.attributes.bookmarkable_type === "App\\Models\\Book"
-        ) {
-            bookmark.attributes.bookmarkable_type = "Book";
-
-            return {
-                author: bookmark_data.value.author,
-                language: bookmark_data.value.language,
-                read_pages: bookmark_data.value.read_pages,
-                total_pages: bookmark_data.value.total_pages,
-            };
-        }
-        if (
-            bookmark.attributes.bookmarkable_type === "App\\Models\\Series"
-        ) {
-            bookmark.attributes.bookmarkable_type = "Series";
-
-            return {
-                actors: bookmark_data.value.actors,
-                currently_at: bookmark_data.value.currently_at,
-                num_episodes: bookmark_data.value.num_episodes,
-                num_seasons: bookmark_data.value.num_seasons,
-            };
-        }
-    };
+    console.log(request.value);
 
     const data = {
         data: {
             type: bookmark.type,
             id: bookmark.id,
-            attributes:
-                [
-                    {
-                        title: bookmark_data.value.title,
-                        synopsis: bookmark_data.value.synopsis,
-                        notes: bookmark_data.value.notes,
-                        bookmarkable: await getParamsBookmark(),
-                        bookmarkable_type: bookmark.attributes.bookmarkable_type,
-                    }
-                ]
-        },
-    };
+            attributes: [
+                {
+                    title: bookmark_data.value.title,
+                    synopsis: bookmark_data.value.synopsis,
+                    notes: bookmark_data.value.notes,
+                    bookmarkable: await getParamsBookmark(bookmark.attributes.bookmarkable_type, bookmark_data),
+                    bookmarkable_type: bookmark.attributes.bookmarkable_type,
+                }
+            ]
+        }
+    }
     console.log(data);
 
     try {
