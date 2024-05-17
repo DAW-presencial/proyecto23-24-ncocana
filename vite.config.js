@@ -19,9 +19,6 @@ export default defineConfig({
                 },
             },
         }),
-        envCompatible({
-            dotenvPath: '.env'
-        }),
         i18n('resources/lang'),
-    ],
+    ]
 });

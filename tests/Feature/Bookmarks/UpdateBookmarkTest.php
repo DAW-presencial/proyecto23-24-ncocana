@@ -21,7 +21,7 @@ class UpdateBookmarkTest extends TestCase
         $this->patchJson(route('api.v1.bookmarks.update', $bookmark))
             ->assertUnauthorized();
     }
-    
+
     /** @test */
     public function can_update_book_bookmarks(): void
     {
@@ -30,7 +30,7 @@ class UpdateBookmarkTest extends TestCase
         Sanctum::actingAs($user);
 
         $bookmark = Bookmark::factory()->ofType('App\Models\Book')->create();
-        
+
         $requestData = [
             'bookmarkable_type' => 'Book',
             'title' => 'Updated bookmark',
@@ -84,7 +84,7 @@ class UpdateBookmarkTest extends TestCase
         $this->assertDatabaseCount('series', 0);
         $this->assertDatabaseCount('movies', 0);
     }
-    
+
     /** @test */
     public function can_update_fanfic_bookmarks(): void
     {
@@ -93,7 +93,7 @@ class UpdateBookmarkTest extends TestCase
         Sanctum::actingAs($user);
 
         $bookmark = Bookmark::factory()->ofType('App\Models\Fanfic')->create();
-        
+
         $requestData = [
             'bookmarkable_type' => 'Fanfic',
             'title' => 'Updated bookmark',
@@ -153,7 +153,7 @@ class UpdateBookmarkTest extends TestCase
         $this->assertDatabaseCount('series', 0);
         $this->assertDatabaseCount('movies', 0);
     }
-    
+
     /** @test */
     public function can_update_series_bookmarks(): void
     {
@@ -162,7 +162,7 @@ class UpdateBookmarkTest extends TestCase
         Sanctum::actingAs($user);
 
         $bookmark = Bookmark::factory()->ofType('App\Models\Series')->create();
-        
+
         $requestData = [
             'bookmarkable_type' => 'Series',
             'title' => 'Updated bookmark',
@@ -216,7 +216,7 @@ class UpdateBookmarkTest extends TestCase
         $this->assertDatabaseCount('series', 1);
         $this->assertDatabaseCount('movies', 0);
     }
-    
+
     /** @test */
     public function can_update_movie_bookmarks(): void
     {
@@ -225,7 +225,7 @@ class UpdateBookmarkTest extends TestCase
         Sanctum::actingAs($user);
 
         $bookmark = Bookmark::factory()->ofType('App\Models\Movie')->create();
-        
+
         $requestData = [
             'bookmarkable_type' => 'Movie',
             'title' => 'Updated bookmark',
