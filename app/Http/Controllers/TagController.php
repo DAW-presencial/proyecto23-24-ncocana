@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
 use App\Models\Collection;
-use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
     public function index($model, $tags)
     {
         if ($model instanceof Bookmark || $model instanceof Collection) {
-            $modelCollection = $model::withAnyTagsOfAnyType($tags)->get();
+            // Separate the tags into an array
+            $tagsArray = explode(',', $tags);
+
+            // Filter bookmarks by tags
+            $modelCollection = $model::withAnyTagsOfAnyType($tagsArray);
+            // dd($modelCollection->get());
 
             return $modelCollection;
         } else {

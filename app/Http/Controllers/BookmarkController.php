@@ -23,17 +23,22 @@ class BookmarkController extends Controller
             ]);
     }
 
-    public function index($tags = null)
+    public function index()
     {
         // Get the currently authenticated user's ID
         $userId = Auth::id();
 
-        // Query bookmarks for the current user
-        $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
-
-        // Check if 'tags' key exists before accessing it
-        if (isset($tags) && $tags) {
-            $bookmarks = app(TagController::class)->index($bookmarks, $tags);
+        // Check if 'tags' parameter exists
+        $tags = request('tags');
+        
+        if ($tags) {
+            // Call the index method of TagController
+            $bookmarks = app(TagController::class)->index(new Bookmark(), $tags);
+            // Query tagged bookmarks for the current user with fields 'bookmarkable' and 'tags'
+            $bookmarks = $bookmarks->where('user_id', Auth::id())->with(['bookmarkable', 'tags']);
+        } else {
+            // Query bookmarks for the current user with fields 'bookmarkable' and 'tags'
+            $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
         }
     
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
@@ -199,4 +204,22 @@ class BookmarkController extends Controller
         // Respond with a success message
         return response()->json(['message' => 'Bookmark deleted successfully']);
     }
+    // {dd($tags);
+    //     // Get the currently authenticated user's ID
+    //     $userId = Auth::id();
+
+    //     // Query bookmarks for the current user
+    //     $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
+
+    //     // Check if 'tags' key exists before accessing it
+    //     if (isset($tags) && $tags) {
+    //         $bookmarks = app(TagController::class)->index($bookmarks, $tags);
+    //     }
+    
+    //     $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
+    //                            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
+    //                            ->jsonPaginate();
+    
+    //     return BookmarkCollection::make($bookmarks);
+    // }
 }

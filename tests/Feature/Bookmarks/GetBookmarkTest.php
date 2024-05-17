@@ -138,4 +138,93 @@ class GetBookmarkTest extends TestCase
             ]
         ]);
     }
+
+    /** @test */
+    public function can_fetch_all_bookmarks_with_given_tags()
+    {
+        $this->withoutExceptionHandling();
+
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        $bookmarks = Bookmark::factory()->count(3)->create([
+            'user_id' => $user->id
+        ]);
+
+        $tags = 'tag2,tag3';
+
+        $bookmarks[1]->attachTags(['tag2', 'tag3']);
+        $bookmarks[2]->attachTags(['tag3']);
+
+        // Route: "/bookmarks?tags=tag2,tag3"
+        $response = $this->getJson(route('api.v1.bookmarks.index', ['tags' => $tags]));
+        
+        // $bookmarkableArray0 = $bookmarks[0]->bookmarkable->toArray();
+        $bookmarkableArray1 = $bookmarks[1]->bookmarkable->toArray();
+        $bookmarkableArray2 = $bookmarks[2]->bookmarkable->toArray();
+
+        $response->assertJson([
+            'data' => [
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmarks[1]->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmarks[1]->user_id,
+                        'bookmarkable_type' => $bookmarks[1]->bookmarkable_type,
+                        'bookmarkable_id' => $bookmarks[1]->bookmarkable_id,
+                        'title' => $bookmarks[1]->title,
+                        'synopsis' => $bookmarks[1]->synopsis,
+                        'notes' => $bookmarks[1]->notes,
+                        'tags' => $bookmarks[1]->tags->map(function ($tag) {
+                            return [
+                                'id' => $tag->id,
+                                'name' => $tag->name,
+                                'slug' => $tag->slug,
+                                'pivot' => [
+                                    'taggable_type' => $tag->pivot->taggable_type,
+                                    'taggable_id' => $tag->pivot->taggable_id,
+                                    'tag_id' => $tag->pivot->tag_id,
+                                ]
+                            ];
+                        })->sortBy('id')->values()->all(),
+                        "bookmarkable" => $bookmarkableArray1
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmarks[1])
+                    ]
+                ],
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmarks[2]->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmarks[2]->user_id,
+                        'bookmarkable_type' => $bookmarks[2]->bookmarkable_type,
+                        'bookmarkable_id' => $bookmarks[2]->bookmarkable_id,
+                        'title' => $bookmarks[2]->title,
+                        'synopsis' => $bookmarks[2]->synopsis,
+                        'notes' => $bookmarks[2]->notes,
+                        'tags' => $bookmarks[2]->tags->map(function ($tag) {
+                            return [
+                                'id' => $tag->id,
+                                'name' => $tag->name,
+                                'slug' => $tag->slug,
+                                'pivot' => [
+                                    'taggable_type' => $tag->pivot->taggable_type,
+                                    'taggable_id' => $tag->pivot->taggable_id,
+                                    'tag_id' => $tag->pivot->tag_id,
+                                ]
+                            ];
+                        })->sortBy('id')->values()->all(),
+                        "bookmarkable" => $bookmarkableArray2
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmarks[2])
+                    ]
+                ]
+            ],
+            'links' => [
+                'self' => route('api.v1.bookmarks.index')
+            ]
+        ]);
+    }
 }
