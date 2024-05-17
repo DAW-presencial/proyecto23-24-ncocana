@@ -170,7 +170,7 @@ const prevPage = () => {
 }
 
 const getLink = (id) => {
-    const url = window.location.href + `/${id}`;
+    const url = window.location.hostname + `/${id}`;
     return url;
 }
 
