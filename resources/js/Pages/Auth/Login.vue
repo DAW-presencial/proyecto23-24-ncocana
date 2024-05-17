@@ -105,6 +105,13 @@ const login = () => {
                         Sign in
                     </PrimaryButton>
                 </div>
+                <div class="flex items-center justify-end mt-4 mx-auto">
+                    <p class="text-sm text-gray-600 m-auto">¿No tienes una cuenta?
+                        <Link :href="route('register')"
+                            class="ml-2 font-semibold text-indigo-600 hover:text-indigo-500 ">
+                        Regístrate</Link>
+                    </p>
+                </div>
             </form>
         </GuestLayout>
     </div>
