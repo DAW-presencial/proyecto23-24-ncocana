@@ -125,12 +125,7 @@ const bookmarks = ref([]);
 const request = ref();
 
 const getBookmarks = () => {
-    const token = localStorage.getItem('token');
-    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`, {
-        headers: {
-            Authorization: token
-        }
-    })
+    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`)
         .then(response => {
             const res = response.data
             const data = res.data;
@@ -144,8 +139,6 @@ const getBookmarks = () => {
 
             bookmarks.value = [];
             for (let i = 0; i < data.length; i++) {
-                // console.log(data[i].attributes.bookmarkable_type);
-                console.log(data[i]);
 
                 // creamos una variable donde vamos a tener todos los campos
                 let json = data[i].attributes.bookmarkable;
@@ -177,7 +170,7 @@ const prevPage = () => {
 }
 
 const getLink = (id) => {
-    const url = `http://127.0.0.1:8000/bookmarks/${id}`;
+    const url = window.location.href + `/${id}`;
     return url;
 }
 
