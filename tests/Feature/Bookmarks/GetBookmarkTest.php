@@ -227,4 +227,93 @@ class GetBookmarkTest extends TestCase
             ]
         ]);
     }
+
+    /** @test */
+    public function can_fetch_all_bookmarks_with_different_edit_date()
+    {
+        $this->withoutExceptionHandling();
+
+        // Retrieve the authenticated user
+        $user = User::first();
+
+        $bookmark0 = Bookmark::factory()->create([
+            'updated_at' => now()->year(2021),
+            'user_id' => $user->id,
+        ]);
+        
+        $bookmark1 = Bookmark::factory()->create([
+            'updated_at' => now()->year(2022),
+            'user_id' => $user->id,
+        ]);
+        
+        $bookmark2 = Bookmark::factory()->create([
+            'updated_at' => now()->year(2023),
+            'user_id' => $user->id,
+        ]);
+
+        $response = $this->getJson(route('api.v1.bookmarks.index'));
+        
+        $bookmarkableArray0 = $bookmark0->bookmarkable->toArray();
+        $bookmarkableArray1 = $bookmark1->bookmarkable->toArray();
+        $bookmarkableArray2 = $bookmark2->bookmarkable->toArray();
+
+        $response->assertJson([
+            'data' => [
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmark2->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmark2->user_id,
+                        'bookmarkable_type' => $bookmark2->bookmarkable_type,
+                        'bookmarkable_id' => $bookmark2->bookmarkable_id,
+                        'title' => $bookmark2->title,
+                        'synopsis' => $bookmark2->synopsis,
+                        'notes' => $bookmark2->notes,
+                        'tags' => [],
+                        "bookmarkable" => $bookmarkableArray2
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmark2)
+                    ]
+                ],
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmark1->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmark1->user_id,
+                        'bookmarkable_type' => $bookmark1->bookmarkable_type,
+                        'bookmarkable_id' => $bookmark1->bookmarkable_id,
+                        'title' => $bookmark1->title,
+                        'synopsis' => $bookmark1->synopsis,
+                        'notes' => $bookmark1->notes,
+                        'tags' => [],
+                        "bookmarkable" => $bookmarkableArray1
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmark1)
+                    ]
+                    ],
+                    [
+                        'type' => 'bookmarks',
+                        'id' => (string) $bookmark0->getRouteKey(),
+                        'attributes' => [
+                            'user_id' => $bookmark0->user_id,
+                            'bookmarkable_type' => $bookmark0->bookmarkable_type,
+                            'bookmarkable_id' => $bookmark0->bookmarkable_id,
+                            'title' => $bookmark0->title,
+                            'synopsis' => $bookmark0->synopsis,
+                            'notes' => $bookmark0->notes,
+                            'tags' => [],
+                            "bookmarkable" => $bookmarkableArray0
+                        ],
+                        'links' => [
+                            'self' => route('api.v1.bookmarks.show', $bookmark0)
+                        ]
+                    ]
+            ],
+            'links' => [
+                'self' => route('api.v1.bookmarks.index')
+            ]
+        ]);
+    }
 }

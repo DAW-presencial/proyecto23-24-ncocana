@@ -41,6 +41,9 @@ class BookmarkController extends Controller
             $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
         }
     
+        // Order bookmarks by 'updated_at' in descending order
+        $bookmarks = $bookmarks->orderBy('updated_at', 'desc');
+
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
                                ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
                                ->jsonPaginate();
