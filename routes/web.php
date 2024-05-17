@@ -57,13 +57,11 @@ Route::get('/searchadvanced', function () {
 // INDEX
 Route::get('/bookmarks', function () {
     $user = Auth::user();
-    $token = $user->getRememberToken();
-    $bookmarkController = new BookmarkController();
-    $bookmarkResource = $bookmarkController->index();
+    // $bookmarkController = new BookmarkController();
+    // $bookmarkResource = $bookmarkController->index();
 
     return Inertia::render('Bookmarks', [
         'user' => $user,
-        'token' => $token
     ]);
 })->middleware(['auth', 'verified'])->name('bookmarks');
 

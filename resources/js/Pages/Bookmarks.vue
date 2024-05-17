@@ -124,6 +124,7 @@ const buscar = ref('');
 const bookmarks = ref([]);
 
 const getBookmarks = () => {
+
     const token = localStorage.getItem('token');
     axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`, {
         headers: {
