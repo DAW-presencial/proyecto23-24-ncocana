@@ -24,7 +24,8 @@ class BookmarkResource extends JsonResource
                 "title" => $this->resource->title,
                 "synopsis" => $this->resource->synopsis,
                 "notes" => $this->resource->notes,
-                "bookmarkable" => $this->resource->bookmarkable
+                "bookmarkable" => $this->resource->bookmarkable,
+                'tags' => $this->extractTagInformation($this->resource->tags),
             ],
             'links' =>[
                 'self' => route('api.v1.bookmarks.show', $this->resource)
@@ -38,4 +39,20 @@ class BookmarkResource extends JsonResource
             'Location' => route('api.v1.bookmarks.show', $this->resource)
         ]);
     }
+
+    private function extractTagInformation($tags)
+{
+    return $tags->map(function ($tag) {
+        return [
+            'id' => $tag->id,
+            'name' => $tag->name,
+            'slug' => $tag->slug,
+            'pivot' => [
+                'taggable_type' => $tag->pivot->taggable_type,
+                'taggable_id' => $tag->pivot->taggable_id,
+                'tag_id' => $tag->pivot->tag_id,
+            ]
+        ];
+    });
+}
 }

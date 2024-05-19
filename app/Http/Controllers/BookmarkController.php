@@ -28,9 +28,22 @@ class BookmarkController extends Controller
         // Get the currently authenticated user's ID
         $userId = Auth::id();
 
-        // Query bookmarks for the current user
-        $bookmarks = Bookmark::query()->where('user_id', $userId)->with('bookmarkable');
+        // Check if 'tags' parameter exists
+        $tags = request('tags');
+        
+        if ($tags) {
+            // Call the index method of TagController
+            $bookmarks = app(TagController::class)->index(new Bookmark(), $tags);
+            // Query tagged bookmarks for the current user with fields 'bookmarkable' and 'tags'
+            $bookmarks = $bookmarks->where('user_id', Auth::id())->with(['bookmarkable', 'tags']);
+        } else {
+            // Query bookmarks for the current user with fields 'bookmarkable' and 'tags'
+            $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
+        }
     
+        // Order bookmarks by 'updated_at' in descending order
+        $bookmarks = $bookmarks->orderBy('updated_at', 'desc');
+
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
                                ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
                                ->jsonPaginate();
@@ -44,7 +57,7 @@ class BookmarkController extends Controller
         $requestData = $request->validated();
         
         // Extract the attributes from the request data
-        $attributes = $requestData['data']['attributes'][0];
+        $attributes = $requestData['data']['attributes'];
 
         // Get the bookmarkable type
         $bookmarkableType = $attributes['bookmarkable_type'];
@@ -81,8 +94,13 @@ class BookmarkController extends Controller
         }
         // dd(BookmarkResource::make($bookmark));
 
-        // Eager load the bookmarkable entity
-        $bookmark->load('bookmarkable');
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags']) {
+            app(TagController::class)->store($bookmark, $attributes['tags']);
+        }
+
+        // Eager load the bookmarkable entity and tags relationship
+        $bookmark->load(['bookmarkable', 'tags']);
 
         // Return the created bookmark resource
         return BookmarkResource::make($bookmark);
@@ -98,8 +116,8 @@ class BookmarkController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        // Eager load the bookmarkable entity
-        $bookmark->load('bookmarkable');
+        // Eager load the bookmarkable entity and tags relationship
+        $bookmark->load(['bookmarkable', 'tags']);
 
         return BookmarkResource::make($bookmark);
     }
@@ -109,7 +127,7 @@ class BookmarkController extends Controller
         // Get the request data
         $requestData = $request->validated();
         // Extract the attributes from the request data
-        $attributes = $requestData['data']['attributes'][0];
+        $attributes = $requestData['data']['attributes'];
 
         // Get the bookmarkable type
         $bookmarkableType = $attributes['bookmarkable_type'];
@@ -157,8 +175,13 @@ class BookmarkController extends Controller
             return response()->json(['message' => 'Bookmark not found'], 404);
         }
 
-        // Eager load the bookmarkable entity
-        $bookmark->load('bookmarkable');
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags']) {
+            app(TagController::class)->update($bookmark, $attributes['tags']);
+        }
+
+        // Eager load the bookmarkable entity and tags relationship
+        $bookmark->load(['bookmarkable', 'tags']);
 
         // Return the updated bookmark resource
         return BookmarkResource::make($bookmark);
@@ -184,4 +207,22 @@ class BookmarkController extends Controller
         // Respond with a success message
         return response()->json(['message' => 'Bookmark deleted successfully']);
     }
+    // {dd($tags);
+    //     // Get the currently authenticated user's ID
+    //     $userId = Auth::id();
+
+    //     // Query bookmarks for the current user
+    //     $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
+
+    //     // Check if 'tags' key exists before accessing it
+    //     if (isset($tags) && $tags) {
+    //         $bookmarks = app(TagController::class)->index($bookmarks, $tags);
+    //     }
+    
+    //     $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
+    //                            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
+    //                            ->jsonPaginate();
+    
+    //     return BookmarkCollection::make($bookmarks);
+    // }
 }
