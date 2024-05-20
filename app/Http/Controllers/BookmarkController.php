@@ -30,7 +30,7 @@ class BookmarkController extends Controller
 
         // Check if 'tags' parameter exists
         $tags = request('tags');
-        
+
         if ($tags) {
             // Call the index method of TagController
             $bookmarks = app(TagController::class)->index(new Bookmark(), $tags);
@@ -40,14 +40,14 @@ class BookmarkController extends Controller
             // Query bookmarks for the current user with fields 'bookmarkable' and 'tags'
             $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
         }
-    
+
         // Order bookmarks by 'updated_at' in descending order
-        $bookmarks = $bookmarks->orderBy('updated_at', 'desc');
+        // $bookmarks = $bookmarks->orderBy('updated_at', 'desc');
 
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
-                               ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
-                               ->jsonPaginate();
-    
+            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
+            ->jsonPaginate();
+
         return BookmarkCollection::make($bookmarks);
     }
 
@@ -55,7 +55,7 @@ class BookmarkController extends Controller
     {
         // Get the request data
         $requestData = $request->validated();
-        
+
         // Extract the attributes from the request data
         $attributes = $requestData['data']['attributes'];
 
@@ -65,7 +65,7 @@ class BookmarkController extends Controller
         // Determine the controller class based on the bookmarkable type
         $controllerClass = 'App\Http\Controllers\\' . class_basename($bookmarkableType) . 'Controller';
         $requestClass = 'App\Http\Requests\\' . class_basename($bookmarkableType) . '\\' . class_basename($bookmarkableType) . 'Request';
-        
+
         // Check if the controller class exists
         if (!class_exists($controllerClass)) {
             return response()->json(['message' => 'Controller class not found'], 500);
@@ -74,7 +74,7 @@ class BookmarkController extends Controller
         if (!class_exists($requestClass)) {
             return response()->json(['message' => 'Request class not found'], 500);
         }
-        
+
         // Create an instance of the appropriate controller class based on the bookmarkable type
         $controllerInstance = app($controllerClass);
         // Create an instance of the appropriate request class based on the bookmarkable type
@@ -82,7 +82,7 @@ class BookmarkController extends Controller
         // Call the store method of the controller with the appropriate request
         $resource = $controllerInstance->store($bookmarkRequest);
         // dd($resource);
-        
+
         // Find the bookmark associated with the created resource
         $bookmark = Bookmark::where('bookmarkable_type', 'App\Models\\' . $bookmarkableType)
             ->where('bookmarkable_id', $resource->id)
@@ -148,7 +148,7 @@ class BookmarkController extends Controller
         // Determine the controller class based on the bookmarkable type
         $controllerClass = 'App\Http\Controllers\\' . class_basename($bookmarkableType) . 'Controller';
         $requestClass = 'App\Http\Requests\\' . class_basename($bookmarkableType) . '\\' . class_basename($bookmarkableType) . 'Request';
-        
+
         // Check if the controller class exists
         if (!class_exists($controllerClass)) {
             return response()->json(['message' => 'Controller class not found'], 500);
@@ -157,14 +157,14 @@ class BookmarkController extends Controller
         if (!class_exists($requestClass)) {
             return response()->json(['message' => 'Request class not found'], 500);
         }
-        
+
         // Create an instance of the appropriate controller class based on the bookmarkable type
         $controllerInstance = app($controllerClass);
         // Create an instance of the appropriate request class based on the bookmarkable type
         $bookmarkRequest = new $requestClass($attributes);
         // Call the update method of the controller with the appropriate request and object
         $resource = $controllerInstance->update($bookmarkableObject, $bookmarkRequest);
-        
+
         // Find the bookmark associated with the updated resource
         $bookmark = Bookmark::where('bookmarkable_type', 'App\Models\\' . $bookmarkableType)
             ->where('bookmarkable_id', $resource->id)
@@ -218,11 +218,11 @@ class BookmarkController extends Controller
     //     if (isset($tags) && $tags) {
     //         $bookmarks = app(TagController::class)->index($bookmarks, $tags);
     //     }
-    
+
     //     $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
     //                            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
     //                            ->jsonPaginate();
-    
+
     //     return BookmarkCollection::make($bookmarks);
     // }
 }
