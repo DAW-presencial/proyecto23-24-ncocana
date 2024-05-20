@@ -10,22 +10,28 @@ class JsonApiQueryBuilder
 {
     public function allowedSorts(): Closure
     {
-        return function ($allowedSorts) {
+        return function ($allowedSorts, $defaultSort = 'updated_at', $defaultDirection = 'desc') {
             /** @var Builder $this */
+            
             // Sort by order - Multiple fields
             if (request()->filled('sort')) {
                 $sortFields = explode(',', request()->input('sort'));
-
+    
                 foreach ($sortFields as $sortField) {
                     $sortDirection = Str::of($sortField)->startsWith('-') ? 'desc' : 'asc';
                     $sortField = ltrim($sortField, '-');
-
+    
                     abort_unless(in_array($sortField, $allowedSorts), 400);
-
+    
                     $this->orderBy($sortField, $sortDirection);
                 }
+            } else {
+                // Apply default sorting
+                abort_unless(in_array($defaultSort, $allowedSorts), 400);
+    
+                $this->orderBy($defaultSort, $defaultDirection);
             }
-
+    
             return $this;
         };
     }
