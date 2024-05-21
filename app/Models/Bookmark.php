@@ -44,6 +44,5 @@ class Bookmark extends Model
     public function scopeMonth(Builder $query, $month)
     {
         $query->whereMonth('updated_at', $month);
-
     }
 }
