@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Collections;
 
-use App\Models\Bookmark;
 use App\Models\Collection;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -126,56 +125,4 @@ class CreateCollectionTest extends TestCase
         $this->assertDatabaseCount('collections', 1);
         $this->assertDatabaseCount('bookmark_collection', 0);
     }
-
-    /** @test */
-    // public function can_create_collection_with_bookmarks(): void
-    // {
-    //     // Creating and authenticating a user
-    //     $user = User::factory()->create();
-    //     Sanctum::actingAs($user);
-
-    //     $this->withoutExceptionHandling();
-
-    //     $requestData = [
-    //         'name' => 'Nuevo collection',
-    //         'description' => 'Esto es una descripción',
-    //     ];
-
-    //     $response = $this->postJson(route('api.v1.collections.store'), $requestData);
-
-    //     $bookmark = Bookmark::factory()->create([
-    //         'user_id' => $user->id
-    //     ]);
-
-    //     $collection = Collection::first();
-
-    //     $this->postJson(route('api.v1.add_bookmark', [$collection, $bookmark]))->assertContent('{"message":"The bookmark ' . $bookmark->id . ' has been added to the collection ' . $collection->id . '."}');
-
-    //     $bookmarksArray = $collection->bookmarks->toArray();
-
-    //     $response->assertHeader(
-    //         'Location',
-    //         route('api.v1.collections.show', $collection)
-    //     );
-
-    //     $response->assertExactJson([
-    //         'data' => [
-    //             'type' => 'collections',
-    //             'id' => (string) $collection->getRouteKey(),
-    //             'attributes' => [
-    //                 'user_id' => $collection->user_id,
-    //                 'name' => $collection->name,
-    //                 'description' => $collection->description,
-    //                 'bookmarks' => $bookmarksArray,
-    //                 'tags' => [],
-    //             ],
-    //             'links' => [
-    //                 'self' => route('api.v1.collections.show', $collection)
-    //             ]
-    //         ],
-    //     ]);
-
-    //     $this->assertDatabaseCount('collections', 1);
-    //     $this->assertDatabaseCount('bookmark_collection', 1);
-    // }
 }

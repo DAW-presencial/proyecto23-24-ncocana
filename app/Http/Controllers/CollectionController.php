@@ -29,10 +29,10 @@ class CollectionController extends Controller
             // Call the index method of TagController
             $collections = app(TagController::class)->index(new Collection(), $tags);
             // Query tagged collections for the current user with fields 'bookmarks' and 'tags'
-            $collections = $collections->where('user_id', $userId)->with(['tags', 'bookmarks']);
+            $collections = $collections->where('user_id', $userId)->with(['tags', 'bookmarks', 'bookmarks.bookmarkable', 'bookmarks.tags']);
         } else {
             // Query bookmarks for the current user with fields 'bookmarks' and 'tags'
-            $collections = Collection::query()->where('user_id', $userId)->with(['tags', 'bookmarks']);
+            $collections = Collection::query()->where('user_id', $userId)->with(['tags', 'bookmarks', 'bookmarks.bookmarkable', 'bookmarks.tags']);
         }
 
         $collections = $collections->allowedSorts(['name', 'created_at', 'updated_at'])
@@ -81,7 +81,7 @@ class CollectionController extends Controller
         }
 
         // Eager load the bookmarks relationship and tags relationship
-        $collection->load(['tags', 'bookmarks']);
+        $collection->load(['tags', 'bookmarks', 'bookmarks.bookmarkable', 'bookmarks.tags']);
 
         return CollectionResource::make($collection);
     }
