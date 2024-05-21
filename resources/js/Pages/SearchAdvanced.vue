@@ -44,22 +44,42 @@
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
 
                         <!-- Type -->
-                        <h1 class="text-xl mb-4"
-                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">Series</h1>
                         <h1 class="text-xl mb-4" v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
                             Movie</h1>
+                        <h1 class="text-xl mb-4"
+                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">Series</h1>
                         <h1 class="text-xl mb-4" v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
                             Book</h1>
                         <h1 class="text-xl mb-4"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">Fanfic</h1>
 
                         <p><strong>Title:</strong> {{ resultado.attributes.title }}</p>
-                        <p><strong>Synopsis:</strong> {{ resultado.attributes.synopsis }}</p>
-                        <p><strong>Notes:</strong> {{ resultado.attributes.notes }}</p>
 
                         <!-- Campos específicos dependiendo del tipo de bookmark -->
+
                         <div v-if="resultado.attributes.bookmarkable">
-                            <template v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">
+
+                            <!-- BOOK -->
+                            <template v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
+                                <p><strong>Author:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
+                                <p><strong>Language:</strong> {{ resultado.attributes.bookmarkable.language }}</p>
+                                <p><strong>Read Pages:</strong> {{ resultado.attributes.bookmarkable.read_pages }}</p>
+                                <p><strong>Total Pages:</strong> {{ resultado.attributes.bookmarkable.total_pages }}</p>
+                            </template>
+
+                            <!-- MOVIE -->
+                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
+                                <p><strong>Director:</strong> {{ resultado.attributes.bookmarkable.director }}</p>
+                                <p><strong>Actors:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
+                                <p><strong>Release Date:</strong> {{
+                    formatDate(resultado.attributes.bookmarkable.release_date) }}
+                                </p>
+                                <p><strong>Currently at:</strong> {{ resultado.attributes.bookmarkable.currently_at }}
+                                </p>
+                            </template>
+
+                            <!-- SERIES -->
+                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">
                                 <p><strong>Actors:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
                                 <p><strong>Number of Seasons:</strong> {{
                     resultado.attributes.bookmarkable.num_seasons }}</p>
@@ -68,17 +88,28 @@
                                 <p><strong>Currently at:</strong> {{ resultado.attributes.bookmarkable.currently_at
                                     }}</p>
                             </template>
-                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
-                                <p><strong>Director:</strong> {{ resultado.attributes.bookmarkable.director }}</p>
-                                <p><strong>Release Date:</strong> {{ resultado.attributes.bookmarkable.release_date
-                                    }}</p>
-                            </template>
-                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
+
+                            <!-- FANFICS -->
+                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">
                                 <p><strong>Author:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
-                                <p><strong>Publisher:</strong> {{ resultado.attributes.bookmarkable.publisher }}</p>
+                                <p><strong>Fandom:</strong> {{
+                    resultado.attributes.bookmarkable.fandom }}</p>
+                                <p><strong>Relationships:</strong> {{
+                    resultado.attributes.bookmarkable.relationships }}</p>
+                                <p><strong>Language:</strong> {{ resultado.attributes.bookmarkable.language
+                                    }}</p>
+                                <p><strong>Words:</strong> {{ resultado.attributes.bookmarkable.words }}</p>
+                                <p><strong>Read Chapters:</strong> {{ resultado.attributes.bookmarkable.read_chapters }}
+                                </p>
+                                <p><strong>Total Chapters:</strong> {{ resultado.attributes.bookmarkable.total_chapters
+                                    }}</p>
                             </template>
                             <!-- Agrega más condicionales según los tipos de bookmark disponibles -->
                         </div>
+                        <p><strong>Notes:</strong> {{ resultado.attributes.notes }}</p>
+                        <p><strong>Synopsis:</strong> {{ resultado.attributes.synopsis }}</p>
+
+                        <!-- TAGS -->
                         <div v-if="resultado.attributes.tags.length">
                             <p><strong>Tags:</strong></p>
                             <ul>
@@ -98,6 +129,7 @@
 </template>
 
 <script setup>
+import { formatDate } from '@/utils/functions';
 import { Head } from "@inertiajs/vue3";
 import Card from '@/Components/Card.vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -114,11 +146,13 @@ const dataInput = ref({
     updated_at: ''
 });
 
-const types = ["Book", "Movie", "Series", "Fanfic"];
+const types = ["", "Book", "Movie", "Series", "Fanfic"];
 
 const fields = {
     bookmarkable_type: "Type",
     title: "Title",
+    notes: "Notes",
+    synopsis: "Synopsis",
     created_at: "Created at",
     updated_at: "Updated at"
 };
@@ -131,6 +165,8 @@ const enviar = async () => {
             params: {
                 'filter[bookmarkable_type]': dataInput.value.bookmarkable_type,
                 'filter[title]': dataInput.value.title,
+                'filter[notes]': dataInput.value.notes,
+                'filter[synopsis]': dataInput.value.synopsis,
                 // 'filter[created_at]': dataInput.value.created_at,
                 // 'filter[updated_at]': dataInput.value.updated_at,
                 'page[size]': 2,

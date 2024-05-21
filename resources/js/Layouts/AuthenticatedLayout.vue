@@ -22,7 +22,7 @@
                     <div class="hidden sm:ml-6 sm:block ">
                         <div class="flex space-x-4 h-full items-center">
                             <a v-for="item in navigation" :key="item.name" :href="item.href"
-                                :active="route().current('dashboard')"
+                                :active="route().current('bookmarks')"
                                 :class="[route().current(item.href) ? 'bg-white text-blue-900 font-extrabold' : 'text-gray-300 hover:text-gray-600', 'rounded-md px-3 py-2 text-sm font-medium']"
                                 :aria-current="item.current ? 'page' : undefined">{{ item.name }}
                             </a>
@@ -114,8 +114,6 @@ import { Head, Link } from '@inertiajs/vue3';
 
 
 const navigation = [
-    { name: 'Dashboard', href: 'dashboard' },
-    { name: 'Prueba', href: 'prueba' },
     { name: 'Bookmarks', href: 'bookmarks' },
     { name: 'Search Advanced', href: 'searchadvanced' }
 ]

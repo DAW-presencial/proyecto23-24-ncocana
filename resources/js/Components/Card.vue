@@ -2,7 +2,7 @@
     <div class="border border-gray-400 p-4 min-h-64 rounded-lg">
         <!-- BUTTONS -->
         <div class="flex gap-2 justify-end h-6 float-end">
-            <SecundaryButton v-if="deleteLink" class="bg-red-700 text-white hover:bg-red-800" @click="showModal = true">
+            <SecundaryButton v-if="candelete" class="bg-red-700 text-white hover:bg-red-800" @click="showModal = true">
                 DELETE
             </SecundaryButton>
             <SecundaryButton v-if="nameButton == 'UPDATE'" class="bg-green-700 text-white hover:bg-green-800"
@@ -48,7 +48,7 @@ import Modal from "@/Components/Modal.vue";
 import { ref } from "vue";
 
 const props = defineProps({
-    deleteLink: String,
+    candelete: Boolean,
     modifyLink: String,
     nameButton: String,
     id: String,
