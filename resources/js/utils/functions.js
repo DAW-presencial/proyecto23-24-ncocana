@@ -2,7 +2,6 @@ export const getParamsBookmark = async (type, bookmark_data) => {
     console.log(type);
     console.log(bookmark_data);
     if (type === "App\\Models\\Movie" || type === "Movie") {
-        type = "Movie";
 
         return {
             actors: bookmark_data.actors,
@@ -12,7 +11,6 @@ export const getParamsBookmark = async (type, bookmark_data) => {
         };
     }
     if (type === "App\\Models\\Fanfic" || type === "Fanfic") {
-        type = "Fanfic";
 
         return {
             author: bookmark_data.author,
@@ -25,7 +23,6 @@ export const getParamsBookmark = async (type, bookmark_data) => {
         };
     }
     if (type === "App\\Models\\Book" || type === "Book") {
-        type = "Book";
 
         return {
             author: bookmark_data.author,
@@ -35,7 +32,6 @@ export const getParamsBookmark = async (type, bookmark_data) => {
         };
     }
     if (type === "App\\Models\\Series" || type === "Series") {
-        type = "Series";
 
         return {
             actors: bookmark_data.actors,
