@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Collection\CollectionRequest;
+use App\Http\Resources\Collection\CollectionCollection;
 use App\Http\Resources\Collection\CollectionResource;
 use App\Models\Bookmark;
 use App\Models\Collection;
@@ -11,50 +12,99 @@ use Illuminate\Support\Facades\Auth;
 class CollectionController extends Controller
 {
 
-    public function __construct()  //Aplica el Sanctum a los métodos store, update y delete
+    public function __construct()
     {
         $this->middleware('auth:sanctum');
-
     }
 
     public function index()
     {
-        $collection = Collection::query()     // Se usan mixins para extender builder y aplicar parámetros en la búsqueda
-            ->allowedSorts(['name', 'description'])
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if 'tags' parameter exists
+        $tags = request('tags');
+        
+        if ($tags) {
+            // Call the index method of TagController
+            $collections = app(TagController::class)->index(new Collection(), $tags);
+            // Query tagged collections for the current user with fields 'bookmarks' and 'tags'
+            $collections = $collections->where('user_id', $userId)->with(['tags', 'bookmarks']);
+        } else {
+            // Query bookmarks for the current user with fields 'bookmarks' and 'tags'
+            $collections = Collection::query()->where('user_id', $userId)->with(['tags', 'bookmarks']);
+        }
+
+        $collections = $collections->allowedSorts(['name', 'created_at', 'updated_at'])
             ->allowedFilters(['name', 'description'])
             ->jsonPaginate();
 
-        return CollectionResource::collection($collection);
-        //Se utiliza un resource para la adhesión a la especificación ApiJson de la respuesta
+        return CollectionCollection::make($collections);
     }
 
-    public function store(CollectionRequest $request) // Se utiliza un form request para la validación
+    public function store(CollectionRequest $request)
     {
+        // Get the request data
+        $requestData = $request->validated();
+        
+        // Extract the attributes from the request data
+        $attributes = $requestData['data']['attributes'];
+        
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+        
         $collection = Collection::create([
-            'user_id' => Auth::id(),
-            'name' => $request->input("data.attributes.name"),
-            'description' => $request->input("data.attributes.description"),
+            'user_id' => $userId,
+            'name' => $attributes['name'],
+            'description' => $attributes['description'],
         ]);
+
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags']) {
+            app(TagController::class)->store($collection, $attributes['tags']);
+        }
+
+        // Eager load the bookmarks relationship and tags relationship
+        $collection->load(['bookmarks', 'tags']);
 
         return CollectionResource::make($collection);
     }
 
     public function show(Collection $collection)
     {
+        // Get the currently authenticated user's ID
+        $userId = Auth::id();
+
+        // Check if the collection belongs to the current user
+        if ($collection->user_id !== $userId) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Eager load the bookmarks relationship and tags relationship
+        $collection->load(['tags', 'bookmarks']);
+
         return CollectionResource::make($collection);
     }
 
-    public function update(CollectionRequest $request, Collection $collection)
+    public function update(Collection $collection, CollectionRequest $request)
     {
-        //Se utiliza un formRequest especial para la validación que no tenga los campos title y director requeridos
-        $collection->fill([
-            'name' => $request->input('data.attributes.name', $collection->name),
-            'description' => $request->input('data.attributes.description', $collection->description),
-            'user_id' => $collection->user_id
-        ])->save();
-        // Con Fill() y save() no hace falta meter todos los atributos en la petición sólo los que modifiquemos
-        // Con el segundo parámetro de input() nos aseguramos que si no pasamos un atributo coja los del objeto por defecto
+        // Get the request data
+        $requestData = $request->validated();
+        // Extract the attributes from the request data
+        $attributes = $requestData['data']['attributes'];
 
+        $collection->update([
+            'name' => $attributes['name'],
+            'description' => $attributes['description'],
+        ]);
+
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags']) {
+            app(TagController::class)->update($collection, $attributes['tags']);
+        }
+
+        // Eager load the bookmarks relationship and tags relationship
+        $collection->load(['bookmarks', 'tags']);
 
         return CollectionResource::make($collection);
     }
@@ -62,24 +112,27 @@ class CollectionController extends Controller
     public function destroy(Collection $collection)
     {
         $collection->delete();
+
         return response()->json([
-            "succes" => "La colección " . $collection->id . " ha sido borrada con éxito"
+            "message" => "The collection " . $collection->id . " has been deleted successfully."
         ]);
     }
 
     public function addBookmark(Collection $collection, Bookmark $bookmark)
     {
         $collection->bookmarks()->attach($bookmark);
+
         return response()->json([
-            "succes" => "El marcador " . $bookmark->id . " ha sido añadido a la colección " . $collection->id
+            "message" => "The bookmark " . $bookmark->id . " has been added to the collection " . $collection->id . "."
         ]);
     }
 
     public function removeBookmark(Collection $collection, Bookmark $bookmark)
     {
         $collection->bookmarks()->detach($bookmark);
+
         return response()->json([
-            "succes" => "El marcador " . $bookmark->id . " ha sido eliminado de la colección " . $collection->id
+            "message" => "The bookmark " . $bookmark->id . " has been deleted from the collection " . $collection->id . "."
         ]);
     }
 }
