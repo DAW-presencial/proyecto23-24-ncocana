@@ -110,6 +110,10 @@
                         <InputLabel value="Synopsis" />
                         <TextInput v-model="bookmark_data.synopsis" />
                     </div>
+                    <div class="mt-3">
+                        <InputLabel value="Tags" />
+                        <TextInput v-model="bookmark_data.tags" />
+                    </div>
                 </Card>
             </div>
         </div>
@@ -133,6 +137,7 @@ const getBookmarks = () => {
     const { props } = usePage();
     const { bookmark } = props;
 
+    console.log(bookmark);
     const dataAttributes = bookmark.data.attributes;
 
     let json = dataAttributes.bookmarkable;
@@ -141,11 +146,15 @@ const getBookmarks = () => {
     json.synopsis = dataAttributes.synopsis;
     json.notes = dataAttributes.notes;
     json.id = bookmark.data.id;
+    json.tags = [];
+
+    for (let x = 0; x < dataAttributes.tags.length; x++) {
+        json.tags.push(dataAttributes.tags[x].name);
+    }
+    json.tags = json.tags.join(',');
 
     request.value = bookmark;
     bookmark_data.value = json;
-
-    // console.log(bookmark_data.value);
 };
 
 const updateBookmark = async () => {
@@ -164,20 +173,23 @@ const updateBookmark = async () => {
     if (bookmark.attributes.bookmarkable_type === "App\\Models\\Series") {
         tipo = "Series";
     }
+    const tags = bookmark_data.value.tags;
+    const tagsSeparados = tags.split(',');
+    console.log(tagsSeparados);
 
     const data = {
         data: {
             type: bookmark.type,
             id: bookmark.id,
-            attributes: [
-                {
-                    title: bookmark_data.value.title,
-                    synopsis: bookmark_data.value.synopsis,
-                    notes: bookmark_data.value.notes,
-                    bookmarkable: await getParamsBookmark(bookmark.attributes.bookmarkable_type, bookmark_data.value),
-                    bookmarkable_type: tipo
-                }
-            ]
+            attributes:
+            {
+                title: bookmark_data.value.title,
+                synopsis: bookmark_data.value.synopsis,
+                notes: bookmark_data.value.notes,
+                bookmarkable: await getParamsBookmark(bookmark.attributes.bookmarkable_type, bookmark_data.value),
+                bookmarkable_type: tipo,
+                tags: tagsSeparados
+            }
         }
     }
     console.log(data);

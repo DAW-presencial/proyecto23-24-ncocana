@@ -13,24 +13,25 @@
                     </div>
                     <div class="flex gap-4">
                         <TextInput class="w-64" v-model="buscar"></TextInput>
-                        <PrimaryButton>Search</PrimaryButton>
+                        <PrimaryButton @click="getBookmarks">Search</PrimaryButton>
                     </div>
                 </div>
                 <div class="mt-4 p-6 rounded-md max-h-screen bg-stone-50">
                     <div class="flex justify-between gap-10">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
-                            <Card v-for="( b ) in  bookmarks " :key="b.id" class="ml-0" :modifyLink="getLink(b.id)"
+                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="'/bookmarks/' + b.id"
                                 :id="b.id" nameButton="SHOW">
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
                                     <h1 class="text-xl mb-4">Movie</h1>
                                     <p><strong>Title: </strong>{{ b.title }}</p>
                                     <p><strong>Director: </strong>{{ b.director }}</p>
                                     <p><strong>Actors: </strong>{{ b.actors }}</p>
-                                    <p><strong>Relase date: </strong>{{ formatDate(b.release_date) }}</p>
+                                    <p><strong>Release date: </strong>{{ formatDate(b.release_date) }}</p>
                                     <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
                                     <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
                                     <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Fanfic'">
@@ -45,7 +46,7 @@
                                     <p><strong>Total chapters: </strong>{{ b.total_chapters }}</p>
                                     <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
                                     <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
-
+                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Book'">
@@ -57,6 +58,7 @@
                                     <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
                                     <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
                                     <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Series'">
@@ -68,28 +70,33 @@
                                     <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
                                     <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
                                     <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
-
+                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
                                 </div>
                             </Card>
-
                         </div>
                         <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg'>
-                            <div class=" p-4">
-                                <InputLabel value="SORT"></InputLabel>
-                                <TextArea value="SORT" class="h-14"></TextArea>
+                            <div class="p-4">
+                                <InputLabel value="SORT BY"></InputLabel>
+                                <select id="sort" name="sort" v-model="sortBy"
+                                    class="w-full p-2 border border-gray-300 rounded-md">
+                                    <option value="bookmarkable_type">Type</option>
+                                    <option value="title">Title</option>
+                                    <option value="created_at">Created at</option>
+                                    <option value="updated_at">Updated at</option>
+                                </select>
                             </div>
                             <div class="p-4">
-                                <InputLabel value="INCLUDE"></InputLabel>
-                                <TextArea value="INCLUDE" class="h-60"></TextArea>
+                                <InputLabel value="ORDER"></InputLabel>
+                                <select id="order" name="order" v-model="order"
+                                    class="w-full p-2 border border-gray-300 rounded-md">
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
                             </div>
-
-                            <div class=" p-4">
-                                <InputLabel value="EXCLUDE"></InputLabel>
-                                <TextArea value="EXCLUDE" class="h-60"></TextArea>
-                            </div>
-
                             <div class="p-4">
-                                <PrimaryButton>Search Bookmarks</PrimaryButton>
+                                <PrimaryButton @click="sortBookmarks">
+                                    Search Bookmarks
+                                </PrimaryButton>
                             </div>
                         </div>
                     </div>
@@ -98,21 +105,20 @@
                     </div>
                 </div>
             </div>
-
         </main>
     </AuthenticatedLayout>
 </template>
 
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import Card from '@/Components/Card.vue'
-import TextInput from '@/Components/TextInput.vue'
-import InputLabel from '@/Components/InputLabel.vue'
-import TextArea from '@/Components/TextArea.vue'
-import { onMounted, ref } from 'vue'
-import moment from 'moment'; // Importa moment aquí
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Card from '@/Components/Card.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import moment from 'moment';
 
 const { props } = usePage();
 const { user } = props;
@@ -122,25 +128,36 @@ const currentPage = ref(1);
 const lastPage = ref(null);
 const buscar = ref('');
 const bookmarks = ref([]);
-const request = ref();
+const sortBy = ref('');
+const sort = ref('bookmarkable_type');
+const order = ref('asc');
+
+const sortBookmarks = () => {
+    if (order.value == 'desc') {
+        sort.value = "-" + sortBy.value;
+    }
+    currentPage.value = 1; // Reset to first page
+    getBookmarks();
+};
 
 const getBookmarks = () => {
-    axios.get(`/bookmarks?page[size]=2&page[number]=${currentPage.value}`)
+    axios.get(`/bookmarks`, {
+        params: {
+            'page[size]': 2,
+            'page[number]': currentPage.value,
+            'sort': sort.value
+        }
+    })
         .then(response => {
-            const res = response.data
+            const res = response.data;
             const data = res.data;
 
             // Pagination
             currentPage.value = res.meta.current_page;
             lastPage.value = res.meta.last_page;
 
-            // console.log("Current Page: ", currentPage.value)
-            // console.log("Last Page: ", lastPage.value)
-
             bookmarks.value = [];
             for (let i = 0; i < data.length; i++) {
-
-                // creamos una variable donde vamos a tener todos los campos
                 let json = data[i].attributes.bookmarkable;
                 json.tipo = data[i].attributes.bookmarkable_type;
                 json.id = data[i].id;
@@ -148,39 +165,38 @@ const getBookmarks = () => {
                 json.synopsis = data[i].attributes.synopsis;
                 json.notes = data[i].attributes.notes;
 
-                bookmarks.value.push(json);
+                json.tags = [];
+                for (let x = 0; x < data[i].attributes.tags.length; x++) {
+                    json.tags.push(data[i].attributes.tags[x].name);
+                }
+                json.tags = json.tags.join(',');
 
+                bookmarks.value.push(json);
             }
         })
-        .catch(error => console.log('Ha ocurrido un error: ' + error))
-}
+        .catch(error => console.log('Ha ocurrido un error: ' + error));
+};
 
 const nextPage = () => {
     if (currentPage.value < lastPage.value) {
         currentPage.value++;
         getBookmarks();
     }
-}
+};
 
 const prevPage = () => {
-    if (currentPage.value > lastPage.value) {
+    if (currentPage.value > 1) {
         currentPage.value--;
         getBookmarks();
     }
-}
-
-const getLink = (id) => {
-    const url = `bookmarks/${id}`;
-    return url;
-}
+};
 
 const formatDate = (date) => {
     return moment(date).format('YYYY/MM/DD');
-}
+};
 
 onMounted(() => {
     getBookmarks();
-    formatDate();
 });
 
 </script>

@@ -36,7 +36,6 @@
         </main>
     </AuthenticatedLayout>
 </template>
-
 <script setup>
 import { getParamsBookmark } from '@/utils/functions';
 import { Head } from "@inertiajs/vue3";
@@ -50,38 +49,44 @@ const selected_type = ref(null);
 const dataInput = ref({});
 
 const fields = {
-    Book: ["title", "author", "language", "read_pages", "total_pages", "synopsis", "notes"],
-    Movie: ["title", "director", "actors", "release_date", "currently_at", "notes", "synopsis"],
-    Series: ["title", "actors", "num_seasons", "num_episodes", "currently_at", "synopsis", "notes"],
-    Fanfic: ["title", "author", "language", "chapters", "status", "synopsis", "notes"]
+    Book: ["title", "author", "language", "read_pages", "total_pages", "synopsis", "notes", "tags"],
+    Movie: ["title", "director", "actors", "release_date", "currently_at", "notes", "synopsis", "tags"],
+    Series: ["title", "actors", "num_seasons", "num_episodes", "currently_at", "synopsis", "notes", "tags"],
+    Fanfic: ["title", "author", "fandom", "language", "words", "read_chapters", "total_chapters", "relationships", "synopsis", "notes", "tags"]
 };
 
 const enviar = async () => {
-    const dataToSend = {
-        data: {
-            type: "bookmarks",
-            attributes: [
+    try {
+        const tags = dataInput.value.tags;
+        const tagsSeparados = tags.split(',');
+        const bookmarkableParams = await getParamsBookmark(selected_type.value, dataInput.value);
+        const dataToSend = {
+            data: {
+                type: "bookmarks",
+                attributes:
                 {
                     title: dataInput.value.title,
                     synopsis: dataInput.value.synopsis,
                     notes: dataInput.value.notes,
-                    bookmarkable: await getParamsBookmark(selected_type.value, dataInput.value),
-                    bookmarkable_type: selected_type.value
+                    bookmarkable: bookmarkableParams,
+                    bookmarkable_type: selected_type.value,
+                    tags: tagsSeparados
                 }
-            ]
+            }
+        };
+
+        console.log('Sending data:', dataToSend);
+
+        const response = await axios.post('/bookmarks/', dataToSend);
+        console.log('Response:', response);
+
+        if (response.status === 201 || response.status === 200) {
+            window.location.href = "/bookmarks";
+        } else {
+            console.error('Error: Unexpected response status', response.status);
         }
-    }
-    console.log(dataToSend);
-    // event.preventDefault();
-
-    try {
-        await axios.post('/bookmarks/', dataToSend)
-            .then(() => {
-                window.location.href = "/bookmarks";
-            });
-
     } catch (error) {
-        console.error(error);
+        console.error('Error submitting form:', error);
     }
 };
 </script>
