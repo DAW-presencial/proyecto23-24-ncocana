@@ -6,26 +6,26 @@
             <div class="container mx-4 h-3/4">
                 <Card class="h-auto" nameButton="UPDATE" :update="updateBookmark" :id="bookmark_data.id">
                     <div class="mt-3">
-                        <InputLabel value="Title" />
+                        <InputLabel value="{{$t('Title')}}" />
                         <TextInput v-model="bookmark_data.title" />
                     </div>
 
                     <!-- PARAMETROS MOVIE -->
                     <div v-if="bookmark_data.tipo === 'App\\Models\\Movie'">
                         <div class="mt-3">
-                            <InputLabel value="Director" />
+                            <InputLabel value="{{$t('Director')}}" />
                             <TextInput v-model="bookmark_data.director" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Actors" />
+                            <InputLabel value="{{$t('Actors')}}" />
                             <TextInput v-model="bookmark_data.actors" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Release date" />
+                            <InputLabel value="{{$t('Release date')}}" />
                             <TextInput v-model="bookmark_data.release_date" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Currently at" />
+                            <InputLabel value="{{$t('Currently at')}}" />
                             <TextInput v-model="bookmark_data.currently_at" />
                         </div>
                     </div>
@@ -33,31 +33,31 @@
                     <!-- PARAMETROS FANFIC -->
                     <div v-if="bookmark_data.tipo === 'App\\Models\\Fanfic'">
                         <div class="mt-3">
-                            <InputLabel value="Author" />
+                            <InputLabel value="{{$t('Author')}}" />
                             <TextInput v-model="bookmark_data.author" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Fandom" />
+                            <InputLabel value="{{$t('Fandom')}}" />
                             <TextInput v-model="bookmark_data.fandom" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Original fiction" />
+                            <InputLabel value="{{$t('Original fiction')}}" />
                             <TextInput v-model="bookmark_data.relationships" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Language" />
+                            <InputLabel value="{{$t('Language')}}" />
                             <TextInput v-model="bookmark_data.language" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Words" />
+                            <InputLabel value="{{$t('Words')}}" />
                             <TextInput v-model="bookmark_data.words" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Read chapters" />
+                            <InputLabel value="{{$t('Read chapters')}}" />
                             <TextInput v-model="bookmark_data.read_chapters" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Total chapters" />
+                            <InputLabel value="{{$t('Total chapters'}}" />
                             <TextInput v-model="bookmark_data.total_chapters" />
                         </div>
                     </div>
@@ -65,19 +65,19 @@
                     <!-- PARAMETROS BOOK -->
                     <div v-if="bookmark_data.tipo === 'App\\Models\\Book'">
                         <div class="mt-3">
-                            <InputLabel value="Author" />
+                            <InputLabel value="{{$t('Author')}}" />
                             <TextInput v-model="bookmark_data.author" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Language" />
+                            <InputLabel value="{{$t('Language')}}" />
                             <TextInput v-model="bookmark_data.language" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Read pages" />
+                            <InputLabel value="{{$t('Read pages')}}" />
                             <TextInput v-model="bookmark_data.read_pages" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Total pages" />
+                            <InputLabel value="{{$t('Total pages')}}" />
                             <TextInput v-model="bookmark_data.total_pages" />
                         </div>
                     </div>
@@ -85,33 +85,33 @@
                     <!-- PARAMETROS SERIES -->
                     <div v-if="bookmark_data.tipo === 'App\\Models\\Series'">
                         <div class="mt-3">
-                            <InputLabel value="Actors" />
+                            <InputLabel value="{{$t('Actors')}}" />
                             <TextInput v-model="bookmark_data.actors" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Number seasons" />
+                            <InputLabel value="{{$t('Number seasons')}}" />
                             <TextInput v-model="bookmark_data.num_seasons" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Number episodes" />
+                            <InputLabel value="{{$t('Number episodes')}}" />
                             <TextInput v-model="bookmark_data.num_episodes" />
                         </div>
                         <div class="mt-3">
-                            <InputLabel value="Currently at" />
+                            <InputLabel value="{{$t('Currently at')}}" />
                             <TextInput v-model="bookmark_data.currently_at" />
                         </div>
                     </div>
 
                     <div class="mt-3">
-                        <InputLabel value="Notes" />
+                        <InputLabel value="{{$t('Notes')}}" />
                         <TextInput v-model="bookmark_data.notes" />
                     </div>
                     <div class="mt-3">
-                        <InputLabel value="Synopsis" />
+                        <InputLabel value="{{$t('Synopsis')}}" />
                         <TextInput v-model="bookmark_data.synopsis" />
                     </div>
                     <div class="mt-3">
-                        <InputLabel value="Tags" />
+                        <InputLabel value="{{$t('Tags')}}" />
                         <TextInput v-model="bookmark_data.tags" />
                     </div>
                 </Card>

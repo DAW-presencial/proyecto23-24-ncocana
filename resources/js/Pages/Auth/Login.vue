@@ -53,12 +53,11 @@ const login = () => {
         <GuestLayout>
 
             <Head title="Log in" />
-            <h2 class=" mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your
-                account</h2>
+            <h2 class=" mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">{{$t('Sign in to your account')}}</h2>
 
 
             <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-                {{ status }}
+                {{ $t(status)}}
             </div>
 
             <form @submit.prevent="submit">
@@ -78,7 +77,7 @@ const login = () => {
                         <div class="text-sm">
                             <Link v-if="canResetPassword" :href="route('password.request')"
                                 class="font-semibold text-indigo-600 hover:text-indigo-500">
-                            Forgot password?
+                                {{$t('Forgot password?')}}'
                             </Link>
 
                             <!-- <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a> -->
@@ -94,7 +93,7 @@ const login = () => {
                 <div class="block mt-4">
                     <label class="flex items-center">
                         <Checkbox name="remember" v-model:checked="form.remember" />
-                        <span class="ms-2 text-sm text-gray-600">Remember me</span>
+                        <span class="ms-2 text-sm text-gray-600">{{$t('Remember me')}}</span>
                     </label>
                 </div>
 
@@ -102,8 +101,8 @@ const login = () => {
 
                     <PrimaryButton class="w-100 m-4" :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing">
-                        Sign in
-                    </PrimaryButton>
+                        {{$t('Sign in')}}
+                    </PrimaryButton>y
                 </div>
                 <div class="flex items-center justify-end mt-4 mx-auto">
                     <p class="text-sm text-gray-600 m-auto">¿No tienes una cuenta?
