@@ -51,6 +51,12 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
+        // Deleting bookmarks and their sub-types
+        $user->bookmarks()->each(function ($bookmark) {
+            $bookmark->bookmarkable()->delete();
+            $bookmark->delete();
+        });
+
         Auth::logout();
 
         $user->delete();
