@@ -38,12 +38,11 @@ class Bookmark extends Model
 
     public function scopeYear(Builder $query, $year)
     {
-        $query->whereYear('created_at', $year);
+        $query->whereYear('updated_at', $year);
     }
 
     public function scopeMonth(Builder $query, $month)
     {
-        $query->whereMonth('created_at', $month);
-
+        $query->whereMonth('updated_at', $month);
     }
 }
