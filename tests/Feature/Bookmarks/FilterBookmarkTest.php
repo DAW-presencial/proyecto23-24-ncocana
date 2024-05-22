@@ -147,13 +147,13 @@ class FilterBookmarkTest extends TestCase
 
         Bookmark::factory()->create([
             'title' => 'Bookmark from 2021',
-            'created_at' => now()->year(2021),
+            'updated_at' => now()->year(2021),
             'user_id' => $user->id,
         ]);
         
         Bookmark::factory()->create([
             'title' => 'Bookmark from 2022',
-            'created_at' => now()->year(2022),
+            'updated_at' => now()->year(2022),
             'user_id' => $user->id,
         ]);
 
@@ -178,19 +178,19 @@ class FilterBookmarkTest extends TestCase
 
         Bookmark::factory()->create([
             'title' => 'Bookmark from month 3',
-            'created_at' => now()->month(3),
+            'updated_at' => now()->month(3),
             'user_id' => $user->id,
         ]);
         
         Bookmark::factory()->create([
             'title' => 'Another Bookmark from month 3',
-            'created_at' => now()->month(3),
+            'updated_at' => now()->month(3),
             'user_id' => $user->id,
         ]);
         
         Bookmark::factory()->create([
             'title' => 'Bookmark from month 1',
-            'created_at' => now()->month(1),
+            'updated_at' => now()->month(1),
             'user_id' => $user->id,
         ]);
 

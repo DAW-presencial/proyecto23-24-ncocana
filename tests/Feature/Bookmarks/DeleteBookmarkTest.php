@@ -15,7 +15,7 @@ class DeleteBookmarkTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function guest_cannot_delete_articles(): void
+    public function guest_cannot_delete_bookmark(): void
     {
         $bookmark = Bookmark::factory()->create();
 
@@ -24,7 +24,7 @@ class DeleteBookmarkTest extends TestCase
     }
     
     /** @test */
-    public function can_delete_bookmarks(): void
+    public function can_delete_bookmark(): void
     {
         // Creating and authenticating a user
         $user = User::factory()->create();
@@ -50,7 +50,7 @@ class DeleteBookmarkTest extends TestCase
     }
     
     /** @test */
-    public function can_delete_tagged_bookmarks(): void
+    public function can_delete_tagged_bookmark(): void
     {
         // Creating and authenticating a user
         $user = User::factory()->create();

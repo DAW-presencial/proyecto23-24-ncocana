@@ -292,24 +292,24 @@ class GetBookmarkTest extends TestCase
                     'links' => [
                         'self' => route('api.v1.bookmarks.show', $bookmark1)
                     ]
+                ],
+                [
+                    'type' => 'bookmarks',
+                    'id' => (string) $bookmark0->getRouteKey(),
+                    'attributes' => [
+                        'user_id' => $bookmark0->user_id,
+                        'bookmarkable_type' => $bookmark0->bookmarkable_type,
+                        'bookmarkable_id' => $bookmark0->bookmarkable_id,
+                        'title' => $bookmark0->title,
+                        'synopsis' => $bookmark0->synopsis,
+                        'notes' => $bookmark0->notes,
+                        'tags' => [],
+                        "bookmarkable" => $bookmarkableArray0
                     ],
-                    [
-                        'type' => 'bookmarks',
-                        'id' => (string) $bookmark0->getRouteKey(),
-                        'attributes' => [
-                            'user_id' => $bookmark0->user_id,
-                            'bookmarkable_type' => $bookmark0->bookmarkable_type,
-                            'bookmarkable_id' => $bookmark0->bookmarkable_id,
-                            'title' => $bookmark0->title,
-                            'synopsis' => $bookmark0->synopsis,
-                            'notes' => $bookmark0->notes,
-                            'tags' => [],
-                            "bookmarkable" => $bookmarkableArray0
-                        ],
-                        'links' => [
-                            'self' => route('api.v1.bookmarks.show', $bookmark0)
-                        ]
+                    'links' => [
+                        'self' => route('api.v1.bookmarks.show', $bookmark0)
                     ]
+                ]
             ],
             'links' => [
                 'self' => route('api.v1.bookmarks.index')
