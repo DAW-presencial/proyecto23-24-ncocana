@@ -160,7 +160,7 @@ class FilterBookmarkTest extends TestCase
         // Endpoint: "bookmarks?filter[year]=2021"
         $url = route('api.v1.bookmarks.index', [
             'filter' => [
-                'year' => '2021'
+                'yearUpdate' => '2021'
             ]
         ]);
 
@@ -197,7 +197,7 @@ class FilterBookmarkTest extends TestCase
         // Endpoint: "bookmarks?filter[month]=3"
         $url = route('api.v1.bookmarks.index', [
             'filter' => [
-                'month' => '3'
+                'monthUpdate' => '3'
             ]
         ]);
         

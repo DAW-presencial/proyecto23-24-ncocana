@@ -42,7 +42,7 @@ class BookmarkController extends Controller
         }
 
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
-            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
+            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'monthUpdate', 'yearUpdate', 'monthCreate', 'yearCreate'])
             ->jsonPaginate();
 
         return BookmarkCollection::make($bookmarks);

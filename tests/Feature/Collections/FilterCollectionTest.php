@@ -102,7 +102,7 @@ class FilterCollectionTest extends TestCase
         // Endpoint: "collections?filter[year]=2021"
         $url = route('api.v1.collections.index', [
             'filter' => [
-                'year' => '2021'
+                'yearUpdate' => '2021'
             ]
         ]);
 
@@ -139,7 +139,7 @@ class FilterCollectionTest extends TestCase
         // Endpoint: "collections?filter[month]=3"
         $url = route('api.v1.collections.index', [
             'filter' => [
-                'month' => '3'
+                'monthUpdate' => '3'
             ]
         ]);
         

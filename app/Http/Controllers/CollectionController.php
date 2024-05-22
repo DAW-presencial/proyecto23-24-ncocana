@@ -36,7 +36,7 @@ class CollectionController extends Controller
         }
 
         $collections = $collections->allowedSorts(['name', 'created_at', 'updated_at'])
-            ->allowedFilters(['name', 'description', 'month', 'year'])
+            ->allowedFilters(['name', 'description', 'monthUpdate', 'yearUpdate', 'monthCreate', 'yearCreate'])
             ->jsonPaginate();
 
         return CollectionCollection::make($collections);
