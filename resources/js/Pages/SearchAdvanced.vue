@@ -136,6 +136,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import axios from "axios";
 import { ref } from "vue";
+import moment from 'moment';
 
 const currentPage = ref(1);
 const lastPage = ref(null);
@@ -160,24 +161,40 @@ const fields = {
 const resultados = ref([]);
 
 const enviar = async () => {
+    let params = {
+        'filter[bookmarkable_type]': dataInput.value.bookmarkable_type,
+        'filter[title]': dataInput.value.title,
+        'filter[notes]': dataInput.value.notes,
+        'filter[synopsis]': dataInput.value.synopsis,
+        'page[size]': 2,
+        'page[number]': currentPage.value
+    };
+
+    // Verificar si hay fecha de creación
+    if (dataInput.value.created_at) {
+        let monthCreate = moment(dataInput.value.created_at).format('MM');
+        let yearCreate = moment(dataInput.value.created_at).format('YYYY');
+        params['filter[monthCreate]'] = monthCreate;
+        params['filter[yearCreate]'] = yearCreate;
+    }
+
+    // Verificar si hay fecha de actualización
+    if (dataInput.value.updated_at) {
+        let monthUpdate = moment(dataInput.value.updated_at).format('MM');
+        let yearUpdate = moment(dataInput.value.updated_at).format('YYYY');
+        params['filter[monthUpdate]'] = monthUpdate;
+        params['filter[yearUpdate]'] = yearUpdate;
+    }
+
     try {
-        const response = await axios.get('/bookmarks', {
-            params: {
-                'filter[bookmarkable_type]': dataInput.value.bookmarkable_type,
-                'filter[title]': dataInput.value.title,
-                'filter[notes]': dataInput.value.notes,
-                'filter[synopsis]': dataInput.value.synopsis,
-                // 'filter[created_at]': dataInput.value.created_at,
-                // 'filter[updated_at]': dataInput.value.updated_at,
-                'page[size]': 2,
-                'page[number]': currentPage.value
-            }
-        });
+        const response = await axios.get('/bookmarks', { params });
         lastPage.value = response.data.meta.last_page;
-        currentPage.value = response.data.meta.current_page
+        currentPage.value = response.data.meta.current_page;
         resultados.value = response.data.data;
     } catch (error) {
         console.error("Error fetching bookmarks:", error);
     }
 };
+
+
 </script>
