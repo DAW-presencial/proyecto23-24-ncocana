@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="Search Advanced" />
+    <Head title="Create Bookmarks" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">

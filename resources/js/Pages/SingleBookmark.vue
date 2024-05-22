@@ -1,6 +1,6 @@
 <template>
 
-    <Head :title="bookmark_data.title" />
+    <Head title="SingleBookmark" />
     <AuthenticatedLayout>
         <div class="flex flex-col justify-center m-auto max-w-7xl h-screen items-center">
             <div class="container mx-4 h-3/4">
