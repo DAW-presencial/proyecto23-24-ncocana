@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="Bookmarks" />
+    <Head title="{{$t('Bookmarks')}}" />
     <AuthenticatedLayout>
         <main class="flex-1 p-5">
             <div class="flex flex-col max-w-7xl mx-auto">
@@ -8,7 +8,7 @@
                 <div class="flex justify-between w-full">
                     <div>
                         <PrimaryButton>
-                            <Link href='/createbookmark'>Create Bookmark</Link>
+                            <Link href='/createbookmark'>{{$t('Create Bookmark')}}</Link>
                         </PrimaryButton>
                     </div>
                     <!-- <div class="flex gap-4">
@@ -23,74 +23,74 @@
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="'/bookmarks/' + b.id"
                                 :id="b.id" nameButton="SHOW" candelete=true>
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
-                                    <h1 class="text-xl mb-4">Movie</h1>
-                                    <p><strong>Title: </strong>{{ b.title }}</p>
-                                    <p><strong>Director: </strong>{{ b.director }}</p>
-                                    <p><strong>Actors: </strong>{{ b.actors }}</p>
-                                    <p><strong>Release date: </strong>{{ formatDate(b.release_date) }}</p>
-                                    <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
-                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
+                                    <h1 class="text-xl mb-4">{{$t('Movie')}}</h1>
+                                    <p><strong>{{$t('Title')}}: </strong>{{ b.title }}</p>
+                                    <p><strong>{{$t('Director')}}: </strong>{{ b.director }}</p>
+                                    <p><strong>{{$t('Actors')}}: </strong>{{ b.actors }}</p>
+                                    <p><strong>{{$t('Release date')}}: </strong>{{ formatDate(b.release_date) }}</p>
+                                    <p><strong>{{$t('Currently at')}}: </strong>{{ b.currently_at }}</p>
+                                    <p class="mt-2"><strong>{{$t('Notes')}}: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>{{$t('Synopsis')}}: </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>{{$t('Tags')}}: </strong>{{ b.tags }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Fanfic'">
                                     <h1 class="text-xl mb-4">Fanfic</h1>
-                                    <p><strong>Title: </strong>{{ b.title }}</p>
-                                    <p><strong>Author: </strong>{{ b.author }}</p>
-                                    <p><strong>Fandom: </strong>{{ b.fandom }}</p>
-                                    <p><strong>Original fiction: </strong>{{ b.relationships }}</p>
-                                    <p><strong>Language: </strong>{{ b.language }}</p>
-                                    <p><strong>Words: </strong>{{ b.words }}</p>
-                                    <p><strong>Read chapters: </strong>{{ b.read_chapters }}</p>
-                                    <p><strong>Total chapters: </strong>{{ b.total_chapters }}</p>
-                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
+                                    <p><strong>{{$t('Title')}}: </strong>{{ b.title }}</p>
+                                    <p><strong>{{$t('Author')}}: </strong>{{ b.author }}</p>
+                                    <p><strong>{{$t('Fandom')}}: </strong>{{ b.fandom }}</p>
+                                    <p><strong>{{$t('Original fiction')}}: </strong>{{ b.relationships }}</p>
+                                    <p><strong>{{$t('Language')}}: </strong>{{ b.language }}</p>
+                                    <p><strong>{{$t('Words')}}: </strong>{{ b.words }}</p>
+                                    <p><strong>{{$t('Read chapters')}}: </strong>{{ b.read_chapters }}</p>
+                                    <p><strong>{{$t('Total chapters')}}: </strong>{{ b.total_chapters }}</p>
+                                    <p class="mt-2"><strong>{{$t('Notes')}}: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>{{$t('Synopsis')}}: </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>{{$t('Tags')}}: </strong>{{ b.tags }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Book'">
                                     <h1 class="text-xl mb-4">Book</h1>
-                                    <p><strong>Title: </strong>{{ b.title }}</p>
-                                    <p><strong>Author: </strong>{{ b.author }}</p>
-                                    <p><strong>Language: </strong>{{ b.language }}</p>
-                                    <p><strong>Read pages: </strong>{{ b.read_pages }}</p>
-                                    <p><strong>Total pages: </strong>{{ b.total_pages }}</p>
-                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
+                                    <p><strong>{{$t('Title')}}: </strong>{{ b.title }}</p>
+                                    <p><strong>{{$t('Author')}}: </strong>{{ b.author }}</p>
+                                    <p><strong>{{$t('Language')}}: </strong>{{ b.language }}</p>
+                                    <p><strong>{{$t('Read pages')}}: </strong>{{ b.read_pages }}</p>
+                                    <p><strong>{{$t('Total pages')}}: </strong>{{ b.total_pages }}</p>
+                                    <p class="mt-2"><strong>{{$t('Notes')}}: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>{{$t('Synopsis')}}: </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>{{$t('Tags')}}: </strong>{{ b.tags }}</p>
                                 </div>
 
                                 <div v-if="b.tipo == 'App\\Models\\Series'">
                                     <h1 class="text-xl mb-4">Series</h1>
-                                    <p><strong>Title: </strong>{{ b.title }}</p>
-                                    <p><strong>Actors: </strong>{{ b.actors }}</p>
-                                    <p><strong>Number seasons: </strong>{{ b.num_seasons }}</p>
-                                    <p><strong>Number episodes: </strong>{{ b.num_episodes }}</p>
-                                    <p><strong>Currently at: </strong>{{ b.currently_at }}</p>
-                                    <p class="mt-2"><strong>Notes: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>Synopsis: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>Tags: </strong>{{ b.tags }}</p>
+                                    <p><strong>{{$t('Title')}}: </strong>{{ b.title }}</p>
+                                    <p><strong>{{$t('Actors')}}: </strong>{{ b.actors }}</p>
+                                    <p><strong>{{$t('Number seasons')}}: </strong>{{ b.num_seasons }}</p>
+                                    <p><strong>{{$t('Number episodes')}}: </strong>{{ b.num_episodes }}</p>
+                                    <p><strong>{{$t('Currently at')}}: </strong>{{ b.currently_at }}</p>
+                                    <p class="mt-2"><strong>{{$t('Notes')}}: </strong>{{ b.notes }}</p>
+                                    <p class="mt-2"><strong>{{$t('Synopsis')}}: </strong>{{ b.synopsis }}</p>
+                                    <p class="mt-2"><strong>{{$t('Tags')}}: </strong>{{ b.tags }}</p>
                                 </div>
                             </Card>
                         </div>
                         <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg'>
                             <div class="p-4">
-                                <InputLabel value="SORT BY"></InputLabel>
+                                <InputLabel value="{{$t('SORT BY')}}"></InputLabel>
                                 <select id="sort" name="sort" v-model="sortBy"
                                     class="w-full p-2 border border-gray-300 rounded-md">
-                                    <option value="bookmarkable_type">Type</option>
-                                    <option value="title">Title</option>
-                                    <option value="created_at">Created at</option>
-                                    <option value="updated_at">Updated at</option>
+                                    <option value="bookmarkable_type">{{$t('Type')}}</option>
+                                    <option value="title">{{$t('Title')}}</option>
+                                    <option value="created_at">{{$t('Created at')}}</option>
+                                    <option value="updated_at">{{$t('Updated at')}}</option>
                                 </select>
                             </div>
                             <div class="p-4">
-                                <InputLabel value="ORDER"></InputLabel>
+                                <InputLabel value="{{$t('ORDER')}}"></InputLabel>
                                 <select id="order" name="order" v-model="order"
                                     class="w-full p-2 border border-gray-300 rounded-md">
-                                    <option value="asc">Ascending</option>
-                                    <option value="desc">Descending</option>
+                                    <option value="asc">{{$t('Ascending')}}</option>
+                                    <option value="desc">{{$t('Descending')}}</option>
                                 </select>
                             </div>
 
@@ -100,7 +100,7 @@
                             </div>
                             <div class="p-4">
                                 <PrimaryButton @click="sortBookmarks">
-                                    Search Bookmarks
+                                    {{$t('Search Bookmarks')}}
                                 </PrimaryButton>
                             </div>
                         </div>
