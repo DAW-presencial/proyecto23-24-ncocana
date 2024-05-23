@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="{{$t('Search Advanced')}}" />
+    <Head title="{{$t('Create Bookmarks')}}" />
 
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
@@ -9,24 +9,26 @@
                     <h1>{{$t('Create Bookmark')}}</h1>
                 </div>
                 <!-- TYPES -->
-                <label for="type" class="block text-sm font-medium leading-6 text-gray-900"> {{$t('type')}} </label>
+                <label for="type" class="block text-sm font-medium leading-6 text-gray-900">{{$t('Type')}}</label>
                 <div class="mt-2">
                     <select id="type"
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         v-model="selected_type">
-                        <option v-for="t in types" :key="t" :value="t"> {{ t }}</option>
+                        <option v-for="(fields, type) in fields" :key="type" :value="type">{{ type }}</option>
                     </select>
                 </div>
 
                 <!-- DYNAMIC FIELDS -->
                 <div v-if="selected_type">
-                    <form @submit.prevent="enviar"> <!-- Added prevent modifier to prevent default form submission -->
-                        <div v-for="f in fields[selected_type]" :key="f">
-                            <label :for="f" class="block text-sm font-medium leading-6 text-gray-900">{{ f }}</label>
+                    <form @submit.prevent="enviar">
+                        <div v-for="(label, field) in fields[selected_type]" :key="field">
+                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label
+                                }}</label>
                             <div class="my-2">
-                                <input type="text" :name="f" :id="f" :autocomplete="f" v-model="dataInput[f]"
+                                <input type="text" :name="field" :id="field" :autocomplete="field"
+                                    v-model="dataInput[field]"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    :required="true" /> <!-- Added required attribute -->
+                                    :required="true" />
                             </div>
                         </div>
                         <PrimaryButton>{{$t('Send')}}</PrimaryButton>
@@ -36,6 +38,7 @@
         </main>
     </AuthenticatedLayout>
 </template>
+
 <script setup>
 import { getParamsBookmark } from '@/utils/functions';
 import { Head } from "@inertiajs/vue3";
@@ -44,19 +47,58 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { ref } from "vue";
 import axios from 'axios';
 
-const types = ["Book", "Movie", "Series", "Fanfic"];
 const selected_type = ref(null);
 const dataInput = ref({});
 
 const fields = {
-    Book: ["title", "author", "language", "read_pages", "total_pages", "synopsis", "notes", "tags"],
-    Movie: ["title", "director", "actors", "release_date", "currently_at", "notes", "synopsis", "tags"],
-    Series: ["title", "actors", "num_seasons", "num_episodes", "currently_at", "synopsis", "notes", "tags"],
-    Fanfic: ["title", "author", "fandom", "language", "words", "read_chapters", "total_chapters", "relationships", "synopsis", "notes", "tags"]
+    Book: {
+        title: "Title",
+        author: "Author",
+        language: "Language",
+        read_pages: "Read Pages",
+        total_pages: "Total Pages",
+        synopsis: "Synopsis",
+        notes: "Notes",
+        tags: "Tags"
+    },
+    Movie: {
+        title: "Title",
+        director: "Director",
+        actors: "Actors",
+        release_date: "Release Date",
+        currently_at: "Currently At",
+        notes: "Notes",
+        synopsis: "Synopsis",
+        tags: "Tags"
+    },
+    Series: {
+        title: "Title",
+        actors: "Actors",
+        num_seasons: "Number of Seasons",
+        num_episodes: "Number of Episodes",
+        currently_at: "Currently At",
+        synopsis: "Synopsis",
+        notes: "Notes",
+        tags: "Tags"
+    },
+    Fanfic: {
+        title: "Title",
+        author: "Author",
+        fandom: "Fandom",
+        language: "Language",
+        words: "Words",
+        read_chapters: "Read Chapters",
+        total_chapters: "Total Chapters",
+        relationships: "Relationships",
+        synopsis: "Synopsis",
+        notes: "Notes",
+        tags: "Tags"
+    }
 };
 
 const enviar = async () => {
     try {
+        console.log(dataInput.value);
         const tags = dataInput.value.tags;
         const tagsSeparados = tags.split(',');
         const bookmarkableParams = await getParamsBookmark(selected_type.value, dataInput.value);
@@ -74,8 +116,6 @@ const enviar = async () => {
                 }
             }
         };
-
-        console.log('Sending data:', dataToSend);
 
         const response = await axios.post('/bookmarks/', dataToSend);
         console.log('Response:', response);

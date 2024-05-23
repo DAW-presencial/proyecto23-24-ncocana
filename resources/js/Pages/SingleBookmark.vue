@@ -1,10 +1,11 @@
 <template>
 
-    <Head :title="bookmark_data.title" />
+    <Head title="SingleBookmark" />
     <AuthenticatedLayout>
         <div class="flex flex-col justify-center m-auto max-w-7xl h-screen items-center">
             <div class="container mx-4 h-3/4">
-                <Card class="h-auto" nameButton="UPDATE" :update="updateBookmark" :id="bookmark_data.id">
+                <Card class="h-auto" nameButton="UPDATE" :update="updateBookmark" :id="bookmark_data.id"
+                    candelete="true">
                     <div class="mt-3">
                         <InputLabel value="{{$t('Title')}}" />
                         <TextInput v-model="bookmark_data.title" />

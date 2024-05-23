@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,8 +31,26 @@ class Collection extends Model
 
     public function bookmarks(): BelongsToMany
     {
-
         return $this->belongsToMany(Bookmark::class, 'bookmark_collection');
+    }
 
+    public function scopeYearCreate(Builder $query, $year)
+    {
+        $query->whereYear('created_at', $year);
+    }
+
+    public function scopeMonthCreate(Builder $query, $month)
+    {
+        $query->whereMonth('created_at', $month);
+    }
+
+    public function scopeYearUpdate(Builder $query, $year)
+    {
+        $query->whereYear('updated_at', $year);
+    }
+
+    public function scopeMonthUpdate(Builder $query, $month)
+    {
+        $query->whereMonth('updated_at', $month);
     }
 }

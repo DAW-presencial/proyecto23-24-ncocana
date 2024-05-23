@@ -11,17 +11,17 @@
                             <Link href='/createbookmark'>{{$t('Create Bookmark')}}</Link>
                         </PrimaryButton>
                     </div>
-                    <div class="flex gap-4">
+                    <!-- <div class="flex gap-4">
                         <TextInput class="w-64" v-model="buscar"></TextInput>
-                        <PrimaryButton @click="getBookmarks">{{$t('Search')}}</PrimaryButton>
-                    </div>
+                        <PrimaryButton @click="getBookmarks">Search</PrimaryButton>
+                    </div> -->
                 </div>
                 <div class="mt-4 p-6 rounded-md max-h-screen bg-stone-50">
                     <div class="flex justify-between gap-10">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-8'>
                             <!-- Cards -->
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="'/bookmarks/' + b.id"
-                                :id="b.id" nameButton="SHOW">
+                                :id="b.id" nameButton="SHOW" candelete=true>
                                 <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
                                     <h1 class="text-xl mb-4">{{$t('Movie')}}</h1>
                                     <p><strong>{{$t('Title')}}: </strong>{{ b.title }}</p>
@@ -93,6 +93,11 @@
                                     <option value="desc">{{$t('Descending')}}</option>
                                 </select>
                             </div>
+
+                            <div class="p-4">
+                                <InputLabel value="TAGS"></InputLabel>
+                                <TextInput class="w-64" v-model="tags"></TextInput>
+                            </div>
                             <div class="p-4">
                                 <PrimaryButton @click="sortBookmarks">
                                     {{$t('Search Bookmarks')}}
@@ -110,7 +115,7 @@
 </template>
 
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Card from '@/Components/Card.vue';
@@ -118,15 +123,14 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import moment from 'moment';
 
-const { props } = usePage();
-const { user } = props;
+// FUNCTIONS
+import { nextPage, prevPage, formatDate } from '@/utils/functions';
 
 // Variables
 const currentPage = ref(1);
 const lastPage = ref(null);
-const buscar = ref('');
+const tags = ref('');
 const bookmarks = ref([]);
 const sortBy = ref('');
 const sort = ref('bookmarkable_type');
@@ -135,7 +139,11 @@ const order = ref('asc');
 const sortBookmarks = () => {
     if (order.value == 'desc') {
         sort.value = "-" + sortBy.value;
+    } if (order.value == 'asc') {
+        sort.value = sortBy.value;
     }
+    tags.value = tags.value.replace(/\s+/g, '');
+    console.log(tags.value);
     currentPage.value = 1; // Reset to first page
     getBookmarks();
 };
@@ -143,9 +151,10 @@ const sortBookmarks = () => {
 const getBookmarks = () => {
     axios.get(`/bookmarks`, {
         params: {
+            'sort': sort.value,
+            'tags': tags.value,
             'page[size]': 2,
-            'page[number]': currentPage.value,
-            'sort': sort.value
+            'page[number]': currentPage.value
         }
     })
         .then(response => {
@@ -177,23 +186,9 @@ const getBookmarks = () => {
         .catch(error => console.log('Ha ocurrido un error: ' + error));
 };
 
-const nextPage = () => {
-    if (currentPage.value < lastPage.value) {
-        currentPage.value++;
-        getBookmarks();
-    }
-};
+nextPage(currentPage, lastPage);
+prevPage(currentPage);
 
-const prevPage = () => {
-    if (currentPage.value > 1) {
-        currentPage.value--;
-        getBookmarks();
-    }
-};
-
-const formatDate = (date) => {
-    return moment(date).format('YYYY/MM/DD');
-};
 
 onMounted(() => {
     getBookmarks();

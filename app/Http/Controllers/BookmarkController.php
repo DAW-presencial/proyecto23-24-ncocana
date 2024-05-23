@@ -35,17 +35,14 @@ class BookmarkController extends Controller
             // Call the index method of TagController
             $bookmarks = app(TagController::class)->index(new Bookmark(), $tags);
             // Query tagged bookmarks for the current user with fields 'bookmarkable' and 'tags'
-            $bookmarks = $bookmarks->where('user_id', Auth::id())->with(['bookmarkable', 'tags']);
+            $bookmarks = $bookmarks->where('user_id', $userId)->with(['bookmarkable', 'tags']);
         } else {
             // Query bookmarks for the current user with fields 'bookmarkable' and 'tags'
             $bookmarks = Bookmark::query()->where('user_id', $userId)->with(['bookmarkable', 'tags']);
         }
 
-        // Order bookmarks by 'updated_at' in descending order
-        // $bookmarks = $bookmarks->orderBy('updated_at', 'desc');
-
         $bookmarks = $bookmarks->allowedSorts(['bookmarkable_type', 'title', 'created_at', 'updated_at'])
-            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'month', 'year'])
+            ->allowedFilters(['bookmarkable_type', 'title', 'synopsis', 'notes', 'monthUpdate', 'yearUpdate', 'monthCreate', 'yearCreate'])
             ->jsonPaginate();
 
         return BookmarkCollection::make($bookmarks);

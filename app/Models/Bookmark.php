@@ -36,14 +36,23 @@ class Bookmark extends Model
         return $this->BelongsToMany(Collection::class, 'bookmark_collection');
     }
 
-    public function scopeYear(Builder $query, $year)
+    public function scopeYearCreate(Builder $query, $year)
     {
         $query->whereYear('created_at', $year);
     }
 
-    public function scopeMonth(Builder $query, $month)
+    public function scopeMonthCreate(Builder $query, $month)
     {
         $query->whereMonth('created_at', $month);
+    }
 
+    public function scopeYearUpdate(Builder $query, $year)
+    {
+        $query->whereYear('updated_at', $year);
+    }
+
+    public function scopeMonthUpdate(Builder $query, $month)
+    {
+        $query->whereMonth('updated_at', $month);
     }
 }
