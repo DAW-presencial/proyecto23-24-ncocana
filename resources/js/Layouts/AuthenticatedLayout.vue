@@ -97,9 +97,11 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const navigation = [
-    { name: 'Dashboard', href: 'dashboard' },
-    { name: 'Bookmarks', href: 'bookmarks' },
-    { name: 'Search Advanced', href: 'searchadvanced' }
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Bookmarks', href: '/bookmarks' },
+    { name: 'Search Advanced', href: '/searchadvanced' },
+    { name: 'Collections', href: '/collections' }
+
 ];
 
 defineProps({
