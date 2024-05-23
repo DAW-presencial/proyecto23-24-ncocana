@@ -17,20 +17,16 @@
                         <div class="bg-white h-10 w-11 m-1 rounded-full">
                             <img src="/img/nuevo-logo1.png" alt="Logo" class="h-9 w-8 m-auto mt-0.5">
                         </div>
-
                     </div>
                     <div class="hidden sm:ml-6 sm:block ">
                         <div class="flex space-x-4 h-full items-center">
                             <a v-for="item in navigation" :key="item.name" :href="item.href"
-                                :active="route().current('bookmarks')"
                                 :class="[route().current(item.href) ? 'bg-white text-blue-900 font-extrabold' : 'text-gray-300 hover:text-gray-600', 'rounded-md px-3 py-2 text-sm font-medium']"
-                                :aria-current="item.current ? 'page' : undefined">{{ item.name }}
+                                :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}
                             </a>
-
                         </div>
                     </div>
                 </div>
-
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div v-if="$page.props.auth.user" class="flex">
                         <button type="button"
@@ -39,7 +35,6 @@
                             <span class="sr-only">{{$t('View notifications')}}</span>
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
                         </button>
-
                         <!-- Profile dropdown -->
                         <Menu as="div" class="relative ml-3">
                             <div>
@@ -81,6 +76,7 @@
                             class="text-gray-500 hover:text-gray-900 hover:font-bold px-3 my-auto text-sm font-medium">
                         {{$t('Log in')}}</Link>
 
+
                         <Link :href="route('register')"
                             class="ms-4 text-gray-500 hover:text-gray-900 hover:font-bold px-3 text-sm font-medium">
                         {{$t('Register')}}</Link>
@@ -88,16 +84,14 @@
                 </div>
             </div>
         </div>
-
         <DisclosurePanel class="sm:hidden">
             <div class="space-y-1 px-2 pb-3 pt-2">
                 <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
-                    :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
-                    :aria-current="item.current ? 'page' : undefined">{{ item.name }}</DisclosureButton>
+                    :class="[route().current(item.href) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
+                    :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}</DisclosureButton>
             </div>
         </DisclosurePanel>
     </Disclosure>
-
     <!-- Page Content -->
     <main>
         <slot />
@@ -109,13 +103,12 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import { Head, Link } from '@inertiajs/vue3';
-
+import { Head, Link, router } from '@inertiajs/vue3';
 
 const navigation = [
     { name: 'Bookmarks', href: 'bookmarks' },
     { name: 'Search Advanced', href: 'searchadvanced' }
-]
+];
 
 defineProps({
     authenticated: {

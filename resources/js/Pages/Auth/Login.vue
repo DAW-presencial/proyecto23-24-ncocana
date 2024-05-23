@@ -25,26 +25,30 @@ const form = useForm({
 });
 
 const submit = () => {
-    login()
+    login();
     form.post(route('login'), {
         onFinish: () => form.reset('password'),
     });
 };
 
-const login = () => {
+const login = async () => {
     let params = {
         "email": email.value,
         "password": password.value
     }
     console.log(JSON.stringify(params));
 
-    axios.post('/login', JSON.stringify(params))
+    await axios.post('/login', JSON.stringify(params))
         .then(response => {
             console.log(response);
             const resultado = response.data;
             localStorage.setItem('token', resultado.token_type + ' ' + resultado.access_token);
         })
 }
+
+onMounted(() => {
+    localStorage.removeItem('token');
+});
 
 </script>
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Bookmark;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -65,6 +66,12 @@ class ProfileTest extends TestCase
     {
         $user = User::factory()->create();
 
+        Bookmark::factory()->count(3)->create([
+            'user_id' => $user->id
+        ]);
+
+        $this->assertDatabaseCount('bookmarks', 3);
+
         $response = $this
             ->actingAs($user)
             ->delete('/profile', [
@@ -77,6 +84,12 @@ class ProfileTest extends TestCase
 
         $this->assertGuest();
         $this->assertNull($user->fresh());
+
+        $this->assertDatabaseCount('bookmarks', 0);
+        $this->assertDatabaseCount('books', 0);
+        $this->assertDatabaseCount('fanfics', 0);
+        $this->assertDatabaseCount('series', 0);
+        $this->assertDatabaseCount('movies', 0);
     }
 
     public function test_correct_password_must_be_provided_to_delete_account(): void
