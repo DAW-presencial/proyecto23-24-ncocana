@@ -71,16 +71,6 @@
                             </transition>
                         </Menu>
                     </div>
-                    <div v-else class="flex">
-                        <Link :href="route('login')"
-                            class="text-gray-500 hover:text-gray-900 hover:font-bold px-3 my-auto text-sm font-medium">
-                        {{$t('Log in')}}</Link>
-
-
-                        <Link :href="route('register')"
-                            class="ms-4 text-gray-500 hover:text-gray-900 hover:font-bold px-3 text-sm font-medium">
-                        {{$t('Register')}}</Link>
-                    </div>
                 </div>
             </div>
         </div>
@@ -106,6 +96,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const navigation = [
+    { name: 'Dashboard', href: 'dashboard' },
     { name: 'Bookmarks', href: 'bookmarks' },
     { name: 'Search Advanced', href: 'searchadvanced' }
 ];
