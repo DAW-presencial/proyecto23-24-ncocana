@@ -20,7 +20,7 @@
                     </div>
                     <div class="hidden sm:ml-6 sm:block ">
                         <div class="flex space-x-4 h-full items-center">
-                            <a v-for="item in navigation" :key="item.name" :href="item.href"
+                            <a v-for="item in navigation" :key="item.name" :href="'/' + item.href"
                                 :class="[route().current(item.href) ? 'bg-white text-blue-900 font-extrabold' : 'text-gray-300 hover:text-gray-600', 'rounded-md px-3 py-2 text-sm font-medium']"
                                 :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}
                             </a>
@@ -97,10 +97,10 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const navigation = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Bookmarks', href: '/bookmarks' },
-    { name: 'Search Advanced', href: '/searchadvanced' },
-    { name: 'Collections', href: '/collections' }
+    { name: 'Dashboard', href: 'dashboard' },
+    { name: 'Bookmarks', href: 'bookmarks' },
+    { name: 'Search Advanced', href: 'searchadvanced' },
+    { name: 'Collections', href: 'collections' }
 
 ];
 

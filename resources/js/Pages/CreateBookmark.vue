@@ -4,6 +4,9 @@
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
+                <div class="pb-4">
+                    <Breadcrumbs :items="['Home', 'Bookmark', 'Create Bookmark']"></Breadcrumbs>
+                </div>
                 <div class="text-xl font-bold mx-auto my-4">
                     <h1>Create Bookmark</h1>
                 </div>
@@ -39,6 +42,7 @@
 </template>
 
 <script setup>
+import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { getParamsBookmark } from '@/utils/functions';
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
