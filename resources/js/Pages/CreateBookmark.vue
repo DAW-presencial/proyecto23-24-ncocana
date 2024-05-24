@@ -1,15 +1,17 @@
 <template>
-
-    <Head title="{{$t('Create Bookmarks')}}" />
+    <Head :title="$t('Create Bookmark')" />
 
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
+                <div class="pb-4">
+                    <Breadcrumbs :items="['Home', 'Bookmark', 'Create Bookmark']"></Breadcrumbs>
+                </div>
                 <div class="text-xl font-bold mx-auto my-4">
-                    <h1>{{$t('Create Bookmark')}}</h1>
+                    <h1>{{ $t('Create Bookmark') }}</h1>
                 </div>
                 <!-- TYPES -->
-                <label for="type" class="block text-sm font-medium leading-6 text-gray-900">{{$t('Type')}}</label>
+                <label for="type" class="block text-sm font-medium leading-6 text-gray-900">{{ $t('Type') }}</label>
                 <div class="mt-2">
                     <select id="type"
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -22,16 +24,15 @@
                 <div v-if="selected_type">
                     <form @submit.prevent="enviar">
                         <div v-for="(label, field) in fields[selected_type]" :key="field">
-                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label
-                                }}</label>
+                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
                             <div class="my-2">
                                 <input type="text" :name="field" :id="field" :autocomplete="field"
                                     v-model="dataInput[field]"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    :required="true" />
+                                    required />
                             </div>
                         </div>
-                        <PrimaryButton>{{$t('Send')}}</PrimaryButton>
+                        <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
                     </form>
                 </div>
             </div>
@@ -40,12 +41,13 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
+import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { getParamsBookmark } from '@/utils/functions';
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { ref } from "vue";
-import axios from 'axios';
+import axios from '@/config/axios-config';  // Ensure axios is imported correctly
 
 const selected_type = ref(null);
 const dataInput = ref({});
@@ -105,8 +107,7 @@ const enviar = async () => {
         const dataToSend = {
             data: {
                 type: "bookmarks",
-                attributes:
-                {
+                attributes: {
                     title: dataInput.value.title,
                     synopsis: dataInput.value.synopsis,
                     notes: dataInput.value.notes,
@@ -117,7 +118,7 @@ const enviar = async () => {
             }
         };
 
-        const response = await axios.post('/bookmarks/', dataToSend);
+        const response = await axios.post('/bookmarks', dataToSend);
         console.log('Response:', response);
 
         if (response.status === 201 || response.status === 200) {

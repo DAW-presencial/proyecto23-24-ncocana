@@ -1,5 +1,5 @@
 <template>
-    <div class="border border-gray-400 p-4 min-h-64 rounded-lg">
+    <div class="border border-gray-400 p-4 min-h-72 rounded-lg shadow-lg">
         <!-- BUTTONS -->
         <div class="flex gap-2 justify-end h-6 float-end">
 

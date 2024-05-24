@@ -82,3 +82,7 @@ Route::get('/bookmarks/{bookmark}', function (Bookmark $bookmark) {
 Route::get('/createbookmark', function () {
     return Inertia::render('CreateBookmark');
 })->middleware(['auth', 'verified'])->name('createbookmark');
+
+Route::get('/collections', function () {
+    return Inertia::render('Collections');
+})->middleware(['auth', 'verified'])->name('collections');
