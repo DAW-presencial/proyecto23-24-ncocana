@@ -1,8 +1,16 @@
 import axios from 'axios';
 
+if (window.location.hostname === 'mybookmarks.randion.es') {
+    $baseUrl = 'https://mybookmarks.randion.es/api/v1';
+} else if (window.location.hostname === 'mybookmarks.local') {
+    $baseUrl = 'http://mybookmarks.local/api/v1';
+} else {
+    $baseUrl = 'http://127.0.0.1:8000/api/v1';
+}
+
 // Base Url
 function getBaseUrl() {
-    return window.location.hostname === 'mybookmarks.randion.es' ? 'https://mybookmarks.randion.es/api/v1' : 'http://127.0.0.1:8000/api/v1';
+    return window.location.hostname === $baseUrl;
 }
 
 // Headers
