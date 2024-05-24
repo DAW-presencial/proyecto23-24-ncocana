@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Feature;
+namespace Tests\Feature\Collections;
 
 use App\Models\Bookmark;
 use App\Models\Collection;
