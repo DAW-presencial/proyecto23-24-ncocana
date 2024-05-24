@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+let $baseUrl;
+
 if (window.location.hostname === 'mybookmarks.randion.es') {
     $baseUrl = 'https://mybookmarks.randion.es/api/v1';
 } else if (window.location.hostname === 'mybookmarks.local') {
@@ -10,7 +12,7 @@ if (window.location.hostname === 'mybookmarks.randion.es') {
 
 // Base Url
 function getBaseUrl() {
-    return window.location.hostname === $baseUrl;
+    return $baseUrl;
 }
 
 // Headers
