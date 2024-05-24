@@ -7,7 +7,7 @@
                     <DisclosureButton
                         class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                         <span class="absolute -inset-0.5" />
-                        <span class="sr-only">{{$t('Open main menu')}}</span>
+                        <span class="sr-only">{{ $t('Open main menu') }}</span>
                         <Bars3Icon v-if="!open" class="block h-6 w-6" aria-hidden="true" />
                         <XMarkIcon v-else class="block h-6 w-6" aria-hidden="true" />
                     </DisclosureButton>
@@ -29,19 +29,20 @@
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div v-if="$page.props.auth.user" class="flex">
-                        <button type="button"
+                        <!-- <button type="button"
                             class="relative rounded-full bg-white0 p-1 text-gray-400 hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                             <span class="absolute -inset-1.5" />
-                            <span class="sr-only">{{$t('View notifications')}}</span>
+                            <span class="sr-only">{{ $t('View notifications') }}</span>
                             <BellIcon class="h-6 w-6" aria-hidden="true" />
-                        </button>
+                        </button> -->
+                        <LanguageSwitcher />
                         <!-- Profile dropdown -->
                         <Menu as="div" class="relative ml-3">
                             <div>
                                 <MenuButton
                                     class="relative flex rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                                     <span class="absolute -inset-1.5" />
-                                    <span class="sr-only">{{$t('Open user menu')}}</span>
+                                    <span class="sr-only">{{ $t('Open user menu') }}</span>
                                     <img class="h-8 w-8 rounded-full" src="/img/user.png" alt="" />
                                 </MenuButton>
                             </div>
@@ -55,16 +56,18 @@
                                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
-                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">{{$t('Your Profile')}}</a>
+                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
+                                        {{ $t('Your Profile') }}</a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
-                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">{{$t('Settings')}}</a>
+                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
+                                        {{ $t('Settings') }}</a>
                                     </MenuItem>
                                     <MenuItem v-slot="{ active }">
                                     <DropdownLink :href="route('logout')" method="post" as="button"
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
-                                        {{$t('Sign out')}}
+                                        {{ $t('Sign out') }}
                                     </DropdownLink>
                                     </MenuItem>
                                 </MenuItems>
@@ -83,9 +86,10 @@
         </DisclosurePanel>
     </Disclosure>
     <!-- Page Content -->
-    <main>
-        <slot />
+    <main class="min-h-screen">
+        <slot></slot>
     </main>
+    <Footer />
 </template>
 
 <script setup>
@@ -94,6 +98,8 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownLink from '@/Components/DropdownLink.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import Footer from '@/Components/Footer.vue';
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
 const navigation = [
     { name: 'Dashboard', href: 'dashboard' },

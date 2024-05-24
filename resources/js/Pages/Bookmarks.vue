@@ -158,7 +158,7 @@ const sortBookmarks = () => {
 };
 
 const getBookmarks = () => {
-    axios.get(`/bookmarks`, {
+    axios.get(`api/v1/bookmarks`, {
         params: {
             'sort': sort.value,
             'tags': tags.value,

@@ -202,7 +202,7 @@ const updateBookmark = async () => {
     console.log(data);
 
     try {
-        await axios.patch(`/bookmarks/${bookmark.id}`, data, {
+        await axios.patch(`api/v1/bookmarks/${bookmark.id}`, data, {
             headers: {
                 'Content-Type': 'application/vnd.api+json',
             },

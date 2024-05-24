@@ -3,11 +3,11 @@ import axios from 'axios';
 let $baseUrl;
 
 if (window.location.hostname === 'mybookmarks.randion.es') {
-    $baseUrl = 'https://mybookmarks.randion.es/api/v1';
+    $baseUrl = 'https://mybookmarks.randion.es';
 } else if (window.location.hostname === 'mybookmarks.local') {
-    $baseUrl = 'http://mybookmarks.local/api/v1';
+    $baseUrl = 'http://mybookmarks.local';
 } else {
-    $baseUrl = 'http://127.0.0.1:8000/api/v1';
+    $baseUrl = 'http://127.0.0.1:8000';
 }
 
 // Base Url
