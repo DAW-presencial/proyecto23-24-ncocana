@@ -1,12 +1,15 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { Head } from '@inertiajs/vue3';
-</script>
 
+
+</script>
 <template>
 
-    <Head title="Prueba" />
+    <Head title="Collections" />
+
     <AuthenticatedLayout>
-        <v-btn color="#6366f1" class="m-5"> {{$t('Button')}} </v-btn>
+
     </AuthenticatedLayout>
 </template>

@@ -1,13 +1,15 @@
 <template>
 
-    <Head title="Search Advanced" />
+    <Head title="{{$t('Search Advanced')}}" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
-                <div class="text-xl font-bold mx-auto my-4">
-                    <h1>Search Advanced Bookmark</h1>
+                <div class="pb-4">
+                    <Breadcrumbs :items="['Home', 'Search Advanced']"></Breadcrumbs>
                 </div>
-
+                <div class="text-xl font-bold mx-auto my-4">
+                    <h1>{{ $t('Search Advanced Bookmark') }}</h1>
+                </div>
                 <!-- FORM -->
                 <form @submit.prevent="enviar">
                     <!-- DYNAMIC FIELDS -->
@@ -44,13 +46,15 @@
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
 
                         <!-- Type -->
-                        <h1 class="text-xl mb-4" v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
+                        <h1 class="text-2xl font-medium mb-4"
+                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
                             Movie</h1>
-                        <h1 class="text-xl mb-4"
+                        <h1 class="text-2xl font-medium mb-4"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">Series</h1>
-                        <h1 class="text-xl mb-4" v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
+                        <h1 class="text-2xl font-medium mb-4"
+                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
                             Book</h1>
-                        <h1 class="text-xl mb-4"
+                        <h1 class="text-2xl font-medium mb-4"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">Fanfic</h1>
 
                         <p><strong>Title:</strong> {{ resultado.attributes.title }}</p>
@@ -72,7 +76,7 @@
                                 <p><strong>Director:</strong> {{ resultado.attributes.bookmarkable.director }}</p>
                                 <p><strong>Actors:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
                                 <p><strong>Release Date:</strong> {{
-                    formatDate(resultado.attributes.bookmarkable.release_date) }}
+                        formatDate(resultado.attributes.bookmarkable.release_date) }}
                                 </p>
                                 <p><strong>Currently at:</strong> {{ resultado.attributes.bookmarkable.currently_at }}
                                 </p>
@@ -82,9 +86,9 @@
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">
                                 <p><strong>Actors:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
                                 <p><strong>Number of Seasons:</strong> {{
-                    resultado.attributes.bookmarkable.num_seasons }}</p>
+                        resultado.attributes.bookmarkable.num_seasons }}</p>
                                 <p><strong>Number of Episodes:</strong> {{
-                    resultado.attributes.bookmarkable.num_episodes }}</p>
+                        resultado.attributes.bookmarkable.num_episodes }}</p>
                                 <p><strong>Currently at:</strong> {{ resultado.attributes.bookmarkable.currently_at
                                     }}</p>
                             </template>
@@ -93,9 +97,9 @@
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">
                                 <p><strong>Author:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
                                 <p><strong>Fandom:</strong> {{
-                    resultado.attributes.bookmarkable.fandom }}</p>
+                        resultado.attributes.bookmarkable.fandom }}</p>
                                 <p><strong>Relationships:</strong> {{
-                    resultado.attributes.bookmarkable.relationships }}</p>
+                        resultado.attributes.bookmarkable.relationships }}</p>
                                 <p><strong>Language:</strong> {{ resultado.attributes.bookmarkable.language
                                     }}</p>
                                 <p><strong>Words:</strong> {{ resultado.attributes.bookmarkable.words }}</p>
@@ -123,12 +127,16 @@
                         <v-pagination v-model="currentPage" :length="lastPage" @click="enviar"></v-pagination>
                     </div>
                 </div>
+                <!-- <div v-else class="text-3xl m-auto">
+                    <h1>No results found</h1>
+                </div> -->
             </div>
         </main>
     </AuthenticatedLayout>
 </template>
 
 <script setup>
+import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { formatDate } from '@/utils/functions';
 import { Head } from "@inertiajs/vue3";
 import Card from '@/Components/Card.vue';
@@ -138,6 +146,7 @@ import axios from "axios";
 import { ref } from "vue";
 import moment from 'moment';
 
+
 const currentPage = ref(1);
 const lastPage = ref(null);
 const dataInput = ref({
@@ -145,6 +154,7 @@ const dataInput = ref({
     title: '',
     created_at: '',
     updated_at: ''
+
 });
 
 const types = ["", "Book", "Movie", "Series", "Fanfic"];
@@ -195,6 +205,4 @@ const enviar = async () => {
         console.error("Error fetching bookmarks:", error);
     }
 };
-
-
 </script>

@@ -25,18 +25,15 @@ const submit = () => {
     <GuestLayout>
         <Head title="Forgot Password" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset
-            link that will allow you to choose a new one.
-        </div>
+        <div class="mb-4 text-sm text-gray-600">{{$t('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.')}}</div>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
+            {{ $t(status) }}
         </div>
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" value="{{$t('Email')}}"/>
 
                 <TextInput
                     id="email"
@@ -53,7 +50,7 @@ const submit = () => {
 
             <div class="flex items-center justify-end mt-4">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
+                    {{$t('Email Password Reset Link')}}
                 </PrimaryButton>
             </div>
         </form>

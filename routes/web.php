@@ -30,9 +30,9 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -82,3 +82,7 @@ Route::get('/bookmarks/{bookmark}', function (Bookmark $bookmark) {
 Route::get('/createbookmark', function () {
     return Inertia::render('CreateBookmark');
 })->middleware(['auth', 'verified'])->name('createbookmark');
+
+Route::get('/collections', function () {
+    return Inertia::render('Collections');
+})->middleware(['auth', 'verified'])->name('collections');
