@@ -1,14 +1,16 @@
 <template>
 
-    <Head title="{{$t('Search Advanced')}}" />
+    <Head title="{{$t('Advanced Search')}}" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
+
                 <div class="pb-4">
                     <Breadcrumbs :items="['Home', 'Search Advanced']"></Breadcrumbs>
                 </div>
                 <div class="text-xl font-bold mx-auto my-4">
-                    <h1>{{ $t('Search Advanced Bookmark') }}</h1>
+                    <h1>{{ $t('Bookmark Advanced Search') }}</h1>
+
                 </div>
                 <!-- FORM -->
                 <form @submit.prevent="enviar">

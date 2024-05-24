@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="SingleBookmark" />
+    <Head title="$t('Single Bookmark')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="flex flex-col justify-center mx-auto max-w-7xl">
