@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Base Url
 function getBaseUrl() {
-    return window.location.hostname === 'mybookmarks.randion.es' ? 'https://mybookmarks.randion.es/api/v1' : 'http://127.0.0.1:8000/api/v1';
+    return window.location.hostname === 'mybookmarks.randion.es' ? 'https://mybookmarks.randion.es' : 'http://127.0.0.1:8000';
 }
 
 // Headers

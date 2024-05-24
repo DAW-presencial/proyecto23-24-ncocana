@@ -121,7 +121,7 @@ const enviar = async () => {
             }
         };
 
-        const response = await axios.post('/bookmarks/', dataToSend);
+        const response = await axios.post('api/v1/bookmarks/', dataToSend);
         console.log('Response:', response);
 
         if (response.status === 201 || response.status === 200) {

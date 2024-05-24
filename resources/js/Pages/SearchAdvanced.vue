@@ -197,7 +197,7 @@ const enviar = async () => {
     }
 
     try {
-        const response = await axios.get('/bookmarks', { params });
+        const response = await axios.get('api/v1/bookmarks', { params });
         lastPage.value = response.data.meta.last_page;
         currentPage.value = response.data.meta.current_page;
         resultados.value = response.data.data;
