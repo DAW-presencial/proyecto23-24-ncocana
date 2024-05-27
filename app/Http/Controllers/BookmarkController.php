@@ -92,7 +92,7 @@ class BookmarkController extends Controller
         // dd(BookmarkResource::make($bookmark));
 
         // Check if 'tags' key exists before accessing it
-        if (isset($attributes['tags']) && $attributes['tags']) {
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
             app(TagController::class)->store($bookmark, $attributes['tags']);
         }
 
@@ -173,7 +173,7 @@ class BookmarkController extends Controller
         }
 
         // Check if 'tags' key exists before accessing it
-        if (isset($attributes['tags']) && $attributes['tags']) {
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
             app(TagController::class)->update($bookmark, $attributes['tags']);
         }
 

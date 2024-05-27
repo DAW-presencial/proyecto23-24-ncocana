@@ -18,6 +18,7 @@ class Bookmark extends Model
         'title',
         'synopsis',
         'notes',
+        'updated_at'
     ];
 
     public function bookmarkable()

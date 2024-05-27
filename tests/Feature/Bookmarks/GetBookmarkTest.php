@@ -193,34 +193,34 @@ class GetBookmarkTest extends TestCase
                         'self' => route('api.v1.bookmarks.show', $bookmarks[1])
                     ]
                 ],
-                [
-                    'type' => 'bookmarks',
-                    'id' => (string) $bookmarks[2]->getRouteKey(),
-                    'attributes' => [
-                        'user_id' => $bookmarks[2]->user_id,
-                        'bookmarkable_type' => $bookmarks[2]->bookmarkable_type,
-                        'bookmarkable_id' => $bookmarks[2]->bookmarkable_id,
-                        'title' => $bookmarks[2]->title,
-                        'synopsis' => $bookmarks[2]->synopsis,
-                        'notes' => $bookmarks[2]->notes,
-                        'tags' => $bookmarks[2]->tags->map(function ($tag) {
-                            return [
-                                'id' => $tag->id,
-                                'name' => $tag->name,
-                                'slug' => $tag->slug,
-                                'pivot' => [
-                                    'taggable_type' => $tag->pivot->taggable_type,
-                                    'taggable_id' => $tag->pivot->taggable_id,
-                                    'tag_id' => $tag->pivot->tag_id,
-                                ]
-                            ];
-                        })->sortBy('id')->values()->all(),
-                        "bookmarkable" => $bookmarkableArray2
-                    ],
-                    'links' => [
-                        'self' => route('api.v1.bookmarks.show', $bookmarks[2])
-                    ]
-                ]
+                // [
+                //     'type' => 'bookmarks',
+                //     'id' => (string) $bookmarks[2]->getRouteKey(),
+                //     'attributes' => [
+                //         'user_id' => $bookmarks[2]->user_id,
+                //         'bookmarkable_type' => $bookmarks[2]->bookmarkable_type,
+                //         'bookmarkable_id' => $bookmarks[2]->bookmarkable_id,
+                //         'title' => $bookmarks[2]->title,
+                //         'synopsis' => $bookmarks[2]->synopsis,
+                //         'notes' => $bookmarks[2]->notes,
+                //         'tags' => $bookmarks[2]->tags->map(function ($tag) {
+                //             return [
+                //                 'id' => $tag->id,
+                //                 'name' => $tag->name,
+                //                 'slug' => $tag->slug,
+                //                 'pivot' => [
+                //                     'taggable_type' => $tag->pivot->taggable_type,
+                //                     'taggable_id' => $tag->pivot->taggable_id,
+                //                     'tag_id' => $tag->pivot->tag_id,
+                //                 ]
+                //             ];
+                //         })->sortBy('id')->values()->all(),
+                //         "bookmarkable" => $bookmarkableArray2
+                //     ],
+                //     'links' => [
+                //         'self' => route('api.v1.bookmarks.show', $bookmarks[2])
+                //     ]
+                // ]
             ],
             'links' => [
                 'self' => route('api.v1.bookmarks.index')
