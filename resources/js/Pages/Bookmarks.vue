@@ -90,7 +90,7 @@
                                     <option value="bookmarkable_type">{{ $t('Type') }}</option>
                                     <option value="title">{{ $t('Title') }}</option>
                                     <option value="created_at">{{ $t('Created at') }}</option>
-                                    <option value="updated_at">{{ $t('Updated at') }}</option>
+                                    <option value="updated_at" selected>{{ $t('Updated at') }}</option>
                                 </select>
                             </div>
                             <div class="pt-2 px-4">
@@ -98,7 +98,7 @@
                                 <select id="order" name="order" v-model="order"
                                     class="w-full p-2 border border-gray-300 rounded-md">
                                     <option value="asc">{{ $t('Ascending') }}</option>
-                                    <option value="desc">{{ $t('Descending') }}</option>
+                                    <option value="desc" selected>{{ $t('Descending') }}</option>
                                 </select>
                             </div>
 
@@ -141,9 +141,9 @@ const currentPage = ref(1);
 const lastPage = ref(null);
 const tags = ref('');
 const bookmarks = ref([]);
-const sortBy = ref('');
+const sortBy = ref('updated_at');
 const sort = ref('');
-const order = ref('');
+const order = ref('desc');
 
 const sortBookmarks = () => {
     if (sortBy.value) {

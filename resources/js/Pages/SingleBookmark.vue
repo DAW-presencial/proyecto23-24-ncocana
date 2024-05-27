@@ -73,7 +73,7 @@
                             <div class="mt-3">
                                 <InputLabel :value="$t('Read chapters')" />
                                 <TextInput v-model="bookmark_data.read_chapters" :placeholder="placeholders['Fanfic']['read_chapters']" />
-                                <p v-if="errors['read_pages']" class="mt-2 text-sm text-red-600">{{ errors['read_pages'][0] }}</p>
+                                <p v-if="errors['read_chapters']" class="mt-2 text-sm text-red-600">{{ errors['read_chapters'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="('Total chapters')" />
