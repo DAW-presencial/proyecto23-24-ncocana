@@ -142,30 +142,35 @@ const lastPage = ref(null);
 const tags = ref('');
 const bookmarks = ref([]);
 const sortBy = ref('');
-const sort = ref('bookmarkable_type');
-const order = ref('asc');
+const sort = ref('');
+const order = ref('');
 
 const sortBookmarks = () => {
-    if (order.value == 'desc') {
-        sort.value = "-" + sortBy.value;
-    } if (order.value == 'asc') {
-        sort.value = sortBy.value;
+    if (sortBy.value) {
+        sort.value = (order.value === 'desc' ? '-' : '') + sortBy.value;
+    } else {
+        sort.value = ''; // No sort parameter sent, so backend can use its default
     }
     tags.value = tags.value.replace(/\s+/g, '');
-    console.log(tags.value);
     currentPage.value = 1; // Reset to first page
     getBookmarks();
 };
 
 const getBookmarks = () => {
-    axios.get(`/bookmarks`, {
-        params: {
-            'sort': sort.value,
-            'tags': tags.value,
-            'page[size]': 2,
-            'page[number]': currentPage.value
-        }
-    })
+    let params = {
+        'page[size]': 2,
+        'page[number]': currentPage.value
+    };
+
+    if (sort.value) {
+        params.sort = sort.value;
+    }
+
+    if (tags.value) {
+        params.tags = tags.value;
+    }
+
+    axios.get(`/bookmarks`, { params })
         .then(response => {
             const res = response.data;
             const data = res.data;
