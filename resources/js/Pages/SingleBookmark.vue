@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import { getParamsBookmark } from '@/utils/functions';
+import { formatDate, getParamsBookmark } from '@/utils/functions';
 import { Head, usePage } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -183,6 +183,7 @@ const getBookmarks = () => {
     json.notes = dataAttributes.notes;
     json.id = bookmark.data.id;
     json.tags = [];
+    json.release_date = formatDate(json.release_date);
 
     for (let x = 0; x < dataAttributes.tags.length; x++) {
         json.tags.push(dataAttributes.tags[x].name);

@@ -27,7 +27,7 @@
                             <!-- Cards -->
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="'/bookmarks/' + b.id"
                                 :id="b.id" nameButton="SHOW" candelete=true>
-                                <div v-if="b.tipo == 'App\\Models\\Movie'" class="p-4">
+                                <div v-if="b.tipo == 'App\\Models\\Movie'">
                                     <h1 class="text-2xl font-medium mb-4">{{ $t('Movie') }}</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                     <p><strong>{{ $t('Director') }}: </strong>{{ b.director }}</p>
