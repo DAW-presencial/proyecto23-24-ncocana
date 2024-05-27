@@ -38,7 +38,7 @@ const login = async () => {
     }
     console.log(JSON.stringify(params));
 
-    await axios.post('/login', JSON.stringify(params))
+    await axios.post('/api/v1/login', JSON.stringify(params))
         .then(response => {
             console.log(response);
             const resultado = response.data;
