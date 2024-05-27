@@ -1,4 +1,5 @@
 <template>
+
     <Head :title="$t('Create Bookmark')" />
 
     <AuthenticatedLayout>
@@ -25,7 +26,8 @@
                 <div v-if="selected_type !== 'default'">
                     <form @submit.prevent="enviar">
                         <div v-for="(label, field) in fields[selected_type]" :key="field">
-                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
+                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label
+                                }}</label>
                             <div class="my-2">
                                 <input type="text" :name="field" :id="field" :autocomplete="field"
                                     v-model="dataInput[field]"
@@ -170,7 +172,7 @@ const enviar = async () => {
             }
         };
 
-        const response = await axios.post('/bookmarks', dataToSend);
+        const response = await axios.post('api/v1/bookmarks', dataToSend);
         // console.log('Response:', response);
 
         if (response.status === 201 || response.status === 200) {

@@ -170,7 +170,7 @@ const getBookmarks = () => {
         params.tags = tags.value;
     }
 
-    axios.get(`/bookmarks`, { params })
+    axios.get(`api/v1/bookmarks`, { params })
         .then(response => {
             const res = response.data;
             const data = res.data;

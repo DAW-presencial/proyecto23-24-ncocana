@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="SingleBookmark" />
+    <Head title="$t('Single Bookmark')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="flex flex-col justify-center mx-auto max-w-7xl">
@@ -284,7 +284,7 @@ const updateBookmark = async () => {
     console.log(data);
 
     try {
-        await axios.patch(`/bookmarks/${bookmark.id}`, data, {
+        await axios.patch(`api/v1/bookmarks/${bookmark.id}`, data, {
             headers: {
                 'Content-Type': 'application/vnd.api+json',
             },

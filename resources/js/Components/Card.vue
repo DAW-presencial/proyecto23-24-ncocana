@@ -4,7 +4,7 @@
         <div class="flex gap-2 justify-end h-6 float-end">
 
             <SecundaryButton v-if="candelete" class="bg-red-700 text-white hover:bg-red-800" @click="showModal = true">
-                {{$t('DELETE')}}
+                {{ $t('DELETE') }}
 
             </SecundaryButton>
             <SecundaryButton v-if="nameButton == 'UPDATE'" class="bg-green-700 text-white hover:bg-green-800"
@@ -18,16 +18,16 @@
             <Modal :show="showModal" maxWidth="2xl">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900">
-                        {{$t('Are you sure you want to delete the bookmark?')}}
+                        {{ $t('Are you sure you want to delete the bookmark?') }}
                     </h2>
 
                     <div class="mt-6 flex justify-end gap-2">
                         <SecundaryButton class="bg-green-700 text-white hover:bg-green-800" @click="showModal = false">
-                            {{$t('Cancel')}}
+                            {{ $t('Cancel') }}
                         </SecundaryButton>
 
                         <SecundaryButton class="bg-red-700 text-white hover:bg-red-800" @click="deleteBookmark">
-                            {{$t('Delete')}}
+                            {{ $t('Delete') }}
                         </SecundaryButton>
                     </div>
                 </div>
@@ -61,7 +61,7 @@ const showModal = ref(false);
 
 const deleteBookmark = () => {
     axios
-        .delete(`/bookmarks/${props.id}`)
+        .delete(`api/v1/bookmarks/${props.id}`)
         .then(() => {
             window.location.href = "/bookmarks";
         });
