@@ -90,6 +90,7 @@ class BookController extends Controller
                 'title' => $validatedData['title'] ?? $bookmark->title,
                 'synopsis' => $validatedData['synopsis'] ?? $bookmark->synopsis,
                 'notes' => $validatedData['notes'] ?? $bookmark->notes,
+                'updated_at' => now(),
             ]);
         }
 
