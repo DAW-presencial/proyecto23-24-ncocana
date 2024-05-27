@@ -22,7 +22,7 @@
 import { ref } from 'vue';
 import { loadLanguageAsync, getActiveLanguage } from 'laravel-vue-i18n';
 import axios from 'axios';
-const language = ref({ name: 'es', img: '/img/spain.svg' });
+const language = ref({ name: 'en', img: '/img/eeuu.svg' });
 
 const locales = [
     {
