@@ -117,7 +117,7 @@ const placeholders = {
         title: "Enter the movie title",
         director: "Enter the director's name",
         actors: "Enter the main actors",
-        release_date: "Enter the release date",
+        release_date: "Enter the release date: YYYY/MM/DD",
         currently_at: "Enter your current position",
         notes: "Enter any additional notes",
         synopsis: "Enter a brief synopsis",
