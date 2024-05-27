@@ -106,7 +106,7 @@ onMounted(() => {
                     <PrimaryButton class="w-100 m-4" :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing">
                         {{$t('Sign in')}}
-                    </PrimaryButton>y
+                    </PrimaryButton>
                 </div>
                 <div class="flex items-center justify-end mt-4 mx-auto">
                     <p class="text-sm text-gray-600 m-auto">¿No tienes una cuenta?
