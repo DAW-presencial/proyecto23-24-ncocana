@@ -38,7 +38,7 @@ const login = async () => {
     }
     console.log(JSON.stringify(params));
 
-    await axios.post('/login', JSON.stringify(params))
+    await axios.post('/api/v1/login', JSON.stringify(params))
         .then(response => {
             console.log(response);
             const resultado = response.data;
@@ -106,7 +106,7 @@ onMounted(() => {
                     <PrimaryButton class="w-100 m-4" :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing">
                         {{$t('Sign in')}}
-                    </PrimaryButton>y
+                    </PrimaryButton>
                 </div>
                 <div class="flex items-center justify-end mt-4 mx-auto">
                     <p class="text-sm text-gray-600 m-auto">{{ $t('¿No tienes una cuenta?') }}

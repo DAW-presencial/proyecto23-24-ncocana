@@ -2,8 +2,8 @@ import moment from 'moment';
 import { ref } from 'vue';
 
 export const getParamsBookmark = async (type, bookmark_data) => {
-    console.log(type);
-    console.log(bookmark_data);
+    // console.log(type);
+    // console.log(bookmark_data);
     if (type === "App\\Models\\Movie" || type === "Movie") {
 
         return {

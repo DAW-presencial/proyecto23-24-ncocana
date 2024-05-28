@@ -6,6 +6,8 @@ if (window.location.hostname === 'mybookmarks.randion.es') {
     $baseUrl = 'https://mybookmarks.randion.es';
 } else if (window.location.hostname === 'mybookmarks.local') {
     $baseUrl = 'http://mybookmarks.local';
+} else if (window.location.hostname === 'mybookmarks-dev.randion.es') {
+    $baseUrl = 'https://mybookmarks-dev.randion.es';
 } else {
     $baseUrl = 'http://127.0.0.1:8000';
 }
