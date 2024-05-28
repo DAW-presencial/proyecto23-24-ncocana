@@ -8,7 +8,8 @@
                 class="absolute top-full left-0 bg-white border border-gray-200 py-2 px-4 rounded shadow-lg">
                 <ul>
                     <li v-for="(locale, index) in locales" :key="index">
-                        <button @click="changeLanguage(locale)" class="block py-2 text-gray-800 hover:bg-gray-200">{{
+                        <button @click="loadLanguageImg(), changeLanguage(locale)"
+                            class="block py-2 text-gray-800 hover:bg-gray-200">{{
             locale.name }}</button>
                     </li>
                 </ul>
@@ -52,6 +53,10 @@ const sendLanguagePreference = async (newLocale) => {
     } catch (error) {
         console.error('Error al cambiar el idioma:', error);
     }
+};
+
+const loadLanguageImg = () => {
+    language.value = locales.find(loc => loc.name === currentLocale.value);
 };
 
 const toggleSubMenu = () => {
