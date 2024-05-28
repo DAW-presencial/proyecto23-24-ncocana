@@ -33,11 +33,11 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="{{$t('Reset Password')}}" />
+        <Head :title="$t('Reset Password')" />
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="{{$t('Email')}}" />
+                <InputLabel for="email" :value="$t('Email')" />
 
                 <TextInput
                     id="email"
@@ -53,7 +53,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="{{$t('Password')}}" />
+                <InputLabel for="password" :value="$t('Password')" />
 
                 <TextInput
                     id="password"
@@ -68,7 +68,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="{{$t('Confirm Password')}}" />
+                <InputLabel for="password_confirmation" :value="$t('Confirm Password')" />
 
                 <TextInput
                     id="password_confirmation"

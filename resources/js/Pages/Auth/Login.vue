@@ -38,7 +38,7 @@ const login = async () => {
     }
     console.log(JSON.stringify(params));
 
-    await axios.post('/login', JSON.stringify(params))
+    await axios.post('/api/v1/login', JSON.stringify(params))
         .then(response => {
             console.log(response);
             const resultado = response.data;
@@ -66,7 +66,7 @@ onMounted(() => {
 
             <form @submit.prevent="submit">
                 <div>
-                    <InputLabel for="email" value="Email address" />
+                    <InputLabel for="email" :value="$t('Email address')" />
 
                     <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus
                         autocomplete="username" />
@@ -106,13 +106,13 @@ onMounted(() => {
                     <PrimaryButton class="w-100 m-4" :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing">
                         {{$t('Sign in')}}
-                    </PrimaryButton>y
+                    </PrimaryButton>
                 </div>
                 <div class="flex items-center justify-end mt-4 mx-auto">
-                    <p class="text-sm text-gray-600 m-auto">¿No tienes una cuenta?
+                    <p class="text-sm text-gray-600 m-auto">{{ $t('¿No tienes una cuenta?') }}
                         <Link :href="route('register')"
                             class="ml-2 font-semibold text-indigo-600 hover:text-indigo-500 ">
-                        Regístrate</Link>
+                        {{$t('Regístrate')}}</Link>
                     </p>
                 </div>
             </form>

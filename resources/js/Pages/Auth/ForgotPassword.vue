@@ -33,7 +33,7 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="email" value="{{$t('Email')}}"/>
+                <InputLabel for="email" :value="$t('Email')"/>
 
                 <TextInput
                     id="email"

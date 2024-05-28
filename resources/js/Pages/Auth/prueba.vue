@@ -32,7 +32,7 @@
         </form>
 
         <p class="mt-10 text-center text-sm text-gray-500">
-            {{$t('Not a member?')}} {{ ' ' }}
+            {{$t('Not a member?')}}
           <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">{{$t('Start a 14 day free trial')}}</a>
         </p>
       </div>

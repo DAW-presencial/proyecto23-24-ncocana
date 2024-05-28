@@ -29,7 +29,7 @@ const login = async () => {
     }
     console.log(JSON.stringify(params));
 
-    await axios.post('/login', JSON.stringify(params))
+    await axios.post('/api/v1/login', JSON.stringify(params))
         .then(response => {
             console.log(response);
             const resultado = response.data;
@@ -53,7 +53,7 @@ onMounted(() => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="{{$t('Name')}}" />
+                <InputLabel for="name" :value="$t('Name')" />
                 <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus
                     autocomplete="name" />
 
@@ -61,7 +61,7 @@ onMounted(() => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="{{$t('Email')}}" />
+                <InputLabel for="email" :value="$t('Email')" />
                 <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required
                     autocomplete="username" />
 
@@ -69,7 +69,7 @@ onMounted(() => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="{{$t('Password')}}" />
+                <InputLabel for="password" :value="$t('Password')" />
                 <TextInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required
                     autocomplete="new-password" />
 
@@ -77,7 +77,7 @@ onMounted(() => {
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password_confirmation" value="{{$t('Confirm Password')}}" />
+                <InputLabel for="password_confirmation" :value="$t('Confirm Password')" />
                 <TextInput id="password_confirmation" type="password" class="mt-1 block w-full"
                     v-model="form.password_confirmation" required autocomplete="new-password" />
 

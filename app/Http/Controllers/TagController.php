@@ -14,7 +14,7 @@ class TagController extends Controller
             $tagsArray = explode(',', $tags);
 
             // Filter bookmarks by tags
-            $modelCollection = $model::withAnyTagsOfAnyType($tagsArray);
+            $modelCollection = $model::withAllTagsOfAnyType($tagsArray);
             // dd($modelCollection->get());
 
             return $modelCollection;

@@ -16,4 +16,10 @@ class LanguageController extends Controller
             ->back()
             ->withCookie(cookie('preferred_language', $language));
     }
+
+    public function currentLanguage(Request $request)
+    {
+        $language = $request->cookie('preferred_language', config('app.locale'));
+        return response()->json(['language' => $language]);
+    }
 }

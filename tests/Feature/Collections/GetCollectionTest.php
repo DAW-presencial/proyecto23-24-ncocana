@@ -167,31 +167,31 @@ class GetCollectionTest extends TestCase
                         'self' => route('api.v1.collections.show', $collections[1])
                     ]
                 ],
-                [
-                    'type' => 'collections',
-                    'id' => (string) $collections[2]->getRouteKey(),
-                    'attributes' => [
-                        'user_id' => $collections[2]->user_id,
-                        'name' => $collections[2]->name,
-                        'description' => $collections[2]->description,
-                        'bookmarks' => [],
-                        'tags' => $collections[2]->tags->map(function ($tag) {
-                            return [
-                                'id' => $tag->id,
-                                'name' => $tag->name,
-                                'slug' => $tag->slug,
-                                'pivot' => [
-                                    'taggable_type' => $tag->pivot->taggable_type,
-                                    'taggable_id' => $tag->pivot->taggable_id,
-                                    'tag_id' => $tag->pivot->tag_id,
-                                ]
-                            ];
-                        })->sortBy('id')->values()->all(),
-                    ],
-                    'links' => [
-                        'self' => route('api.v1.collections.show', $collections[2])
-                    ]
-                ]
+                // [
+                //     'type' => 'collections',
+                //     'id' => (string) $collections[2]->getRouteKey(),
+                //     'attributes' => [
+                //         'user_id' => $collections[2]->user_id,
+                //         'name' => $collections[2]->name,
+                //         'description' => $collections[2]->description,
+                //         'bookmarks' => [],
+                //         'tags' => $collections[2]->tags->map(function ($tag) {
+                //             return [
+                //                 'id' => $tag->id,
+                //                 'name' => $tag->name,
+                //                 'slug' => $tag->slug,
+                //                 'pivot' => [
+                //                     'taggable_type' => $tag->pivot->taggable_type,
+                //                     'taggable_id' => $tag->pivot->taggable_id,
+                //                     'tag_id' => $tag->pivot->tag_id,
+                //                 ]
+                //             ];
+                //         })->sortBy('id')->values()->all(),
+                //     ],
+                //     'links' => [
+                //         'self' => route('api.v1.collections.show', $collections[2])
+                //     ]
+                // ]
             ],
             'links' => [
                 'self' => route('api.v1.collections.index')
