@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/language-switch', [LanguageController::class, 'languageSwitch'])->name('language.switch');
+Route::get('/current-language', [LanguageController::class, 'currentLanguage'])->name('language.current');
 
 require __DIR__ . '/auth.php';
 
