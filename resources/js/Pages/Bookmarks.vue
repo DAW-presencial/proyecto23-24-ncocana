@@ -4,7 +4,7 @@
     <AuthenticatedLayout>
         <main class="flex-1 p-5 max-w-7xl mx-auto">
             <div class="mx-auto">
-                <Breadcrumbs :items="['Home', 'Bookmark']"></Breadcrumbs>
+                <Breadcrumbs :items="['Home', $t('Bookmark')]"></Breadcrumbs>
             </div>
             <div class="flex flex-col mx-auto">
                 <div class="text-3xl font-bold mx-auto my-4">
@@ -13,7 +13,7 @@
                 <div class="flex justify-between w-full">
                     <div>
                         <PrimaryButton>
-                            <Link href='/createbookmark'>{{ $t('Create Bookmark') }}</Link>
+                            <Link href='/createbookmark'>{{$t('Create Bookmark')}}</Link>
                         </PrimaryButton>
                     </div>
                     <!-- <div class="flex gap-4">

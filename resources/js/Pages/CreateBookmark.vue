@@ -6,7 +6,7 @@
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
                 <div class="pb-4">
-                    <Breadcrumbs :items="['Home', 'Bookmark', 'Create Bookmark']"></Breadcrumbs>
+                    <Breadcrumbs :items="['Home', $t('Bookmark'), $t('Create Bookmark')]"></Breadcrumbs>
                 </div>
                 <div class="text-xl font-bold mx-auto my-4">
                     <h1>{{ $t('Create Bookmark') }}</h1>
@@ -18,7 +18,7 @@
                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         v-model="selected_type">
                         <option value="default" disabled selected>{{ $t('Choose a bookmark type') }}</option>
-                        <option v-for="(fields, type) in fields" :key="type" :value="type">{{ type }}</option>
+                        <option v-for="(fields, type) in fields" :key="type" :value="type">{{ $t('type') }}</option>
                     </select>
                 </div>
 
@@ -26,12 +26,12 @@
                 <div v-if="selected_type !== 'default'">
                     <form @submit.prevent="enviar">
                         <div v-for="(label, field) in fields[selected_type]" :key="field">
-                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label
+                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ $t('label')
                                 }}</label>
                             <div class="my-2">
                                 <input type="text" :name="field" :id="field" :autocomplete="field"
                                     v-model="dataInput[field]"
-                                    :placeholder="placeholders[selected_type][field]"
+                                    :placeholder="$t(placeholders[selected_type][field])"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     :class="{'border-red-600': errors[field]}"
                                     :required="field !== 'tags'" />
@@ -110,11 +110,11 @@ const placeholders = {
         title: "Enter the book title",
         author: "Enter the author's name",
         language: "Enter the language",
-        read_pages: "Enter the number of pages read",
+        read_pages: "Enter the number of read pages",
         total_pages: "Enter the total number of pages",
         synopsis: "Enter a brief synopsis",
         notes: "Enter any additional notes",
-        tags: 'Enter any tags separated by commas: "tag1, tag2, tag3"'
+        tags: "Enter any tags separated by commas: tag1, tag2, tag3"
     },
     Movie: {
         title: "Enter the movie title",
@@ -124,7 +124,7 @@ const placeholders = {
         currently_at: "Enter your current position",
         notes: "Enter any additional notes",
         synopsis: "Enter a brief synopsis",
-        tags: 'Enter any tags separated by commas: "tag1, tag2, tag3"'
+        tags: "Enter any tags separated by commas: tag1, tag2, tag3"
     },
     Series: {
         title: "Enter the series title",
@@ -134,7 +134,7 @@ const placeholders = {
         currently_at: "Enter your current position",
         synopsis: "Enter a brief synopsis",
         notes: "Enter any additional notes",
-        tags: 'Enter any tags separated by commas: "tag1, tag2, tag3"'
+        tags: "Enter any tags separated by commas: tag1, tag2, tag3"
     },
     Fanfic: {
         title: "Enter the fanfic title",
@@ -142,12 +142,12 @@ const placeholders = {
         fandom: "Enter the fandom",
         language: "Enter the language",
         words: "Enter the word count",
-        read_chapters: "Enter the number of chapters read",
+        read_chapters: "Enter the number of read chapters",
         total_chapters: "Enter the total number of chapters",
         relationships: "Enter the relationships",
         synopsis: "Enter a brief synopsis",
         notes: "Enter any additional notes",
-        tags: 'Enter any tags separated by commas: "tag1, tag2, tag3"'
+        tags: "Enter any tags separated by commas: tag1, tag2, tag3"
     }
 };
 

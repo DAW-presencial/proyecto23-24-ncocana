@@ -7,7 +7,7 @@
             <div class="mx-auto max-w-7xl mt-6 gap-4">
 
                 <div class="pb-4">
-                    <Breadcrumbs :items="['Home', 'Advanced Search']"></Breadcrumbs>
+                    <Breadcrumbs :items="['Home', $t('Advanced Search')]"></Breadcrumbs>
                 </div>
                 <div class="text-xl font-bold mx-auto my-4">
                     <h1>{{ $t('Bookmark Advanced Search') }}</h1>
@@ -17,14 +17,14 @@
                 <form @submit.prevent="enviar">
                     <!-- DYNAMIC FIELDS -->
                     <div v-for="(label, field) in fields" :key="field">
-                        <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ label
+                        <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ $t('label')
                             }}</label>
                         <div class="my-2">
                             <div v-if="field == 'bookmarkable_type'">
                                 <div class="mt-2">
                                     <select :id="field" :name="field" :autocomplete="field" v-model="dataInput[field]"
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                        <option v-for="t in types" :key="t" :value="t">{{ t }}</option>
+                                        <option v-for="t in types" :key="t" :value="t">{{ $t('t') }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                    <PrimaryButton>Send</PrimaryButton>
+                    <PrimaryButton>{{$t('Send')}}</PrimaryButton>
                 </form>
 
                 <div v-if="resultados.length">
@@ -51,16 +51,16 @@
                         <!-- Type -->
                         <h1 class="text-2xl font-medium mb-4"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
-                            Movie</h1>
+                            {{$t('Movie')}}</h1>
                         <h1 class="text-2xl font-medium mb-4"
-                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">Series</h1>
+                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">{{$t('Series')}}</h1>
                         <h1 class="text-2xl font-medium mb-4"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
-                            Book</h1>
+                            {{$t('Book')}}</h1>
                         <h1 class="text-2xl font-medium mb-4"
-                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">Fanfic</h1>
+                            v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">{{$t('Fanfic')}}</h1>
 
-                        <p><strong>Title:</strong> {{ resultado.attributes.title }}</p>
+                        <p><strong>{{$t('Title')}}:</strong> {{ resultado.attributes.title }}</p>
 
                         <!-- Campos específicos dependiendo del tipo de bookmark -->
 
@@ -68,60 +68,60 @@
 
                             <!-- BOOK -->
                             <template v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
-                                <p><strong>Author:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
-                                <p><strong>Language:</strong> {{ resultado.attributes.bookmarkable.language }}</p>
-                                <p><strong>Read Pages:</strong> {{ resultado.attributes.bookmarkable.read_pages }}</p>
-                                <p><strong>Total Pages:</strong> {{ resultado.attributes.bookmarkable.total_pages }}</p>
+                                <p><strong>{{$t('Author')}}:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
+                                <p><strong>{{$t('Language')}}:</strong> {{ resultado.attributes.bookmarkable.language }}</p>
+                                <p><strong>{{$t('Read Pages')}}:</strong> {{ resultado.attributes.bookmarkable.read_pages }}</p>
+                                <p><strong>{{$t('Total Pages')}}:</strong> {{ resultado.attributes.bookmarkable.total_pages }}</p>
                             </template>
 
                             <!-- MOVIE -->
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
-                                <p><strong>Director:</strong> {{ resultado.attributes.bookmarkable.director }}</p>
-                                <p><strong>Actors:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
-                                <p><strong>Release Date:</strong> {{
+                                <p><strong>{{$t('Director')}}:</strong> {{ resultado.attributes.bookmarkable.director }}</p>
+                                <p><strong>{{$t('Actors')}}:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
+                                <p><strong>{{$t('Release Date')}}:</strong> {{
         formatDate(resultado.attributes.bookmarkable.release_date) }}
                                 </p>
-                                <p><strong>Currently at:</strong> {{ resultado.attributes.bookmarkable.currently_at }}
+                                <p><strong>{{$t('Currently at')}}:</strong> {{ resultado.attributes.bookmarkable.currently_at }}
                                 </p>
                             </template>
 
                             <!-- SERIES -->
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">
-                                <p><strong>Actors:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
-                                <p><strong>Number of Seasons:</strong> {{
+                                <p><strong>{{$t('Actors')}}:</strong> {{ resultado.attributes.bookmarkable.actors }}</p>
+                                <p><strong>{{$t('Number of Seasons')}}:</strong> {{
         resultado.attributes.bookmarkable.num_seasons }}</p>
-                                <p><strong>Number of Episodes:</strong> {{
+                                <p><strong>{{$t('Number of Episodes')}}:</strong> {{
         resultado.attributes.bookmarkable.num_episodes }}</p>
-                                <p><strong>Currently at:</strong> {{ resultado.attributes.bookmarkable.currently_at
+                                <p><strong>{{$t('Currently at')}}:</strong> {{ resultado.attributes.bookmarkable.currently_at
                                     }}</p>
                             </template>
 
                             <!-- FANFICS -->
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">
-                                <p><strong>Author:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
-                                <p><strong>Fandom:</strong> {{
+                                <p><strong>{{$t('Author')}}:</strong> {{ resultado.attributes.bookmarkable.author }}</p>
+                                <p><strong>{{$t('Fandom')}}:</strong> {{
         resultado.attributes.bookmarkable.fandom }}</p>
-                                <p><strong>Relationships:</strong> {{
+                                <p><strong>{{$t('Relationships')}}:</strong> {{
         resultado.attributes.bookmarkable.relationships }}</p>
-                                <p><strong>Language:</strong> {{ resultado.attributes.bookmarkable.language
+                                <p><strong>{{$t('Language')}}:</strong> {{ resultado.attributes.bookmarkable.language
                                     }}</p>
-                                <p><strong>Words:</strong> {{ resultado.attributes.bookmarkable.words }}</p>
-                                <p><strong>Read Chapters:</strong> {{ resultado.attributes.bookmarkable.read_chapters }}
+                                <p><strong>{{$t('Words')}}:</strong> {{ resultado.attributes.bookmarkable.words }}</p>
+                                <p><strong>{{$t('Read Chapters')}}:</strong> {{ resultado.attributes.bookmarkable.read_chapters }}
                                 </p>
-                                <p><strong>Total Chapters:</strong> {{ resultado.attributes.bookmarkable.total_chapters
+                                <p><strong>{{$t('Total Chapters')}}:</strong> {{ resultado.attributes.bookmarkable.total_chapters
                                     }}</p>
                             </template>
                             <!-- Agrega más condicionales según los tipos de bookmark disponibles -->
                         </div>
-                        <p><strong>Notes:</strong> {{ resultado.attributes.notes }}</p>
-                        <p><strong>Synopsis:</strong> {{ resultado.attributes.synopsis }}</p>
+                        <p><strong>{{$t('Notes')}}:</strong> {{ resultado.attributes.notes }}</p>
+                        <p><strong>{{$t('Synopsis')}}:</strong> {{ resultado.attributes.synopsis }}</p>
 
                         <!-- TAGS -->
                         <div v-if="resultado.attributes.tags.length">
-                            <p><strong>Tags:</strong></p>
+                            <p><strong>{{$t('Tags')}}:</strong></p>
                             <ul>
                                 <li v-for="tag in resultado.attributes.tags" :key="tag.id">
-                                    {{ tag.name }}
+                                    {{ $t('tag.name') }}
                                 </li>
                             </ul>
                         </div>
