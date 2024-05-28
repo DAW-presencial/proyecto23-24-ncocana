@@ -1,6 +1,6 @@
 <template>
 
-    <Head title="$t('Single Bookmark')" />
+    <Head :title="$t('Single Bookmark')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="flex flex-col justify-center mx-auto max-w-7xl">
@@ -10,7 +10,7 @@
                 <div class="container mx-4 h-3/4">
                     <Card class="h-auto" nameButton="UPDATE" :update="updateBookmark" :id="bookmark_data.id"
                         candelete="true">
-                        
+
                         <div v-if="errors['general']" class="mt-2 text-sm text-red-600">{{ errors['general'][0] }}</div>
 
                         <div class="mt-3">
@@ -23,23 +23,31 @@
                         <div v-if="bookmark_data.tipo === 'App\\Models\\Movie'">
                             <div class="mt-3">
                                 <InputLabel :value="$t('Director')" />
-                                <TextInput v-model="bookmark_data.director" :placeholder="placeholders['Movie']['director']" />
-                                <p v-if="errors['director']" class="mt-2 text-sm text-red-600">{{ errors['director'][0] }}</p>
+                                <TextInput v-model="bookmark_data.director"
+                                    :placeholder="placeholders['Movie']['director']" />
+                                <p v-if="errors['director']" class="mt-2 text-sm text-red-600">{{ errors['director'][0]
+                                    }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Actors')" />
-                                <TextInput v-model="bookmark_data.actors" :placeholder="placeholders['Movie']['actors']" />
-                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0] }}</p>
+                                <TextInput v-model="bookmark_data.actors"
+                                    :placeholder="placeholders['Movie']['actors']" />
+                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0] }}
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Release date')" />
-                                <TextInput v-model="bookmark_data.release_date" :placeholder="placeholders['Movie']['release_date']" />
-                                <p v-if="errors['release_date']" class="mt-2 text-sm text-red-600">{{ errors['release_date'][0] }}</p>
+                                <TextInput v-model="bookmark_data.release_date"
+                                    :placeholder="placeholders['Movie']['release_date']" />
+                                <p v-if="errors['release_date']" class="mt-2 text-sm text-red-600">{{
+        errors['release_date'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Currently at')" />
-                                <TextInput v-model="bookmark_data.currently_at" :placeholder="placeholders['Movie']['currently_at']" />
-                                <p v-if="errors['currently_at']" class="mt-2 text-sm text-red-600">{{ errors['currently_at'][0] }}</p>
+                                <TextInput v-model="bookmark_data.currently_at"
+                                    :placeholder="placeholders['Movie']['currently_at']" />
+                                <p v-if="errors['currently_at']" class="mt-2 text-sm text-red-600">{{
+        errors['currently_at'][0] }}</p>
                             </div>
                         </div>
 
@@ -47,38 +55,51 @@
                         <div v-if="bookmark_data.tipo === 'App\\Models\\Fanfic'">
                             <div class="mt-3">
                                 <InputLabel :value="$t('Author')" />
-                                <TextInput v-model="bookmark_data.author" :placeholder="placeholders['Fanfic']['author']" />
-                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0] }}</p>
+                                <TextInput v-model="bookmark_data.author"
+                                    :placeholder="placeholders['Fanfic']['author']" />
+                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0] }}
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Fandom')" />
-                                <TextInput v-model="bookmark_data.fandom" :placeholder="placeholders['Fanfic']['fandom']" />
-                                <p v-if="errors['fandom']" class="mt-2 text-sm text-red-600">{{ errors['fandom'][0] }}</p>
+                                <TextInput v-model="bookmark_data.fandom"
+                                    :placeholder="placeholders['Fanfic']['fandom']" />
+                                <p v-if="errors['fandom']" class="mt-2 text-sm text-red-600">{{ errors['fandom'][0] }}
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Original fiction')" />
-                                <TextInput v-model="bookmark_data.relationships" :placeholder="placeholders['Fanfic']['relationships']" />
-                                <p v-if="errors['relationships']" class="mt-2 text-sm text-red-600">{{ errors['relationships'][0] }}</p>
+                                <TextInput v-model="bookmark_data.relationships"
+                                    :placeholder="placeholders['Fanfic']['relationships']" />
+                                <p v-if="errors['relationships']" class="mt-2 text-sm text-red-600">{{
+        errors['relationships'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Language')" />
-                                <TextInput v-model="bookmark_data.language" :placeholder="placeholders['Fanfic']['language']" />
-                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{ errors['language'][0] }}</p>
+                                <TextInput v-model="bookmark_data.language"
+                                    :placeholder="placeholders['Fanfic']['language']" />
+                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{ errors['language'][0]
+                                    }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Words')" />
-                                <TextInput v-model="bookmark_data.words" :placeholder="placeholders['Fanfic']['words']" />
+                                <TextInput v-model="bookmark_data.words"
+                                    :placeholder="placeholders['Fanfic']['words']" />
                                 <p v-if="errors['words']" class="mt-2 text-sm text-red-600">{{ errors['words'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Read chapters')" />
-                                <TextInput v-model="bookmark_data.read_chapters" :placeholder="placeholders['Fanfic']['read_chapters']" />
-                                <p v-if="errors['read_chapters']" class="mt-2 text-sm text-red-600">{{ errors['read_chapters'][0] }}</p>
+                                <TextInput v-model="bookmark_data.read_chapters"
+                                    :placeholder="placeholders['Fanfic']['read_chapters']" />
+                                <p v-if="errors['read_chapters']" class="mt-2 text-sm text-red-600">{{
+        errors['read_chapters'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="('Total chapters')" />
-                                <TextInput v-model="bookmark_data.total_chapters" :placeholder="placeholders['Fanfic']['total_chapters']" />
-                                <p v-if="errors['total_chapters']" class="mt-2 text-sm text-red-600">{{ errors['total_chapters'][0] }}</p>
+                                <TextInput v-model="bookmark_data.total_chapters"
+                                    :placeholder="placeholders['Fanfic']['total_chapters']" />
+                                <p v-if="errors['total_chapters']" class="mt-2 text-sm text-red-600">{{
+        errors['total_chapters'][0] }}</p>
                             </div>
                         </div>
 
@@ -86,23 +107,31 @@
                         <div v-if="bookmark_data.tipo === 'App\\Models\\Book'">
                             <div class="mt-3">
                                 <InputLabel :value="$t('Author')" />
-                                <TextInput v-model="bookmark_data.author" :placeholder="placeholders['Book']['author']" />
-                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0] }}</p>
+                                <TextInput v-model="bookmark_data.author"
+                                    :placeholder="placeholders['Book']['author']" />
+                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0] }}
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Language')" />
-                                <TextInput v-model="bookmark_data.language" :placeholder="placeholders['Book']['language']" />
-                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{ errors['language'][0] }}</p>
+                                <TextInput v-model="bookmark_data.language"
+                                    :placeholder="placeholders['Book']['language']" />
+                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{ errors['language'][0]
+                                    }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Read pages')" />
-                                <TextInput v-model="bookmark_data.read_pages" :placeholder="placeholders['Book']['read_pages']" />
-                                <p v-if="errors['read_pages']" class="mt-2 text-sm text-red-600">{{ errors['read_pages'][0] }}</p>
+                                <TextInput v-model="bookmark_data.read_pages"
+                                    :placeholder="placeholders['Book']['read_pages']" />
+                                <p v-if="errors['read_pages']" class="mt-2 text-sm text-red-600">{{
+        errors['read_pages'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Total pages')" />
-                                <TextInput v-model="bookmark_data.total_pages" :placeholder="placeholders['Book']['total_pages']" />
-                                <p v-if="errors['total_pages']" class="mt-2 text-sm text-red-600">{{ errors['total_pages'][0] }}</p>
+                                <TextInput v-model="bookmark_data.total_pages"
+                                    :placeholder="placeholders['Book']['total_pages']" />
+                                <p v-if="errors['total_pages']" class="mt-2 text-sm text-red-600">{{
+        errors['total_pages'][0] }}</p>
                             </div>
                         </div>
 
@@ -110,23 +139,31 @@
                         <div v-if="bookmark_data.tipo === 'App\\Models\\Series'">
                             <div class="mt-3">
                                 <InputLabel :value="$t('Actors')" />
-                                <TextInput v-model="bookmark_data.actors" :placeholder="placeholders['Series']['actors']" />
-                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0] }}</p>
+                                <TextInput v-model="bookmark_data.actors"
+                                    :placeholder="placeholders['Series']['actors']" />
+                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0] }}
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Number seasons')" />
-                                <TextInput v-model="bookmark_data.num_seasons" :placeholder="placeholders['Series']['num_seasons']" />
-                                <p v-if="errors['num_seasons']" class="mt-2 text-sm text-red-600">{{ errors['num_seasons'][0] }}</p>
+                                <TextInput v-model="bookmark_data.num_seasons"
+                                    :placeholder="placeholders['Series']['num_seasons']" />
+                                <p v-if="errors['num_seasons']" class="mt-2 text-sm text-red-600">{{
+        errors['num_seasons'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Number episodes')" />
-                                <TextInput v-model="bookmark_data.num_episodes" :placeholder="placeholders['Series']['currenum_episodesntly_at']" />
-                                <p v-if="errors['num_episodes']" class="mt-2 text-sm text-red-600">{{ errors['num_episodes'][0] }}</p>
+                                <TextInput v-model="bookmark_data.num_episodes"
+                                    :placeholder="placeholders['Series']['currenum_episodesntly_at']" />
+                                <p v-if="errors['num_episodes']" class="mt-2 text-sm text-red-600">{{
+        errors['num_episodes'][0] }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Currently at')" />
-                                <TextInput v-model="bookmark_data.currently_at" :placeholder="placeholders['Series']['currently_at']" />
-                                <p v-if="errors['currently_at']" class="mt-2 text-sm text-red-600">{{ errors['currently_at'][0] }}</p>
+                                <TextInput v-model="bookmark_data.currently_at"
+                                    :placeholder="placeholders['Series']['currently_at']" />
+                                <p v-if="errors['currently_at']" class="mt-2 text-sm text-red-600">{{
+                                    errors['currently_at'][0] }}</p>
                             </div>
                         </div>
 
@@ -134,7 +171,8 @@
                             <InputLabel :value="$t('Synopsis')" />
                             <textarea class="border rounded-md shadow w-full h-20 text-sm p-2 resize-y"
                                 v-model="bookmark_data.synopsis" :placeholder="placeholders['synopsis']"></textarea>
-                            <p v-if="errors['synopsis']" class="mt-2 text-sm text-red-600">{{ errors['synopsis'][0] }}</p>
+                            <p v-if="errors['synopsis']" class="mt-2 text-sm text-red-600">{{ errors['synopsis'][0] }}
+                            </p>
                         </div>
                         <div class="mt-3">
                             <InputLabel :value="$t('Notes')" />
@@ -230,7 +268,7 @@ const getBookmarks = () => {
 
 const updateBookmark = async () => {
     errors.value = {}; // Clear errors before submitting
-    
+
     const bookmark = request.value.data;
     let tipo = '';
 
@@ -295,10 +333,10 @@ const updateBookmark = async () => {
         if (error.response && error.response.status === 422) {
             const responseErrors = error.response.data.errors;
             responseErrors.forEach((errorItem) => {
-                const pointer = errorItem.source.pointer.includes('/data/attributes/bookmarkable/') ? 
+                const pointer = errorItem.source.pointer.includes('/data/attributes/bookmarkable/') ?
                     errorItem.source.pointer.replace('/data/attributes/bookmarkable/', '').replace('/', '.') :
                     errorItem.source.pointer.replace('/data/attributes/', '').replace('/', '.');
-                const errorDetail = errorItem.detail.includes('data.attributes.bookmarkable.') ? 
+                const errorDetail = errorItem.detail.includes('data.attributes.bookmarkable.') ?
                     errorItem.detail.replace('data.attributes.bookmarkable.', '') :
                     errorItem.detail.replace('data.attributes.', '');
                 if (errors.value[pointer]) {
@@ -306,7 +344,7 @@ const updateBookmark = async () => {
                 } else {
                     errors.value[pointer] = [errorDetail];
                 }
-            // console.error('Error submitting form:', errorItem);
+                // console.error('Error submitting form:', errorItem);
             });
         } else {
             console.error('Error submitting form:', error);

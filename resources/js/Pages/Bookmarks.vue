@@ -13,7 +13,7 @@
                 <div class="flex justify-between w-full">
                     <div>
                         <PrimaryButton>
-                            <Link href='/createbookmark'>{{$t('Create Bookmark')}}</Link>
+                            <Link href='/createbookmark'>{{ $t('Create Bookmark') }}</Link>
                         </PrimaryButton>
                     </div>
                     <!-- <div class="flex gap-4">
@@ -79,7 +79,7 @@
                                 </div>
                             </Card>
                             <div v-if="!bookmarks.length" id="empty" class="text-3xl m-auto">
-                                <h1>No Bookmarks found</h1>
+                                <h1>{{ $t('No Bookmarks found') }}</h1>
                             </div>
                         </div>
                         <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72'>
