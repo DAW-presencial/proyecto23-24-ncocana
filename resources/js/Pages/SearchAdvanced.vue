@@ -7,7 +7,7 @@
             <div class="mx-auto max-w-7xl mt-6 gap-4">
 
                 <div class="pb-4">
-                    <Breadcrumbs :items="['Home', $t('Advanced Search')]"></Breadcrumbs>
+                    <Breadcrumbs :items="[$t('Home'), $t('Advanced Search')]"></Breadcrumbs>
                 </div>
                 <div class="text-xl font-bold mx-auto my-4">
                     <h1>{{ $t('Bookmark Advanced Search') }}</h1>

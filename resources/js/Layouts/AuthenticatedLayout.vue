@@ -22,7 +22,7 @@
                         <div class="flex space-x-4 h-full items-center">
                             <a v-for="item in navigation" :key="item.name" :href="'/' + item.href"
                                 :class="[route().current(item.href) ? 'bg-white text-blue-900 font-extrabold' : 'text-gray-300 hover:text-gray-600', 'rounded-md px-3 py-2 text-sm font-medium']"
-                                :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}
+                                :aria-current="route().current(item.href) ? 'page' : undefined">{{ $t(item.name) }}
                             </a>
                         </div>
                     </div>
@@ -104,7 +104,7 @@ import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 const navigation = [
     { name: 'Dashboard', href: 'dashboard' },
     { name: 'Bookmarks', href: 'bookmarks' },
-    { name: 'Search Advanced', href: 'searchadvanced' },
+    { name: 'Advanced Search', href: 'searchadvanced' },
     { name: 'Collections', href: 'collections' }
 
 ];
