@@ -44,8 +44,9 @@
                 </form>
 
                 <div v-if="resultados.length">
-                    <h2 class="text-2xl font-bold my-12">Resultados:</h2>
-                    <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-4">
+                    <h2 class="text-2xl font-bold my-12">{{$t('Resultados')}}:</h2>
+                    <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-0"
+                    :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
 
                         <!-- Type -->
@@ -64,83 +65,6 @@
 
                         <p><strong>{{ $t('Title') }}:</strong> {{ resultado.attributes.title }}</p>
 
-                        <!-- Campos específicos dependiendo del tipo de bookmark -->
-
-                        <div v-if="resultado.attributes.bookmarkable">
-
-                            <!-- BOOK -->
-                            <template v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
-                                <p><strong>{{ $t('Author') }}:</strong> {{ resultado.attributes.bookmarkable.author }}
-                                </p>
-                                <p><strong>{{ $t('Language') }}:</strong> {{ resultado.attributes.bookmarkable.language
-                                    }}
-                                </p>
-                                <p><strong>{{ $t('Read Pages') }}:</strong> {{
-        resultado.attributes.bookmarkable.read_pages }}</p>
-                                <p><strong>{{ $t('Total Pages') }}:</strong> {{
-        resultado.attributes.bookmarkable.total_pages }}</p>
-                            </template>
-
-                            <!-- MOVIE -->
-                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
-                                <p><strong>{{ $t('Director') }}:</strong> {{ resultado.attributes.bookmarkable.director
-                                    }}
-                                </p>
-                                <p><strong>{{ $t('Actors') }}:</strong> {{ resultado.attributes.bookmarkable.actors }}
-                                </p>
-                                <p><strong>{{ $t('Release Date') }}:</strong> {{
-        formatDate(resultado.attributes.bookmarkable.release_date) }}
-                                </p>
-                                <p><strong>{{ $t('Currently at') }}:</strong> {{
-        resultado.attributes.bookmarkable.currently_at }}
-                                </p>
-                            </template>
-
-                            <!-- SERIES -->
-                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">
-                                <p><strong>{{ $t('Actors') }}:</strong> {{ resultado.attributes.bookmarkable.actors }}
-                                </p>
-                                <p><strong>{{ $t('Number of Seasons') }}:</strong> {{
-        resultado.attributes.bookmarkable.num_seasons }}</p>
-                                <p><strong>{{ $t('Number of Episodes') }}:</strong> {{
-        resultado.attributes.bookmarkable.num_episodes }}</p>
-                                <p><strong>{{ $t('Currently at') }}:</strong> {{
-        resultado.attributes.bookmarkable.currently_at
-    }}</p>
-                            </template>
-
-                            <!-- FANFICS -->
-                            <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">
-                                <p><strong>{{ $t('Author') }}:</strong> {{ resultado.attributes.bookmarkable.author }}
-                                </p>
-                                <p><strong>{{ $t('Fandom') }}:</strong> {{
-        resultado.attributes.bookmarkable.fandom }}</p>
-                                <p><strong>{{ $t('Relationships') }}:</strong> {{
-        resultado.attributes.bookmarkable.relationships }}</p>
-                                <p><strong>{{ $t('Language') }}:</strong> {{ resultado.attributes.bookmarkable.language
-                                    }}</p>
-                                <p><strong>{{ $t('Words') }}:</strong> {{ resultado.attributes.bookmarkable.words }}</p>
-                                <p><strong>{{ $t('Read Chapters') }}:</strong> {{
-        resultado.attributes.bookmarkable.read_chapters }}
-                                </p>
-                                <p><strong>{{ $t('Total Chapters') }}:</strong> {{
-        resultado.attributes.bookmarkable.total_chapters
-    }}</p>
-                            </template>
-                            <!-- Agrega más condicionales según los tipos de bookmark disponibles -->
-                        </div>
-                        <p><strong>{{$t('Notes')}}:</strong> {{ resultado.attributes.notes }}</p>
-                        <p><strong>{{$t('Synopsis')}}:</strong> {{ resultado.attributes.synopsis }}</p>
-
-                        <!-- TAGS -->
-                        <div v-if="resultado.attributes.tags.length">
-                            <p><strong>{{$t('Tags')}}:</strong></p>
-                            <ul>
-                                <li v-for="tag in resultado.attributes.tags" :key="tag.id">
-                                    {{ $t('tag.name') }}
-                                </li>
-                            </ul>
-                        </div>
                     </Card>
                     <div class="mt-6">
                         <v-pagination v-model="currentPage" :length="lastPage" @click="enviar"></v-pagination>
@@ -195,7 +119,7 @@ const enviar = async () => {
         'filter[title]': dataInput.value.title,
         'filter[notes]': dataInput.value.notes,
         'filter[synopsis]': dataInput.value.synopsis,
-        'page[size]': 2,
+        'page[size]': 5,
         'page[number]': currentPage.value
     };
 
