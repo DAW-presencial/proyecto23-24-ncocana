@@ -21,28 +21,28 @@
                         <PrimaryButton @click="getBookmarks">Search</PrimaryButton>
                     </div> -->
                 </div>
-                <div class="mt-4 p-6 rounded-md max-h-screen bg-stone-50">
+                <div class="mt-4 p-6 rounded-md  bg-stone-50">
                     <div class="flex justify-between gap-5">
                         <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-0'>
                             <!-- Cards -->
-                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0 h-auto" :modifyLink="'/bookmarks/' + b.id"
+                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0 h-auto mb-2" :modifyLink="'/bookmarks/' + b.id"
                                 :id="b.id" nameButton="SHOW" candelete=true>
                                 <div v-if="b.tipo == 'App\\Models\\Movie'">
                                     <h1 class="text-2xl font-medium mb-4">{{ $t('Movie') }}</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
 
-                                <div v-if="b.tipo == 'App\\Models\\Fanfic'">
+                                <div v-else-if="b.tipo == 'App\\Models\\Fanfic'">
                                     <h1 class="text-2xl font-medium mb-4">Fanfic</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
 
-                                <div v-if="b.tipo == 'App\\Models\\Book'">
+                                <div v-else-if="b.tipo == 'App\\Models\\Book'">
                                     <h1 class="text-2xl font-medium mb-4">Book</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
 
-                                <div v-if="b.tipo == 'App\\Models\\Series'">
+                                <div v-else-if="b.tipo == 'App\\Models\\Series'">
                                     <h1 class="text-2xl font-medium mb-4">Series</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
