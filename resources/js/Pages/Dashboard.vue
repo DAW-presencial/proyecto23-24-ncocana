@@ -28,7 +28,7 @@ const getImage = (slug) => {
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <!-- Introducción -->
                     <div class="mb-8">
-                        <h2 class="text-3xl font-bold mb-4 text-center">{{$t('¡Bienvenido a Tu Sitio de Marcadores!')}}'</h2>
+                        <h2 class="text-3xl font-bold mb-4 text-center">{{$t('¡Bienvenido a Tu Sitio de Marcadores!')}}</h2>
                         <p class="text-lg text-gray-800 mb-4 text-center">{{$t('Organiza tus marcadores de una manera fácil y divertida. Explora nuestras categorías y encuentra nuevas lecturas, series, películas y más.')}}
                         </p>
                     </div>
@@ -64,7 +64,7 @@ const getImage = (slug) => {
                     <div class="mt-12">
                         <h2 class="text-3xl font-bold mb-4 text-center">{{$t('Preguntas Frecuentes')}} (FAQ)</h2>
                         <div class="faq-item mb-6">
-                            <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo crear un marcador?')}}'</h3>
+                            <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo crear un marcador?')}}</h3>
                             <p class="text-gray-800">{{$t("Para crear un marcador, simplemente navega a la categoría correspondiente y haz clic en 'Crear Marcador'. Luego, completa los detalles y guárdalo.")}}
                             </p>
                         </div>
@@ -73,12 +73,12 @@ const getImage = (slug) => {
                             <p class="text-gray-800">{{$t('Para editar o eliminar un marcador, simplemente ve a la página del marcador y busca las opciones correspondientes. Puedes editar los detalles del marcador o eliminarlo por completo según sea necesario.')}}</p>
                         </div>
                         <div class="faq-item mb-6">
-                            <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo buscar un marcador en especifico?')}}'</h3>
+                            <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo buscar un marcador en especifico?')}}</h3>
                             <p class="text-gray-800">{{$t('Para poder buscar un marcador, puedes ir al apartado de busqueda avanzada y buscar segun los datos del marcador.')}}
                             </p>
                         </div>
                         <div class="faq-item mb-6">
-                            <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo ordenar mis marcadores?')}}'</h3>
+                            <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo ordenar mis marcadores?')}}</h3>
                             <p class="text-gray-800">{{$t('Para ello, lo que tienes que hacer es ir al apartado donde estan todos los marcadores y ordenar por los campos que hay, lo puedes hacer de forma ascendente o descendente y si quieres buscar por tags, ¡¡Tambien puedes hacerlo!!')}}
                             </p>
                         </div>
