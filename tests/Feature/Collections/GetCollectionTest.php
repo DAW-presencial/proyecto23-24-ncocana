@@ -283,7 +283,12 @@ class GetCollectionTest extends TestCase
         // Retrieve the authenticated user
         $user = User::first();
 
-        $collections = Collection::factory()->has(Bookmark::factory()->count(1))->count(3)->create([
+        $collections = Collection::factory()
+        ->has(Bookmark::factory()->state(function (array $attributes, Collection $collection) use ($user) {
+            return ['user_id' => $user->id];
+        })->count(1))
+        ->count(3)
+        ->create([
             'user_id' => $user->id
         ]);
 
