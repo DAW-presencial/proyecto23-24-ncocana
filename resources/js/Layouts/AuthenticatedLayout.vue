@@ -22,7 +22,7 @@
                         <div class="flex space-x-4 h-full items-center">
                             <a v-for="item in navigation" :key="item.name" :href="'/' + item.href"
                                 :class="[route().current(item.href) ? 'bg-white text-blue-900 font-extrabold' : 'text-gray-300 hover:text-gray-600', 'rounded-md px-3 py-2 text-sm font-medium']"
-                                :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}
+                                :aria-current="route().current(item.href) ? 'page' : undefined">{{ $t(item.name) }}
                             </a>
                         </div>
                     </div>
@@ -54,13 +54,13 @@
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <MenuItem v-slot="{ active }">
-                                    <a href="#"
+                                    <!-- <MenuItem v-slot="{ active }">
+                                    <a href="/profile"
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
                                         {{ $t('Your Profile') }}</a>
-                                    </MenuItem>
+                                    </MenuItem> -->
                                     <MenuItem v-slot="{ active }">
-                                    <a href="#"
+                                    <a href="/profile"
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
                                         {{ $t('Settings') }}</a>
                                     </MenuItem>
@@ -104,7 +104,7 @@ import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 const navigation = [
     { name: 'Dashboard', href: 'dashboard' },
     { name: 'Bookmarks', href: 'bookmarks' },
-    { name: 'Search Advanced', href: 'searchadvanced' },
+    { name: 'Advanced Search', href: 'searchadvanced' },
     { name: 'Collections', href: 'collections' }
 
 ];

@@ -1,10 +1,10 @@
 <template>
 
-    <Head title="Bookmarks" />
+    <Head :title="$t('Bookmarks')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-5 max-w-7xl mx-auto">
             <div class="mx-auto">
-                <Breadcrumbs :items="['Home', $t('Bookmark')]"></Breadcrumbs>
+                <Breadcrumbs :items="[$t('Home'), $t('Bookmarks')]"></Breadcrumbs>
             </div>
             <div class="flex flex-col mx-auto">
                 <div class="text-3xl font-bold mx-auto my-4">
@@ -21,64 +21,36 @@
                         <PrimaryButton @click="getBookmarks">Search</PrimaryButton>
                     </div> -->
                 </div>
-                <div class="mt-4 p-6 rounded-md max-h-screen bg-stone-50">
+                <div class="mt-4 p-6 rounded-md  bg-stone-50">
                     <div class="flex justify-between gap-10">
-                        <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-6'>
+                        <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-3'>
                             <!-- Cards -->
-                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0" :modifyLink="'/bookmarks/' + b.id"
-                                :id="b.id" nameButton="SHOW" candelete=true>
+                            <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0 h-auto"
+                                :modifyLink="'/bookmarks/' + b.id" :id="b.id" nameButton="SHOW" candelete=true>
                                 <div v-if="b.tipo == 'App\\Models\\Movie'">
                                     <h1 class="text-2xl font-medium mb-4">{{ $t('Movie') }}</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
-                                    <p><strong>{{ $t('Director') }}: </strong>{{ b.director }}</p>
-                                    <p><strong>{{ $t('Actors') }}: </strong>{{ b.actors }}</p>
-                                    <p><strong>{{ $t('Release date') }}: </strong>{{ formatDate(b.release_date) }}</p>
-                                    <p><strong>{{ $t('Currently at') }}: </strong>{{ b.currently_at }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Notes') }}: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Synopsis') }}: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Tags') }}: </strong>{{ b.tags }}</p>
                                 </div>
 
-                                <div v-if="b.tipo == 'App\\Models\\Fanfic'">
+                                <div v-else-if="b.tipo == 'App\\Models\\Fanfic'">
                                     <h1 class="text-2xl font-medium mb-4">Fanfic</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
-                                    <p><strong>{{ $t('Author') }}: </strong>{{ b.author }}</p>
-                                    <p><strong>{{ $t('Fandom') }}: </strong>{{ b.fandom }}</p>
-                                    <p><strong>{{ $t('Original fiction') }}: </strong>{{ b.relationships }}</p>
-                                    <p><strong>{{ $t('Language') }}: </strong>{{ b.language }}</p>
-                                    <p><strong>{{ $t('Words') }}: </strong>{{ b.words }}</p>
-                                    <p><strong>{{ $t('Read chapters') }}: </strong>{{ b.read_chapters }}</p>
-                                    <p><strong>{{ $t('Total chapters') }}: </strong>{{ b.total_chapters }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Notes') }}: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Synopsis') }}: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Tags') }}: </strong>{{ b.tags }}</p>
                                 </div>
 
-                                <div v-if="b.tipo == 'App\\Models\\Book'">
+                                <div v-else-if="b.tipo == 'App\\Models\\Book'">
                                     <h1 class="text-2xl font-medium mb-4">Book</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
-                                    <p><strong>{{ $t('Author') }}: </strong>{{ b.author }}</p>
-                                    <p><strong>{{ $t('Language') }}: </strong>{{ b.language }}</p>
-                                    <p><strong>{{ $t('Read pages') }}: </strong>{{ b.read_pages }}</p>
-                                    <p><strong>{{ $t('Total pages') }}: </strong>{{ b.total_pages }}</p>
-                                    <p><strong>{{ $t('Notes') }}: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Synopsis') }}: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Tags') }}: </strong>{{ b.tags }}</p>
                                 </div>
 
-                                <div v-if="b.tipo == 'App\\Models\\Series'">
+                                <div v-else-if="b.tipo == 'App\\Models\\Series'">
                                     <h1 class="text-2xl font-medium mb-4">Series</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
-                                    <p><strong>{{ $t('Actors') }}: </strong>{{ b.actors }}</p>
-                                    <p><strong>{{ $t('Number seasons') }}: </strong>{{ b.num_seasons }}</p>
-                                    <p><strong>{{ $t('Number episodes') }}: </strong>{{ b.num_episodes }}</p>
-                                    <p><strong>{{ $t('Currently at') }}: </strong>{{ b.currently_at }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Notes') }}: </strong>{{ b.notes }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Synopsis') }}: </strong>{{ b.synopsis }}</p>
-                                    <p class="mt-2"><strong>{{ $t('Tags') }}: </strong>{{ b.tags }}</p>
                                 </div>
                             </Card>
-                            <div v-if="!bookmarks.length" id="empty" class="text-3xl m-auto">
+                            <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
+                                <h1>{{ $t('Cargando Marcadores...') }}</h1>
+                            </div>
+                            <div v-else-if="!bookmarks.length && isLoading == false" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('No Bookmarks found') }}</h1>
                             </div>
                         </div>
@@ -113,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-15">
                         <v-pagination v-model="currentPage" :length="lastPage" @click="getBookmarks"></v-pagination>
                     </div>
                 </div>
@@ -144,6 +116,7 @@ const bookmarks = ref([]);
 const sortBy = ref('updated_at');
 const sort = ref('');
 const order = ref('desc');
+const isLoading = ref(false);
 
 const sortBookmarks = () => {
     if (sortBy.value) {
@@ -156,9 +129,11 @@ const sortBookmarks = () => {
     getBookmarks();
 };
 
-const getBookmarks = () => {
+const getBookmarks = async () => {
+    isLoading.value = true;
+
     let params = {
-        'page[size]': 2,
+        'page[size]': 8,
         'page[number]': currentPage.value
     };
 
@@ -170,7 +145,7 @@ const getBookmarks = () => {
         params.tags = tags.value;
     }
 
-    axios.get(`api/v1/bookmarks`, { params })
+    await axios.get(`api/v1/bookmarks`, { params })
         .then(response => {
             const res = response.data;
             const data = res.data;
@@ -195,9 +170,12 @@ const getBookmarks = () => {
                 json.tags = json.tags.join(',');
 
                 bookmarks.value.push(json);
+                isLoading.value = false;
+        
             }
         })
         .catch(error => console.log('Ha ocurrido un error: ' + error));
+    isLoading.value = false;
 };
 
 nextPage(currentPage, lastPage);

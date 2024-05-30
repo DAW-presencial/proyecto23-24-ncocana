@@ -16,7 +16,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="{{$t('Profile')}}" />
+    <Head :title="$t('Profile')" />
 
     <AuthenticatedLayout>
         <template #header>

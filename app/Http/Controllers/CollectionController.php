@@ -28,16 +28,23 @@ class CollectionController extends Controller
         if ($tags) {
             // Call the index method of TagController
             $collections = app(TagController::class)->index(new Collection(), $tags);
-            // Query tagged collections for the current user with fields 'bookmarks' and 'tags'
-            $collections = $collections->where('user_id', $userId)->with(['tags', 'bookmarks', 'bookmarks.bookmarkable', 'bookmarks.tags']);
+            // Query tagged collections for the current user
+            $collections = $collections->where('user_id', $userId);
         } else {
-            // Query bookmarks for the current user with fields 'bookmarks' and 'tags'
-            $collections = Collection::query()->where('user_id', $userId)->with(['tags', 'bookmarks', 'bookmarks.bookmarkable', 'bookmarks.tags']);
+            // Query collections for the current user
+            $collections = Collection::query()->where('user_id', $userId);
         }
 
+        // Apply sorting and filtering
         $collections = $collections->allowedSorts(['name', 'created_at', 'updated_at'])
             ->allowedFilters(['name', 'description', 'monthUpdate', 'yearUpdate', 'monthCreate', 'yearCreate'])
             ->jsonPaginate();
+
+        // Load bookmarks for each collection, filtering by the current user
+        $collections->getCollection()->each(function ($collection) use ($userId) {
+            $bookmarks = $collection->bookmarks()->where('user_id', $userId)->with(['bookmarkable', 'tags'])->get();
+            $collection->setRelation('bookmarks', $bookmarks);
+        });
 
         return CollectionCollection::make($collections);
     }
@@ -80,8 +87,14 @@ class CollectionController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        // Eager load the bookmarks relationship and tags relationship
-        $collection->load(['tags', 'bookmarks', 'bookmarks.bookmarkable', 'bookmarks.tags']);
+        // Eager load the tags relationship
+        $collection->load(['tags']);
+
+        // Filter bookmarks to only include those belonging to the current user
+        $collection->setRelation('bookmarks', $collection->bookmarks->where('user_id', $userId)->values());
+
+        // Load relationships for filtered bookmarks
+        $collection->bookmarks->load(['bookmarkable', 'tags']);
 
         return CollectionResource::make($collection);
     }
