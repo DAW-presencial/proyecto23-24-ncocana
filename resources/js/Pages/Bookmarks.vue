@@ -50,7 +50,7 @@
                             <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('Cargando Marcadores...') }}</h1>
                             </div>
-                            <div v-else-if="!bookmarks.length" id="empty" class="text-3xl m-auto">
+                            <div v-else-if="!bookmarks.length && isLoading == false" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('No Bookmarks found') }}</h1>
                             </div>
                         </div>
@@ -171,6 +171,7 @@ const getBookmarks = async () => {
 
                 bookmarks.value.push(json);
                 isLoading.value = false;
+        
             }
         })
         .catch(error => console.log('Ha ocurrido un error: ' + error));

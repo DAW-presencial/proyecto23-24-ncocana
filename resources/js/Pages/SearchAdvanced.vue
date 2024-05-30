@@ -43,8 +43,12 @@
                     <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
                 </form>
 
+                <div v-if="isLoading == true" id="empty" class="text-3xl my-8">
+                    <h1>{{ $t('Cargando Marcadores...') }}</h1>
+                </div>
                 <div v-if="resultados.length">
                     <h2 class="text-2xl font-bold my-12">{{$t('Resultados')}}:</h2>
+
                     <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-0"
                     :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
@@ -70,9 +74,9 @@
                         <v-pagination v-model="currentPage" :length="lastPage" @click="enviar"></v-pagination>
                     </div>
                 </div>
-                <!-- <div v-else class="text-3xl m-auto">
-                    <h1>No results found</h1>
-                </div> -->
+                <div v-else-if=" noBook==1 && resultados.length ==0 && isLoading ==false "  id="empty" class="text-3xl my-8">
+                        <h1>{{ $t('No Bookmarks found') }}</h1>
+                </div>
             </div>
         </main>
     </AuthenticatedLayout>
@@ -90,6 +94,8 @@ import { ref } from "vue";
 import moment from 'moment';
 
 
+const isLoading = ref(false);
+const noBook = ref(0);
 const currentPage = ref(1);
 const lastPage = ref(null);
 const dataInput = ref({
@@ -114,6 +120,7 @@ const fields = {
 const resultados = ref([]);
 
 const enviar = async () => {
+    isLoading.value = true;
     let params = {
         'filter[bookmarkable_type]': dataInput.value.bookmarkable_type,
         'filter[title]': dataInput.value.title,
@@ -144,8 +151,13 @@ const enviar = async () => {
         lastPage.value = response.data.meta.last_page;
         currentPage.value = response.data.meta.current_page;
         resultados.value = response.data.data;
+        isLoading.value = false;
+        noBook.value = 1;
+
     } catch (error) {
         console.error("Error fetching bookmarks:", error);
+        isLoading.value = false;
+
     }
 };
 </script>
