@@ -56,6 +56,17 @@ class BookmarkController extends Controller
         // Extract the attributes from the request data
         $attributes = $requestData['data']['attributes'];
 
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
+            // Validate the number of tags
+            $tags = $attributes['tags'];
+            $tagsCount = is_array($tags) ? count($tags) : 1;
+
+            if ($tagsCount > TagController::MAX_TAGS) {
+                return response()->json(['message' => 'Cannot add more than ' . TagController::MAX_TAGS . ' tags.'], 400);
+            }
+        }
+
         // Get the bookmarkable type
         $bookmarkableType = $attributes['bookmarkable_type'];
 
@@ -125,6 +136,17 @@ class BookmarkController extends Controller
         $requestData = $request->validated();
         // Extract the attributes from the request data
         $attributes = $requestData['data']['attributes'];
+
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
+            // Validate the number of tags
+            $tags = $attributes['tags'];
+            $tagsCount = is_array($tags) ? count($tags) : 1;
+
+            if ($tagsCount > TagController::MAX_TAGS) {
+                return response()->json(['message' => 'Cannot add more than ' . TagController::MAX_TAGS . ' tags.'], 400);
+            }
+        }
 
         // Get the bookmarkable type
         $bookmarkableType = $attributes['bookmarkable_type'];

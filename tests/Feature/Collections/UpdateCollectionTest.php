@@ -124,6 +124,33 @@ class UpdateCollectionTest extends TestCase
     }
 
     /** @test */
+    public function cant_update_tagged_collection_with_more_than_ten_tags(): void
+    {
+        // Creating and authenticating a user
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $collection = Collection::factory()->create();
+
+        $collection->attachTag('tag1');
+
+        $requestData = [
+            'name' => 'Updated collection',
+            'description' => 'Esto es una descripción actualizada',
+            'tags' => ['tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7', 'tag8', 'tag9', 'tag10', 'tag11'],
+        ];
+
+        $response = $this->patchJson(route('api.v1.collections.update', $collection), $requestData);
+
+        $response->assertBadRequest();
+
+        $this->assertDatabaseCount('collections', 1);
+        $this->assertDatabaseCount('bookmark_collection', 0);
+        $this->assertDatabaseCount('tags', 1);
+        $this->assertDatabaseCount('taggables', 1);
+    }
+
+    /** @test */
     public function can_update_collections_with_bookmarks(): void
     {
         // Creating and authenticating a user
