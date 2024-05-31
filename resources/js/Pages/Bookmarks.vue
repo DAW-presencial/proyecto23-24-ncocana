@@ -48,7 +48,7 @@
                                 </div>
                             </Card>
                             <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
-                                <h1>{{ $t('Cargando Marcadores...') }}</h1>
+                                <h1>{{ $t('Loading Bookmarks...') }}</h1>
                             </div>
                             <div v-else-if="!bookmarks.length" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('No Bookmarks found') }}</h1>

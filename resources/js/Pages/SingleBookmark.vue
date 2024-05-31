@@ -183,7 +183,7 @@
                         <div class="mt-3">
                             <InputLabel :value="$t('Tags')" />
                             <TextInput v-model="bookmark_data.tags" :placeholder="placeholders['tags']" />
-                            <p v-if="errors['tags']" class="mt-2 text-sm text-red-600">{{ errors['tags'][0] }}</p>
+                            <p v-if="errors['tags']" class="mt-2 text-sm text-red-600">{{ errors['tags'] }}</p>
                         </div>
                     </Card>
                 </div>
@@ -222,13 +222,13 @@ const placeholders = {
         director: "Enter the director's name",
         actors: "Enter the main actors",
         release_date: "Enter the release date: YYYY/MM/DD",
-        currently_at: "Enter your current position",
+        currently_at: "Enter your current position: HH:MM:SS",
     },
     Series: {
         actors: "Enter the main actors",
         num_seasons: "Enter the number of seasons",
         num_episodes: "Enter the number of episodes",
-        currently_at: "Enter your current position",
+        currently_at: "Enter your current position: Season 4, Episode 3",
     },
     Fanfic: {
         author: "Enter the author's name",
@@ -344,8 +344,12 @@ const updateBookmark = async () => {
                 } else {
                     errors.value[pointer] = [errorDetail];
                 }
-                // console.error('Error submitting form:', errorItem);
             });
+        } else if (error.response && error.response.status === 400) {
+            if(error.response.data.message) {
+                errors.value['tags'] = error.response.data.message;
+            }
+            console.log(errors);
         } else {
             console.error('Error submitting form:', error);
         }
