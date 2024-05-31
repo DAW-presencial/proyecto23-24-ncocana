@@ -4,6 +4,7 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Bookmark;
+use App\Models\Collection;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -84,6 +85,24 @@ Route::get('/createbookmark', function () {
     return Inertia::render('CreateBookmark');
 })->middleware(['auth', 'verified'])->name('createbookmark');
 
+
+// Collections 
+
+//  INDEX
 Route::get('/collections', function () {
     return Inertia::render('Collections');
 })->middleware(['auth', 'verified'])->name('collections');
+
+// SHOW 
+Route::get('/collections/{id}', function ($id) {
+
+    return Inertia::render('ShowCollections', [
+        'collection_id' => $id
+    ]);
+})->middleware(['auth', 'verified'])->name('showcollection');
+
+// CREATE
+Route::get('/createcollection', function() {
+    return Inertia::render('CreateCollections');
+
+})->middleware(['auth', 'verified'])->name('createcollection');

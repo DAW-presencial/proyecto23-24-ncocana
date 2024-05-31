@@ -106,7 +106,6 @@ const navigation = [
     { name: 'Bookmarks', href: 'bookmarks' },
     { name: 'Advanced Search', href: 'searchadvanced' },
     { name: 'Collections', href: 'collections' }
-
 ];
 
 defineProps({

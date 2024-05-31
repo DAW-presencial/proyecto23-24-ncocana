@@ -21,6 +21,6 @@ function getBaseUrl() {
 axios.defaults.baseURL = getBaseUrl();
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
 axios.defaults.headers.common['Accept'] = 'application/vnd.api+json';
-axios.defaults.headers.post['Content-Type'] = 'application/vnd.api+json';
+axios.defaults.headers.common['Content-Type'] = 'application/vnd.api+json';
 
 export default axios;

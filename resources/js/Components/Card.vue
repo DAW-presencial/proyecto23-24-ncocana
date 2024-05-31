@@ -1,9 +1,14 @@
 <template>
     <div class="border border-gray-400 p-4 rounded-lg shadow-lg">
         <!-- BUTTONS -->
-        <div class="flex gap-2 justify-end h-6 float-end">
+        <div class="flex gap-2 justify-end h-auto mb-4 float-end">
 
-            <SecundaryButton v-if="candelete" class="bg-red-700 text-white hover:bg-red-800" @click="showModal = true">
+            <SecundaryButton v-if="id_collection" class="bg-yellow-600 text-white hover:bg-yellow-700"
+                @click="showModalDeleteCollection = true">{{ $t("Delete from collection") }}
+            </SecundaryButton>
+
+            <SecundaryButton v-if="candelete" class="bg-red-700 text-white hover:bg-red-800"
+                @click="showModalDelete = true">
                 {{ $t('DELETE') }}
 
             </SecundaryButton>
@@ -13,16 +18,18 @@
             <SecundaryButton v-if="nameButton == 'SHOW'" class="bg-green-700 text-white hover:bg-green-800"
                 :href="modifyLink">{{ $t(nameButton) }}
             </SecundaryButton>
+
         </div>
         <div>
-            <Modal :show="showModal" maxWidth="2xl">
+            <Modal :show="showModalDelete" maxWidth="2xl">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900">
                         {{ $t('Are you sure you want to delete the bookmark?') }}
                     </h2>
 
                     <div class="mt-6 flex justify-end gap-2">
-                        <SecundaryButton class="bg-green-700 text-white hover:bg-green-800" @click="showModal = false">
+                        <SecundaryButton class="bg-green-700 text-white hover:bg-green-800"
+                            @click="showModalDelete = false">
                             {{ $t('Cancel') }}
                         </SecundaryButton>
 
@@ -31,11 +38,26 @@
                         </SecundaryButton>
                     </div>
                 </div>
-                <!-- <div>
-                    <p class="">¿Estás seguro que deseas eliminar?</p>
-                    <button @click="deleteItem">Confirmar</button>
-                    <button @click="showModal = false">Cancelar</button>
-                </div> -->
+            </Modal>
+
+            <Modal :show="showModalDeleteCollection" maxWidth="2xl">
+                <div class="p-6">
+                    <h2 class="text-lg font-medium text-gray-900">
+                        {{ $t('Are you sure you want to delete the bookmark?') }}
+                    </h2>
+
+                    <div class="mt-6 flex justify-end gap-2">
+                        <SecundaryButton class="bg-green-700 text-white hover:bg-green-800"
+                            @click="showModalDeleteCollection = false">
+                            {{ $t('Cancel') }}
+                        </SecundaryButton>
+
+                        <SecundaryButton class="bg-red-700 text-white hover:bg-red-800"
+                            @click="deleteBookmarkCollection">
+                            {{ $t('Delete') }}
+                        </SecundaryButton>
+                    </div>
+                </div>
             </Modal>
             <slot></slot>
         </div>
@@ -53,11 +75,15 @@ const props = defineProps({
     candelete: Boolean,
     modifyLink: String,
     nameButton: String,
-    id: String,
+    id_bookmark: String,
+    id_collection: String,
+
     update: Function,
+    delete_collection: String
 });
 
-const showModal = ref(false);
+const showModalDelete = ref(false);
+const showModalDeleteCollection = ref(false);
 
 const deleteBookmark = () => {
     axios
@@ -66,4 +92,12 @@ const deleteBookmark = () => {
             window.location.href = "/bookmarks";
         });
 };
+
+const deleteBookmarkCollection = () => {
+    axios
+        .delete (`api/v1/collections/${props.id_collection}/bookmarks/${props.id_bookmark}`)
+        .then(() => {
+            window.location.reload();
+        } )
+}
 </script>
