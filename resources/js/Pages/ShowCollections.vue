@@ -1,5 +1,4 @@
 <template>
-
     <Head :title="$t('Collections Bookmark')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
@@ -55,7 +54,6 @@ import axios from 'axios';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Card from '@/Components/Card.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
 import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
@@ -68,7 +66,7 @@ const allBookmarks = ref();
 const name = ref('');
 
 const { props } = usePage();
-const { collection_id, userBookmarks } = props;
+const { collection_id } = props;
 
 const selectedBookmarkId = ref(null);
 

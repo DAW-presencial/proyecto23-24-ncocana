@@ -137,7 +137,7 @@
                             <p><strong>{{$t('Tags')}}:</strong></p>
                             <ul>
                                 <li v-for="tag in resultado.attributes.tags" :key="tag.id">
-                                    {{ $t('tag.name') }}
+                                    {{ $t(tag.name) }}
                                 </li>
                             </ul>
                         </div>

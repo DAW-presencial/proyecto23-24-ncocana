@@ -16,10 +16,6 @@
                             <Link href='/createbookmark'>{{ $t('Create Bookmark') }}</Link>
                         </PrimaryButton>
                     </div>
-                    <!-- <div class="flex gap-4">
-                        <TextInput class="w-64" v-model="buscar"></TextInput>
-                        <PrimaryButton @click="getBookmarks">Search</PrimaryButton>
-                    </div> -->
                 </div>
                 <div class="mt-4 p-6 rounded-md  bg-stone-50">
                     <div class="flex justify-between gap-10">
