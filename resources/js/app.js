@@ -29,3 +29,10 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+// Agregar el icono al `head`
+const link = document.createElement('link');
+link.rel = 'icon';
+link.type = 'image/png';  // Cambia esto al tipo de archivo de tu icono (e.g., 'image/png')
+link.href = '/img/nuevo-logo1.png';  // Cambia esto a la ruta de tu icono
+document.head.appendChild(link);

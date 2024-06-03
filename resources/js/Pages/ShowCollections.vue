@@ -24,7 +24,7 @@
                 </div>
                 <div class="container h-3/4 space-y-4">
                     <Card v-for="(b) in bookmark" :key="b.id" class="min-h-16 h-full" :id_bookmark="b.id"
-                        nameButton="SHOW" :modifyLink="'/bookmarks/' + b.id" candelete="true"
+                        nameButton="SHOW" :modifyLink="'/bookmarks/' + b.id"
                         :id_collection="collection_id">
                         <div>
                             <h1 v-if="b.bookmarkable_type === 'App\\Models\\Fanfic'" class="text-2xl font-medium mb-4">

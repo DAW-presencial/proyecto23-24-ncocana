@@ -22,7 +22,7 @@
                             <div class="flex flex-col w-4/6 h-auto rounded-sm space-y-3">
                                 <!-- Cards -->
                                 <Card v-for="c in collections" :key="c.id" class="ml-0 h-full flex-auto flex-col"
-                                    :modifyLink="'/collections/' + c.id" :id="c.id" nameButton="SHOW" candelete="true">
+                                    :modifyLink="'/collections/' + c.id" :id="c.id" nameButton="SHOW" candeletecollection="true">
                                     <div>
                                         <h1 class="text-2xl font-medium">{{ c.attributes.name }}</h1>
                                         <p class="text-gray-700"><strong class="font-medium">
@@ -134,6 +134,7 @@ const getCollections = async () => {
         const response = await axios.get('api/v1/collections', { params });
         const res = response.data;
         const data = res.data;
+        // console.log(data);
         currentPage.value = res.meta.current_page;
         lastPage.value = res.meta.last_page;
 
@@ -146,9 +147,10 @@ const getCollections = async () => {
                 tags.push(data[i].attributes.tags[x].name);
             }
             data[i].attributes.tags = tags.join(',');
-            console.log(data[i].attributes);
+            // console.log(data[i].attributes);
             collections.value = data;
         }
+        console.log(data);
     } catch (error) {
         console.log('Ha ocurrido un error: ' + error);
     } finally {
