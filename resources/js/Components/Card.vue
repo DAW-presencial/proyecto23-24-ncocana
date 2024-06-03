@@ -55,7 +55,7 @@
             <Modal :show="showModalDeleteBookmarkCollection" maxWidth="2xl">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900">
-                        {{ $t('Are you sure you want to delete the bookmark?') }}
+                        {{ $t('Are you sure you want to remove the bookmark from the collection?') }}
                     </h2>
 
                     <div class="mt-6 flex justify-end gap-2">
@@ -76,7 +76,7 @@
             <Modal :show="showModalDeleteCollection" maxWidth="2xl">
                 <div class="p-6">
                     <h2 class="text-lg font-medium text-gray-900">
-                        {{ $t('Are you sure you want to delete the bookmark?') }}
+                        {{ $t('Are you sure you want to delete the collection?') }}
                     </h2>
 
                     <div class="mt-6 flex justify-end gap-2">

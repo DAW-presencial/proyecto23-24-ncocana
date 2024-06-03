@@ -26,9 +26,9 @@
                                     <div>
                                         <h1 class="text-2xl font-medium">{{ c.attributes.name }}</h1>
                                         <p class="text-gray-700"><strong class="font-medium">
-                                                Description: </strong>{{ c.attributes.description }}</p>
+                                                {{$t('Description')}}: </strong>{{ c.attributes.description }}</p>
                                         <p class="text-gray-700"><strong class="font-medium">
-                                                Tags: </strong>{{ c.attributes.tags }}</p>
+                                                {{$t('Tags')}}: </strong>{{ c.attributes.tags }}</p>
 
                                     </div>
                                 </Card>

@@ -342,5 +342,19 @@
     "View notifications": "View notifications",
     "Words": "Words",
     "Your Profile": "Your Profile",
-    "ZIP / Postal code": "ZIP / Postal code"
+    "ZIP / Postal code": "ZIP / Postal code",
+    "Choose a Bookmark": "Choose a Bookmark",
+    "Add Bookmark": "Add a Bookmark",
+    "Book": "Book",
+    "Fanfic": "Fanfic",
+    "Delete from collection": "Delete from collection",
+    "Search Collections": "Search Collections",
+    "Create Collection": "Create Collection",
+    "Description": "Description",
+    "Enter the collection title": "Enter the collection title",
+    "Enter the collection description" : "Enter the collection description",
+    "Enter the collection tags": "Enter the collection tags",
+    "Are you sure you want to remove the bookmark from the collection?" : "Are you sure you want to remove the bookmark from the collection?",
+    "Are you sure you want to delete the collection?": "Are you sure you want to delete the collection?"
+
 }

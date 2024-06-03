@@ -1,17 +1,18 @@
 <template>
+
     <Head :title="$t('Collections Bookmark')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="flex flex-col justify-center mx-auto max-w-7xl">
                 <div class="pb-10">
-                    <Breadcrumbs :items="['Home', 'Collection',name]"></Breadcrumbs>
+                    <Breadcrumbs :items="[$t('Home'), $t('Collections'),name]"></Breadcrumbs>
                 </div>
                 <div class="flex flex-col mb-4">
                     <h1 class="text-6xl mx-auto font-bold">{{ name }}</h1>
                     <!-- Estilos de Tailwind CSS -->
                 </div>
                 <div class="mb-6">
-                    <InputLabel for="bookmark-select" value="Choose a Bookmark" />
+                    <InputLabel for="bookmark-select" :value="$t('Choose a Bookmark')" />
                     <select id="bookmark-select" v-model="selectedBookmarkId"
                         class="block w-full mt-1 rounded-md border shadow-md">
                         <option v-for="b in allBookmarks" :key="b.id" :value="b.id">
@@ -19,25 +20,24 @@
                         </option>
                     </select>
                     <div class="mt-4">
-                        <PrimaryButton @click="addBookmark">Add Bookmark</PrimaryButton>
+                        <PrimaryButton @click="addBookmark">{{$t('Add Bookmark')}}</PrimaryButton>
                     </div>
                 </div>
                 <div class="container h-3/4 space-y-4">
                     <Card v-for="(b) in bookmark" :key="b.id" class="min-h-16 h-full" :id_bookmark="b.id"
-                        nameButton="SHOW" :modifyLink="'/bookmarks/' + b.id"
-                        :id_collection="collection_id">
+                        nameButton="SHOW" :modifyLink="'/bookmarks/' + b.id" :id_collection="collection_id">
                         <div>
                             <h1 v-if="b.bookmarkable_type === 'App\\Models\\Fanfic'" class="text-2xl font-medium mb-4">
-                                Fanfic</h1>
+                                {{ $t('Fanfic') }}</h1>
                             <h1 v-else-if="b.bookmarkable_type === 'App\\Models\\Series'"
                                 class="text-2xl font-medium mb-4">
-                                Series</h1>
+                                {{ $t('Series') }}</h1>
                             <h1 v-else-if="b.bookmarkable_type === 'App\\Models\\Movie'"
                                 class="text-2xl font-medium mb-4">
-                                Movie</h1>
+                                {{ $t('Movie') }}</h1>
                             <h1 v-else-if="b.bookmarkable_type === 'App\\Models\\Book'"
                                 class="text-2xl font-medium mb-4">
-                                Book</h1>
+                                {{ $t('Book') }}</h1>
                             <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                         </div>
                     </Card>

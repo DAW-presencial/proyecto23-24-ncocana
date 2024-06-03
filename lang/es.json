@@ -340,6 +340,20 @@
     "View notifications": "Ver notificaciones",
     "Words": "Palabras",
     "Your Profile": "Tu perfil",
-    "ZIP / Postal code": "Código postal"
+    "ZIP / Postal code": "Código postal",
+    "Choose a Bookmark": "Elige un Marcador",
+    "Add Bookmark": "Añadir Marcador",
+    "Book": "Libro",
+    "Fanfic": "Fanfic",
+    "Delete from collection": "Eliminar de la colección",
+    "Search Collections": "Buscar Colecciones",
+    "Create Collection": "Crear Colección",
+    "Description": "Descripción",
+    "Enter the collection title": "Introduzca el nombre de la colección",
+    "Enter the collection description" : "Introduzca la descripción de la colección",
+    "Enter the collection tags": "Introduzca las etiquetas de la colleción",
+    "Are you sure you want to remove the bookmark from the collection?" : "¿Estás seguro de que quieres eliminar el marcador de la colección?",
+    "Are you sure you want to delete the collection?": "¿Estás seguro de que quieres eliminar la colección?"
+
 
 }
