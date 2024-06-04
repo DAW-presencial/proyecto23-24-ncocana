@@ -5,7 +5,7 @@
         <main class="flex-1 p-4">
             <div class="flex flex-col justify-center mx-auto max-w-7xl">
                 <div class="pb-12">
-                    <Breadcrumbs :items="['Home', 'Bookmark', 'Single Bookmark']"></Breadcrumbs>
+                    <Breadcrumbs :items="[$t('Home'), $t('Bookmark'), $t('Single Bookmark')]"></Breadcrumbs>
                 </div>
                 <div class="container mx-4 h-3/4">
                     <Card class="h-auto" nameButton="UPDATE" :update="updateBookmark" :id="bookmark_data.id"
