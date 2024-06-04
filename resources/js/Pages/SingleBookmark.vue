@@ -68,7 +68,7 @@
                                 </p>
                             </div>
                             <div class="mt-3">
-                                <InputLabel :value="$t('Original fiction')" />
+                                <InputLabel :value="$t('Relationships')" />
                                 <TextInput v-model="bookmark_data.relationships"
                                     :placeholder="placeholders['Fanfic']['relationships']" />
                                 <p v-if="errors['relationships']" class="mt-2 text-sm text-red-600">{{

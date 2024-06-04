@@ -34,12 +34,12 @@
                                 </div>
 
                                 <div v-else-if="b.tipo == 'App\\Models\\Book'">
-                                    <h1 class="text-2xl font-medium mb-4">Book</h1>
+                                    <h1 class="text-2xl font-medium mb-4">{{ $t('Book') }}</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
 
                                 <div v-else-if="b.tipo == 'App\\Models\\Series'">
-                                    <h1 class="text-2xl font-medium mb-4">Series</h1>
+                                    <h1 class="text-2xl font-medium mb-4">{{ $t('Series') }}</h1>
                                     <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
                             </Card>
