@@ -1,17 +1,14 @@
 <template>
 
-
     <Head :title="$t('Advanced Search')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
-
                 <div class="pb-4">
                     <Breadcrumbs :items="[$t('Home'), $t('Advanced Search')]"></Breadcrumbs>
                 </div>
                 <div class="text-xl font-bold mx-auto my-4">
                     <h1>{{ $t('Bookmark Advanced Search') }}</h1>
-
                 </div>
                 <!-- FORM -->
                 <form @submit.prevent="enviar">
@@ -67,14 +64,12 @@
                         <!-- Campos específicos dependiendo del tipo de bookmark -->
 
                         <div v-if="resultado.attributes.bookmarkable">
-
                             <!-- BOOK -->
                             <template v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
                                 <p><strong>{{ $t('Author') }}:</strong> {{ resultado.attributes.bookmarkable.author }}
                                 </p>
                                 <p><strong>{{ $t('Language') }}:</strong> {{ resultado.attributes.bookmarkable.language
-                                    }}
-                                </p>
+                                    }}</p>
                                 <p><strong>{{ $t('Read Pages') }}:</strong> {{
         resultado.attributes.bookmarkable.read_pages }}</p>
                                 <p><strong>{{ $t('Total Pages') }}:</strong> {{
@@ -84,16 +79,13 @@
                             <!-- MOVIE -->
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
                                 <p><strong>{{ $t('Director') }}:</strong> {{ resultado.attributes.bookmarkable.director
-                                    }}
-                                </p>
+                                    }}</p>
                                 <p><strong>{{ $t('Actors') }}:</strong> {{ resultado.attributes.bookmarkable.actors }}
                                 </p>
                                 <p><strong>{{ $t('Release Date') }}:</strong> {{
-        formatDate(resultado.attributes.bookmarkable.release_date) }}
-                                </p>
+        formatDate(resultado.attributes.bookmarkable.release_date) }}</p>
                                 <p><strong>{{ $t('Currently at') }}:</strong> {{
-        resultado.attributes.bookmarkable.currently_at }}
-                                </p>
+        resultado.attributes.bookmarkable.currently_at }}</p>
                             </template>
 
                             <!-- SERIES -->
@@ -105,40 +97,34 @@
                                 <p><strong>{{ $t('Number of Episodes') }}:</strong> {{
         resultado.attributes.bookmarkable.num_episodes }}</p>
                                 <p><strong>{{ $t('Currently at') }}:</strong> {{
-        resultado.attributes.bookmarkable.currently_at
-    }}</p>
+        resultado.attributes.bookmarkable.currently_at }}</p>
                             </template>
 
                             <!-- FANFICS -->
                             <template v-else-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">
                                 <p><strong>{{ $t('Author') }}:</strong> {{ resultado.attributes.bookmarkable.author }}
                                 </p>
-                                <p><strong>{{ $t('Fandom') }}:</strong> {{
-        resultado.attributes.bookmarkable.fandom }}</p>
+                                <p><strong>{{ $t('Fandom') }}:</strong> {{ resultado.attributes.bookmarkable.fandom }}
+                                </p>
                                 <p><strong>{{ $t('Relationships') }}:</strong> {{
         resultado.attributes.bookmarkable.relationships }}</p>
                                 <p><strong>{{ $t('Language') }}:</strong> {{ resultado.attributes.bookmarkable.language
                                     }}</p>
                                 <p><strong>{{ $t('Words') }}:</strong> {{ resultado.attributes.bookmarkable.words }}</p>
                                 <p><strong>{{ $t('Read Chapters') }}:</strong> {{
-        resultado.attributes.bookmarkable.read_chapters }}
-                                </p>
+        resultado.attributes.bookmarkable.read_chapters }}</p>
                                 <p><strong>{{ $t('Total Chapters') }}:</strong> {{
-        resultado.attributes.bookmarkable.total_chapters
-    }}</p>
+        resultado.attributes.bookmarkable.total_chapters }}</p>
                             </template>
-                            <!-- Agrega más condicionales según los tipos de bookmark disponibles -->
                         </div>
-                        <p><strong>{{$t('Notes')}}:</strong> {{ resultado.attributes.notes }}</p>
-                        <p><strong>{{$t('Synopsis')}}:</strong> {{ resultado.attributes.synopsis }}</p>
+                        <p><strong>{{ $t('Notes') }}:</strong> {{ resultado.attributes.notes }}</p>
+                        <p><strong>{{ $t('Synopsis') }}:</strong> {{ resultado.attributes.synopsis }}</p>
 
                         <!-- TAGS -->
                         <div v-if="resultado.attributes.tags.length">
-                            <p><strong>{{$t('Tags')}}:</strong></p>
+                            <p><strong>{{ $t('Tags') }}:</strong></p>
                             <ul>
-                                <li v-for="tag in resultado.attributes.tags" :key="tag.id">
-                                    {{ $t(tag.name) }}
-                                </li>
+                                <li v-for="tag in resultado.attributes.tags" :key="tag.id">{{ $t(tag.name) }}</li>
                             </ul>
                         </div>
                     </Card>
@@ -146,26 +132,24 @@
                         <v-pagination v-model="currentPage" :length="lastPage" @click="enviar"></v-pagination>
                     </div>
                 </div>
-                <!-- <div v-else class="text-3xl m-auto">
-                    <h1>No results found</h1>
-                </div> -->
             </div>
         </main>
     </AuthenticatedLayout>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { formatDate } from '@/utils/functions';
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import Card from '@/Components/Card.vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import axios from "axios";
-import { ref } from "vue";
 import moment from 'moment';
 
-
+const route = useRoute();
 const currentPage = ref(1);
 const lastPage = ref(null);
 const dataInput = ref({
@@ -173,7 +157,6 @@ const dataInput = ref({
     title: '',
     created_at: '',
     updated_at: ''
-
 });
 
 const types = ["", "Book", "Movie", "Series", "Fanfic"];
@@ -224,4 +207,17 @@ const enviar = async () => {
         console.error("Error fetching bookmarks:", error);
     }
 };
+
+onMounted(async () => {
+    // Get the 'type' query parameter from the route
+    const { props } = usePage();
+    const { type } = props;
+    console.log(type);
+    if (type) {
+        // Map the query parameter to the corresponding type
+        dataInput.value.bookmarkable_type = type;
+    }
+    // Fetch the initial data
+    await enviar();
+});
 </script>

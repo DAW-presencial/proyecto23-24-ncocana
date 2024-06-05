@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Models\Bookmark;
 use App\Models\Collection;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -51,8 +52,13 @@ Route::get('/prueba', function () {
     return Inertia::render('Prueba');
 })->middleware(['auth', 'verified'])->name('prueba');
 
-Route::get('/searchadvanced', function () {
-    return Inertia::render('SearchAdvanced');
+
+// BUSQUEDA AVANZADA
+Route::get('/searchadvanced', function (Request $request) {
+    $type = $request->query('type');
+    return Inertia::render('SearchAdvanced',[
+        'type' => $type
+    ]);
 })->middleware(['auth', 'verified'])->name('searchadvanced');
 
 
