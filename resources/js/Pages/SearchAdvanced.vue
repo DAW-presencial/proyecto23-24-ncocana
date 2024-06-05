@@ -46,11 +46,6 @@
                 <div v-if="resultados.length">
                     <h2 class="text-2xl font-bold my-12">{{ $t('Resultados') }}:</h2>
                     <div class="flex flex-col gap-y-4">
-                        <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-0"
-                            :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW"
-                            candelete=true>
-                            <!-- Aquí muestra los datos del resultado en la tarjeta -->
-
                     <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-2 bg-neutral-100"
                     :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
