@@ -3,19 +3,16 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 const categories = [
-    { name: 'Libros', description: 'Guarda tus libros favoritos y descubre nuevas lecturas.', slug: 'books' },
-    { name: 'Series', description: 'Mantén un seguimiento de tus series y comparte recomendaciones.', slug: 'series' },
-    { name: 'Películas', description: 'Organiza tus películas para una próxima noche de cine.', slug: 'movies' },
-    { name: 'Fanfics', description: 'Sumérgete en el mundo de los fanfics y encuentra tus historias.', slug: 'fanfics' }
+    { name: 'Book', description: 'Guarda tus libros favoritos y descubre nuevas lecturas.'},
+    { name: 'Series', description: 'Mantén un seguimiento de tus series y comparte recomendaciones.'},
+    { name: 'Movie', description: 'Organiza tus películas para una próxima noche de cine.'},
+    { name: 'Fanfic', description: 'Sumérgete en el mundo de los fanfics y encuentra tus historias.'}
     // Agrega más categorías según tus necesidades
 ];
-const getImage = (slug) => {
-    // Aquí puedes devolver diferentes imágenes para cada categoría
-    // Por ejemplo, podrías tener una imagen predeterminada para cada categoría
-    // O podrías tener una lógica para devolver una imagen específica según el slug de la categoría
-    // Aquí hay un ejemplo básico que devuelve una imagen predeterminada para todas las categorías
-    return require(`@/assets/images/default-${slug}.jpg`);
-}
+
+const goToType = (category) => {
+    window.location.href = `/searchadvanced?type=${category}`;
+} 
 </script>
 
 <template>
@@ -39,13 +36,13 @@ const getImage = (slug) => {
                             class="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col justify-end">
                             <div class="card-image">
 
-                                <img v-if="category.name === 'Libros'"
+                                <img v-if="category.name === 'Book'"
                                     src="https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books-illustration_23-2149341898.jpg">
                                 <img v-if="category.name === 'Series'"
                                     src="https://static.vecteezy.com/system/resources/previews/002/580/448/original/tv-series-streaming-rgb-color-icon-vector.jpg">
-                                <img v-if="category.name === 'Películas'"
+                                <img v-if="category.name === 'Movie'"
                                     src="https://cdn-icons-png.flaticon.com/512/4831/4831192.png">
-                                <img v-if="category.name === 'Fanfics'"
+                                <img v-if="category.name === 'Fanfic'"
                                     src="https://cdn-icons-png.freepik.com/512/4784/4784220.png">
 
                             </div>
@@ -53,8 +50,8 @@ const getImage = (slug) => {
                                 <h2 class="text-xl font-semibold mb-2">{{ $t(category.name) }}</h2>
                                 <p class="text-gray-800 mb-5">{{ $t(category.description) }}</p>
                                 <div>
-                                    <router-link :to="{ name: 'category', params: { category: category.slug } }"
-                                        class="block bg-indigo-600 text-white py-2 px-4 rounded hover:bg-blue-600 text-center">{{$t('Ver')}} {{ $t(category.name) }}</router-link>
+                                    <a @click="goToType(category.name)"
+                                        class="block bg-indigo-600 text-white py-2 px-4 rounded hover:bg-blue-600 text-center">{{$t('Ver')}} {{ $t(category.name) }}</a>
                                 </div>
                             </div>
                         </div>

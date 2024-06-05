@@ -1,17 +1,14 @@
 <template>
 
-
     <Head :title="$t('Advanced Search')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
             <div class="mx-auto max-w-7xl mt-6 gap-4">
-
                 <div class="pb-4">
                     <Breadcrumbs :items="[$t('Home'), $t('Advanced Search')]"></Breadcrumbs>
                 </div>
                 <div class="text-xl font-bold mx-auto my-4">
                     <h1>{{ $t('Bookmark Advanced Search') }}</h1>
-
                 </div>
                 <!-- FORM -->
                 <form @submit.prevent="enviar">
@@ -47,7 +44,12 @@
                     <h1>{{ $t('Cargando Marcadores...') }}</h1>
                 </div>
                 <div v-if="resultados.length">
-                    <h2 class="text-2xl font-bold my-12">{{$t('Resultados')}}:</h2>
+                    <h2 class="text-2xl font-bold my-12">{{ $t('Resultados') }}:</h2>
+                    <div class="flex flex-col gap-y-4">
+                        <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-0"
+                            :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW"
+                            candelete=true>
+                            <!-- Aquí muestra los datos del resultado en la tarjeta -->
 
                     <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-2 bg-neutral-100"
                     :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
@@ -70,12 +72,14 @@
                         <h3 class="text-xl font-medium">{{ resultado.attributes.title }}</h3>
 
                     </Card>
+                    </div>
                     <div class="mt-6">
                         <v-pagination v-model="currentPage" :length="lastPage" @click="enviar"></v-pagination>
                     </div>
                 </div>
-                <div v-else-if=" noBook==1 && resultados.length ==0 && isLoading ==false "  id="empty" class="text-3xl my-8">
-                        <h1>{{ $t('No Bookmarks found') }}</h1>
+                <div v-else-if="noBook == 1 && resultados.length == 0 && isLoading == false" id="empty"
+                    class="text-3xl my-8">
+                    <h1>{{ $t('No Bookmarks found') }}</h1>
                 </div>
             </div>
         </main>
@@ -83,14 +87,14 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { formatDate } from '@/utils/functions';
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import Card from '@/Components/Card.vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import axios from "axios";
-import { ref } from "vue";
 import moment from 'moment';
 
 
@@ -103,7 +107,6 @@ const dataInput = ref({
     title: '',
     created_at: '',
     updated_at: ''
-
 });
 
 const types = ["", "Book", "Movie", "Series", "Fanfic"];
@@ -160,4 +163,16 @@ const enviar = async () => {
 
     }
 };
+
+onMounted(async () => {
+    // Get the 'type' query parameter from the route
+    const { props } = usePage();
+    const { type } = props;
+    console.log(type);
+    if (type) {
+        // Map the query parameter to the corresponding type
+        dataInput.value.bookmarkable_type = type;
+        await enviar();
+    }
+});
 </script>

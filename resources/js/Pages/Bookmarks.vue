@@ -57,6 +57,7 @@
                                         </div>
                                     </div>
                                     <h3 class="text-xl font-medium">{{ b.title }}</h3>
+
                                 </div>
                             </Card>
                             <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
