@@ -86,7 +86,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { formatDate } from '@/utils/functions';
 import { Head, usePage } from "@inertiajs/vue3";
@@ -99,7 +98,6 @@ import moment from 'moment';
 
 const isLoading = ref(false);
 const noBook = ref(0);
-const route = useRoute();
 const currentPage = ref(1);
 const lastPage = ref(null);
 const dataInput = ref({
