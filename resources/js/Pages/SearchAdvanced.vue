@@ -19,7 +19,7 @@
                     <div v-for="(label, field) in fields" :key="field">
                         <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ $t(label)
                             }}</label>
-                        <div class="my-2">
+                        <div class="my-2 bg-neutral-100">
                             <div v-if="field == 'bookmarkable_type'">
                                 <div class="mt-2">
                                     <select :id="field" :name="field" :autocomplete="field" v-model="dataInput[field]"
@@ -49,25 +49,25 @@
                 <div v-if="resultados.length">
                     <h2 class="text-2xl font-bold my-12">{{$t('Resultados')}}:</h2>
 
-                    <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-0"
+                    <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-2 bg-neutral-100"
                     :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
 
                         <!-- Type -->
-                        <h1 class="text-2xl font-medium mb-4"
+                        <p class="bg-red-100 inline-block rounded-lg px-5 shadow-lg  mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
-                            {{ $t('Movie') }}</h1>
-                        <h1 class="text-2xl font-medium mb-4"
+                            {{ $t('Movie') }}</p>
+                        <p class="bg-cyan-100 inline-block rounded-lg px-5 shadow-lg mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">{{ $t('Series') }}
-                        </h1>
-                        <h1 class="text-2xl font-medium mb-4"
+                        </p>
+                        <p class="bg-lime-100 inline-block rounded-lg px-5 shadow-lg mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
-                            {{ $t('Book') }}</h1>
-                        <h1 class="text-2xl font-medium mb-4"
+                            {{ $t('Book') }}</p>
+                        <p class="bg-amber-100 inline-block rounded-lg px-5 shadow-lg mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">{{ $t('Fanfic') }}
-                        </h1>
+                        </p>
 
-                        <p><strong>{{ $t('Title') }}:</strong> {{ resultado.attributes.title }}</p>
+                        <h3 class="text-xl font-medium">{{ resultado.attributes.title }}</h3>
 
                     </Card>
                     <div class="mt-6">

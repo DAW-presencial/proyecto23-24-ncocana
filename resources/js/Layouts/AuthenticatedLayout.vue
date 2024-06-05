@@ -74,7 +74,7 @@
             </div>
         </DisclosurePanel>
     </Disclosure>
-    <main class="min-h-screen">
+    <main class="min-h-screen bg-gradient-to-b from-sky-100 to-emerald-100">
         <slot></slot>
     </main>
     <Footer />
