@@ -19,17 +19,18 @@
                     </div>
                     <div class="mt-4 p-6 rounded-md bg-gradient-to-b from-sky-200 to-emerald-200">
                         <div class="flex justify-between gap-10">
-                            <div class="flex flex-col w-4/6 h-auto rounded-sm space-y-3">
+                            <div class="flex flex-col md:w-4/6 h-auto rounded-sm space-y-3">
                                 <!-- Cards -->
                                 <Card v-for="c in collections" :key="c.id" class="ml-0 h-full flex-auto flex-col bg-stone-50"
                                     :modifyLink="'/collections/' + c.id" :id="c.id" nameButton="SHOW" candeletecollection="true">
                                     <div>
                                         <p class="text-2xl font-medium">{{ c.attributes.name }}</p>
                                         <p class="text-gray-700"><strong class="font-medium">
-                                                {{$t('Description')}}: </strong>{{ c.attributes.description }}</p>
+                                                {{$t('Description')}}: </strong>{{ c.attributes.description }}
+                                        </p>
                                         <p class="text-gray-700"><strong class="font-medium">
-                                                {{$t('Tags')}}: </strong>{{ c.attributes.tags }}</p>
-
+                                                {{$t('Tags')}}: </strong>{{ c.attributes.tags }}
+                                        </p>
                                     </div>
                                 </Card>
                                 <div v-if="isLoading" id="empty" class="text-3xl m-auto">

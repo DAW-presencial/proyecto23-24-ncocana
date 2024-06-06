@@ -1,7 +1,9 @@
 <template>
     <footer class="text-gray-400 py-4">
-        <div class="container mx-auto my-auto flex justify-between items-center px-4">
-            <p class="text-sm">&copy; 2024 MyBookMarks, Inc. {{ $t('All rights reserved.') }}</p>
+        <div class="container mx-auto my-auto flex flex-col md:flex-row justify-between items-center px-4 space-y-2">
+            <p class="text-sm text-center md:text-left">
+                &copy; 2024 MyBookMarks, Inc. <span class="block md:inline">{{ $t('All rights reserved.') }}</span>
+            </p>
             <div class="flex space-x-4">
                 <a href="https://www.facebook.com/" target="_blank"
                     class="text-gray-400 hover:text-[#0866FF] hover:scale-125">

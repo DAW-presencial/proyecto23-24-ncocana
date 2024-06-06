@@ -13,7 +13,7 @@
                     </DisclosureButton>
                 </div>
                 <div class="flex flex-1 items-center sm:items-stretch sm:justify-start">
-                    <div class="flex flex-shrink-0 items-center">
+                    <div class="sm:flex sm:flex-shrink-0 sm:items-center hidden">
                         <div class="bg-white h-10 w-11 m-1 rounded-full">
                             <img src="/img/nuevo-logo1.png" alt="Logo" class="h-9 w-8 m-auto mt-0.5">
                         </div>
@@ -53,7 +53,7 @@
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
                                         {{ $t('Settings') }}</a>
                                     </MenuItem>
-                                    <MenuItem v-slot="{ active }">
+                                    <MenuItem v-slot="{ active }">                                                                              
                                     <DropdownLink :href="route('logout')" method="post" as="button"
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
                                         {{ $t('Sign out') }}
@@ -69,7 +69,7 @@
         <DisclosurePanel class="sm:hidden">
             <div class="space-y-1 px-2 pb-3 pt-2">
                 <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
-                    :class="[route().current(item.href) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
+                    :class="[route().current(item.href) ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-400 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
                     :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}</DisclosureButton>
             </div>
         </DisclosurePanel>

@@ -17,11 +17,9 @@ const goToType = (category) => {
 
 <template>
     <div>
-
         <Head :title="$t('Dashboard')" />
-
         <AuthenticatedLayout>
-            <div class="py-12">
+            <div class="py-12 mt-4 m-10 sm:m-0">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <!-- Introducción -->
                     <div class="mb-8">
@@ -31,11 +29,10 @@ const goToType = (category) => {
                     </div>
 
                     <!-- Categorías -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 lg:gap-3">
                         <div v-for="(category, index) in categories" :key="index"
                             class="card bg-white shadow-md rounded-lg overflow-hidden flex flex-col justify-end">
                             <div class="card-image">
-
                                 <img v-if="category.name === 'Book'"
                                     src="https://img.freepik.com/free-vector/hand-drawn-flat-design-stack-books-illustration_23-2149341898.jpg">
                                 <img v-if="category.name === 'Series'"
@@ -44,7 +41,6 @@ const goToType = (category) => {
                                     src="https://cdn-icons-png.flaticon.com/512/4831/4831192.png">
                                 <img v-if="category.name === 'Fanfic'"
                                     src="https://cdn-icons-png.freepik.com/512/4784/4784220.png">
-
                             </div>
                             <div class="p-4">
                                 <h2 class="text-xl font-semibold mb-2">{{ $t(category.name) }}</h2>
@@ -59,7 +55,7 @@ const goToType = (category) => {
 
                     <!-- FAQ -->
                     <div class="mt-12">
-                        <h2 class="text-3xl font-bold mb-4 text-center">{{$t('Preguntas Frecuentes')}} (FAQ)</h2>
+                        <h2 class="text-3xl font-bold m-10 sm:mb-5 text-center">{{$t('Preguntas Frecuentes (FAQ)')}</h2>
                         <div class="faq-item mb-6">
                             <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo crear un marcador?')}}</h3>
                             <p class="text-gray-800">{{$t("Para crear un marcador, simplemente navega a la categoría correspondiente y haz clic en 'Crear Marcador'. Luego, completa los detalles y guárdalo.")}}

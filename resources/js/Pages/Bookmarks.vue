@@ -19,7 +19,7 @@
                 </div>
                 <div class="mt-4 p-6 rounded-md  bg-gradient-to-b from-sky-200 to-emerald-200 rounded-md">
                     <div class="flex justify-between gap-10">
-                        <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-3'>
+                        <div class='flex flex-col md:w-4/6 h-auto rounded-sm space-y-3'>
                             <!-- Cards -->
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0 h-auto bg-stone-50"
                                 :modifyLink="'/bookmarks/' + b.id" :id="b.id" nameButton="SHOW" candelete=true>
@@ -57,8 +57,8 @@
                                         </div>
                                     </div>
                                     <h3 class="text-xl font-medium">{{ b.title }}</h3>
-
                                 </div>
+                                <p class="inline-block"><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                             </Card>
                             <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('Loading Bookmarks...') }}</h1>
@@ -184,7 +184,7 @@ const getBookmarks = async () => {
 
                 bookmarks.value.push(json);
                 isLoading.value = false;
-        
+
             }
         })
         .catch(error => console.log('Ha ocurrido un error: ' + error));

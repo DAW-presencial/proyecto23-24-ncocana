@@ -3,11 +3,11 @@
     <Head :title="$t('Advanced Search')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
-            <div class="mx-auto max-w-7xl mt-6 gap-4">
-                <div class="pb-4">
+            <div class="mx-auto max-w-7xl sm:m-6 gap-4">
+                <div class="pb-4 mx-0">
                     <Breadcrumbs :items="[$t('Home'), $t('Advanced Search')]"></Breadcrumbs>
                 </div>
-                <div class="text-xl font-bold mx-auto my-4">
+                <div class="text-xl font-bold mx-auto mb-2 sm:m-4">
                     <h1>{{ $t('Bookmark Advanced Search') }}</h1>
                 </div>
                 <!-- FORM -->
@@ -37,14 +37,16 @@
                             </div>
                         </div>
                     </div>
-                    <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
+                    <div class="mt-6">
+                        <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
+                    </div>
                 </form>
 
                 <div v-if="isLoading == true" id="empty" class="text-3xl my-8">
                     <h1>{{ $t('Cargando Marcadores...') }}</h1>
                 </div>
                 <div v-if="resultados.length">
-                    <h2 class="text-2xl font-bold my-12">{{ $t('Resultados') }}:</h2>
+                    <h2 class="text-2xl font-bold m-6 mx-0 sm:m-12">{{ $t('Resultados') }}:</h2>
                     <div class="flex flex-col gap-y-4">
                     <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-2 bg-neutral-100"
                     :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
