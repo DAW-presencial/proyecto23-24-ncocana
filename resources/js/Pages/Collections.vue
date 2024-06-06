@@ -7,7 +7,7 @@
                 <div class="mx-auto">
                     <Breadcrumbs :items="[$t('Home'), $t('Collections')]"></Breadcrumbs>
                 </div>
-                <div class="flex flex-col mx-auto">
+                <div class="flex flex-col mx-auto ">
                     <div class="text-3xl font-bold mx-auto my-4"></div>
                     <!-- BUTTONS AND INPUT -->
                     <div class="flex justify-between w-full">
@@ -17,19 +17,20 @@
                             </PrimaryButton>
                         </div>
                     </div>
-                    <div class="mt-4 p-6 rounded-md bg-stone-50">
+                    <div class="mt-4 p-6 rounded-md bg-gradient-to-b from-sky-200 to-emerald-200">
                         <div class="flex justify-between gap-10">
                             <div class="flex flex-col md:w-4/6 h-auto rounded-sm space-y-3">
                                 <!-- Cards -->
-                                <Card v-for="c in collections" :key="c.id" class="ml-0 h-full flex-auto flex-col"
+                                <Card v-for="c in collections" :key="c.id" class="ml-0 h-full flex-auto flex-col bg-stone-50"
                                     :modifyLink="'/collections/' + c.id" :id="c.id" nameButton="SHOW" candeletecollection="true">
                                     <div>
-                                        <h1 class="text-2xl font-medium">{{ c.attributes.name }}</h1>
-                                        <p class="text-gray-700 inline-block"><strong class="font-medium">
-                                                {{$t('Description')}}: </strong>{{ c.attributes.description }}</p>
+                                        <p class="text-2xl font-medium">{{ c.attributes.name }}</p>
                                         <p class="text-gray-700"><strong class="font-medium">
-                                                {{$t('Tags')}}: </strong>{{ c.attributes.tags }}</p>
-
+                                                {{$t('Description')}}: </strong>{{ c.attributes.description }}
+                                        </p>
+                                        <p class="text-gray-700"><strong class="font-medium">
+                                                {{$t('Tags')}}: </strong>{{ c.attributes.tags }}
+                                        </p>
                                     </div>
                                 </Card>
                                 <div v-if="isLoading" id="empty" class="text-3xl m-auto">
@@ -40,11 +41,11 @@
                                     <h1>{{ $t('No Collections found') }}</h1>
                                 </div>
                             </div>
-                            <div class="hidden w-2/6 sm:flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72">
-                                <div class="pt-4 px-4">
+                            <div class="w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72 bg-gradient-to-b from-sky-300 to-emerald-300">
+                                <div class="pt-4 px-4 ">
                                     <InputLabel :value="$t('SORT BY')"></InputLabel>
                                     <select id="sort" name="sort" v-model="sortBy"
-                                        class="w-full p-2 border border-gray-300 rounded-md">
+                                        class="w-full p-2 border border-gray-300 rounded-md bg-stone-50">
                                         <option value="name">{{ $t('Title') }}</option>
                                         <option value="created_at">{{ $t('Created at') }}</option>
                                         <option value="updated_at">{{ $t('Updated at') }}</option>
@@ -53,14 +54,14 @@
                                 <div class="pt-2 px-4">
                                     <InputLabel :value="$t('ORDER')"></InputLabel>
                                     <select id="order" name="order" v-model="order"
-                                        class="w-full p-2 border border-gray-300 rounded-md">
+                                        class="w-full p-2 border border-gray-300 rounded-md bg-stone-50">
                                         <option value="asc">{{ $t('Ascending') }}</option>
                                         <option value="desc">{{ $t('Descending') }}</option>
                                     </select>
                                 </div>
                                 <div class="pt-2 px-4">
                                     <InputLabel :value="$t('TAGS')"></InputLabel>
-                                    <TextInput class="w-64" v-model="tags"></TextInput>
+                                    <TextInput class="w-64 bg-stone-50" v-model="tags"></TextInput>
                                 </div>
                                 <div class="pt-4 px-4">
                                     <PrimaryButton @click="sortCollections">
