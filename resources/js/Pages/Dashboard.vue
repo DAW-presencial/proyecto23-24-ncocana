@@ -55,7 +55,7 @@ const goToType = (category) => {
 
                     <!-- FAQ -->
                     <div class="mt-12">
-                        <h2 class="text-3xl font-bold m-10 sm:mb-5 text-center">{{$t('Preguntas Frecuentes')}} (FAQ)</h2>
+                        <h2 class="text-3xl font-bold m-10 sm:mb-5 text-center">{{$t('Preguntas Frecuentes (FAQ)')}</h2>
                         <div class="faq-item mb-6">
                             <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo crear un marcador?')}}</h3>
                             <p class="text-gray-800">{{$t("Para crear un marcador, simplemente navega a la categoría correspondiente y haz clic en 'Crear Marcador'. Luego, completa los detalles y guárdalo.")}}

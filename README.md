@@ -2,8 +2,9 @@
 
 - [MyBookmarks](#mybookmarks)
   - [Introducción](#introducción)
+    - [Arquitectura de la aplicación](#arquitectura-de-la-aplicación)
     - [Esquema de la base de datos](#esquema-de-la-base-de-datos)
-    - [Como colaborar](#como-colaborar)
+    - [Documentación en Postman](#documentación-en-postman)
   - [Cómo instalar en local](#cómo-instalar-en-local)
     - [Requisitos](#requisitos)
     - [Instalación](#instalación)
@@ -15,11 +16,27 @@
 
 MyBookmarks es una aplicación para guardar y gestionar marcadores, permitiendo al usuario guardar su progreso actual mientras lee un libro o ve una serie o película. Todo lo que tiene que hacer es crear un marcador, seleccionar uno de los tipos de marcadores disponibles y introducir los datos requeridos. Si tiene demasiados marcadores, también tiene la opción de agruparlos en colecciones. Además, MyBookmarks también cuenta con un sistema de tags que permite al usuario clasificar y filtrar sus marcadores y colecciones a placer.
 
+### Arquitectura de la aplicación
+
+![MyBookmarks Architecture 1](./docs/mybookmarks_diagram1_flowchart.png)
+
+El usuario abre la aplicación y empieza a navegar y realizar operaciones a través de la app (gestionando marcadores, colecciones, o realizando busquedas avanzadas).   
+
+![MyBookmarks Architecture 3](./docs/mybookmarks_diagram3_sequence.png)
+
+Una vez se realiza una operación, los datos se mandan a las rutas de la API, que ejecutan los controladores (y middleware si hubiera) para devolver las vistas de las aplicación o ejecutar métodos para devolver datos al front o realizar operaciones en la base de datos.   
+
+![MyBookmarks Architecture 2](./docs//mybookmarks_diagram2_components.png)
+
 ### Esquema de la base de datos
 
 ![Database Schema](./docs/mybookmarks_db.png)
 
-### Como colaborar
+### Documentación en Postman
+
+Puedes ver la documentación de las rutas y ejemplos de peticiones a la API en nuestra documentación en Postman: [https://documenter.getpostman.com/view/32424212/2sA3XJjPyD](https://documenter.getpostman.com/view/32424212/2sA3XJjPyD).
+
+<!-- ### Como colaborar
 
 1. Clonar el proyecto en tu equipo local.
 
@@ -47,7 +64,7 @@ MyBookmarks es una aplicación para guardar y gestionar marcadores, permitiendo 
 
 6. Una vez el asignee ha revisado la Pull Request y dado el visto bueno, el asignee fusionará la rama de la Pull Request con la rama `main`. La rama fusionada será borrada para evitar acumulación de ramas en el proyecto (si fuera necesario, la eliminación de la rama se puede revertir).
 
-7. Si se encontrara algún bug en la rama `main` después de fusionarla con alguna rama, se creará un Issue en la sección "Issues" en el GitHub del proyecto explicando el problema y la posible causa. El colaborador causante del bug o cualquier otro es libre de asignarse así mismo el Issue y crear una rama `fix` para solucionar el bug. Se aconseja darle a "Watch" en el GitHub del proyecto para recibir una notificación cada vez que alguien comente o cree un Issue.
+7. Si se encontrara algún bug en la rama `main` después de fusionarla con alguna rama, se creará un Issue en la sección "Issues" en el GitHub del proyecto explicando el problema y la posible causa. El colaborador causante del bug o cualquier otro es libre de asignarse así mismo el Issue y crear una rama `fix` para solucionar el bug. Se aconseja darle a "Watch" en el GitHub del proyecto para recibir una notificación cada vez que alguien comente o cree un Issue. -->
 
 ## Cómo instalar en local
 
@@ -55,9 +72,11 @@ MyBookmarks es una aplicación para guardar y gestionar marcadores, permitiendo 
 
 - Apache
 - PHP
-- PostgreSQL (o cualquier otra base de datos)
 - Laravel
+- PostgreSQL (o cualquier otra base de datos)
+- Git
 - Composer
+- Node.js
 
 ### Instalación
 
@@ -110,8 +129,44 @@ Actualmente, MyBookmarks se encuentra desplegada en remoto. Puedes acceder a ell
 
 ## Cómo usar
 
-(Instrucciones de cómo usar la aplicación)
+1. Ingresa en la página de la aplicación, ya sea remota o localmente.
+
+2. Registrate o inicia sesión. Puedes cambiar el idioma al inglés o español haciendo click en la imagen del idioma y seleccionando el que quieres entre los disponibles.
+
+    ![MyBookmarks - Log in](./docs/mybookmarks_login.png)
+
+3. Una vez inicies sesión exitosamente, la página te llevará al Dashboard (Inicio), donde podrás ver una breve introducción a la página y las FAQs.
+
+    ![MyBookmarks - Dashboard](./docs/mybookmarks_dashboard.png)
+
+4. En Bookmarks (Marcadores), podrás visualizar los marcadores actualmente creados, así como ordenarlos o filtrarlos por tags. También podrás acceder desde acá a la página para crear o editar marcadores, así como a la posibilidad de eliminarlos. Los marcadores están ordenados por defecto en orden descendente por la fecha de actualización; cada vez que edites un marcador, se mostrará como el primero en la lista.
+
+    ![MyBookmarks - Bookmarks](./docs/mybookmarks_bookmarks.png)
+
+5. Si le das al botón `Create Bookmark` (`Crear Marcador`), podrás crear un marcador de entre los 4 tipos disponibles (Libro, Fanfic, Serie, Película) al rellenar los campos.
+
+    ![MyBookmarks - Create Bookmark](./docs/mybookmarks_create_bookmark.png)
+
+6. En Advanced Search (Búsqueda avanzada), puedes realizar un filtrado más extenso de los marcadores por tipo, titulo, sinopsis, notas, y fecha de creacion y actualizacion. Los marcadores resultantes de la búsqueda se mostrarán abajo.
+
+    ![MyBookmarks - Advanced Search](./docs/mybookmarks_advanced_search.png)
+
+7. En Collections (Colecciones), puedes ver, crear y acceder a colecciones en las que puedes agrupar tus marcadores para tenerlos bien organizados. Similar a los marcadores, puedes ordenar las colecciones a través de los opciones disponibles en el menú de la derecha, así como filtrar por tags.
+
+    ![MyBookmarks - Collections](./docs/mybookmarks_collections.png)
+
+8. Para añadir marcadores a una coleccion, dale al botón de `Show` (`Mostrar`), selecciona uno de tus marcadores y dale al botón para añadirlo. A través de está página también puedes ver los marcadores pertenecientes a esa colección, acceder a ellos para editarlos, o directamente borrarlos de la colección.
+
+    ![MyBookmarks - See one collection's bookmarks](./docs/mybookmarks_collection.png)
 
 ## Testing
 
-(Resultados del testing)
+Para ejecutar los tests, basta con meterse dentro de la carpeta de la aplicación y ejecutar el siguiente comando:   
+
+```
+php artisan test
+```
+
+![Test Results](./docs/test_results_04_06_2024.png)
+
+Actualmente hay 110 tests, con 582 aserciones en total, evaluando la ejecución correcta de los controladores, la autenticación, y la estructura JSON:API de la aplicación.   
