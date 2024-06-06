@@ -3,15 +3,16 @@
     <Head :title="$t('Single Bookmark')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
-            <div class="flex flex-col justify-center mx-auto max-w-7xl">
-                <div class="pb-12">
+            <div class="flex flex-col justify-center mx-auto max-w-7xl min-h-screen">
+                <div class="pb-12 ">
                     <Breadcrumbs :items="[$t('Home'), $t('Bookmark'), $t('Single Bookmark')]"></Breadcrumbs>
                 </div>
-                <div class="container mx-4 h-3/4">
+                <div class="container">
                     <Card class="h-auto" nameButton="UPDATE" :update="updateBookmark" :id="bookmark_data.id"
                         candelete="true">
 
-                        <div v-if="errors['general']" class="mt-2 text-sm text-red-600">{{ errors['general'][0] }}</div>
+                        <div v-if="errors['general']" class="mt-2 text-sm text-red-600">{{ errors['general'][0] }}
+                        </div>
 
                         <div class="mt-3">
                             <InputLabel :value="$t('Title')" />
@@ -25,14 +26,16 @@
                                 <InputLabel :value="$t('Director')" />
                                 <TextInput v-model="bookmark_data.director"
                                     :placeholder="placeholders['Movie']['director']" />
-                                <p v-if="errors['director']" class="mt-2 text-sm text-red-600">{{ errors['director'][0]
-                                    }}</p>
+                                <p v-if="errors['director']" class="mt-2 text-sm text-red-600">{{
+        errors['director'][0]
+    }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Actors')" />
                                 <TextInput v-model="bookmark_data.actors"
                                     :placeholder="placeholders['Movie']['actors']" />
-                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0] }}
+                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0]
+                                    }}
                                 </p>
                             </div>
                             <div class="mt-3">
@@ -57,14 +60,16 @@
                                 <InputLabel :value="$t('Author')" />
                                 <TextInput v-model="bookmark_data.author"
                                     :placeholder="placeholders['Fanfic']['author']" />
-                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0] }}
+                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0]
+                                    }}
                                 </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Fandom')" />
                                 <TextInput v-model="bookmark_data.fandom"
                                     :placeholder="placeholders['Fanfic']['fandom']" />
-                                <p v-if="errors['fandom']" class="mt-2 text-sm text-red-600">{{ errors['fandom'][0] }}
+                                <p v-if="errors['fandom']" class="mt-2 text-sm text-red-600">{{ errors['fandom'][0]
+                                    }}
                                 </p>
                             </div>
                             <div class="mt-3">
@@ -78,14 +83,16 @@
                                 <InputLabel :value="$t('Language')" />
                                 <TextInput v-model="bookmark_data.language"
                                     :placeholder="placeholders['Fanfic']['language']" />
-                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{ errors['language'][0]
-                                    }}</p>
+                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{
+        errors['language'][0]
+    }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Words')" />
                                 <TextInput v-model="bookmark_data.words"
                                     :placeholder="placeholders['Fanfic']['words']" />
-                                <p v-if="errors['words']" class="mt-2 text-sm text-red-600">{{ errors['words'][0] }}</p>
+                                <p v-if="errors['words']" class="mt-2 text-sm text-red-600">{{ errors['words'][0] }}
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Read chapters')" />
@@ -109,15 +116,17 @@
                                 <InputLabel :value="$t('Author')" />
                                 <TextInput v-model="bookmark_data.author"
                                     :placeholder="placeholders['Book']['author']" />
-                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0] }}
+                                <p v-if="errors['author']" class="mt-2 text-sm text-red-600">{{ errors['author'][0]
+                                    }}
                                 </p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Language')" />
                                 <TextInput v-model="bookmark_data.language"
                                     :placeholder="placeholders['Book']['language']" />
-                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{ errors['language'][0]
-                                    }}</p>
+                                <p v-if="errors['language']" class="mt-2 text-sm text-red-600">{{
+        errors['language'][0]
+    }}</p>
                             </div>
                             <div class="mt-3">
                                 <InputLabel :value="$t('Read pages')" />
@@ -141,7 +150,8 @@
                                 <InputLabel :value="$t('Actors')" />
                                 <TextInput v-model="bookmark_data.actors"
                                     :placeholder="placeholders['Series']['actors']" />
-                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0] }}
+                                <p v-if="errors['actors']" class="mt-2 text-sm text-red-600">{{ errors['actors'][0]
+                                    }}
                                 </p>
                             </div>
                             <div class="mt-3">
@@ -163,7 +173,7 @@
                                 <TextInput v-model="bookmark_data.currently_at"
                                     :placeholder="placeholders['Series']['currently_at']" />
                                 <p v-if="errors['currently_at']" class="mt-2 text-sm text-red-600">{{
-                                    errors['currently_at'][0] }}</p>
+        errors['currently_at'][0] }}</p>
                             </div>
                         </div>
 
@@ -171,7 +181,8 @@
                             <InputLabel :value="$t('Synopsis')" />
                             <textarea class="border rounded-md shadow w-full h-20 text-sm p-2 resize-y"
                                 v-model="bookmark_data.synopsis" :placeholder="placeholders['synopsis']"></textarea>
-                            <p v-if="errors['synopsis']" class="mt-2 text-sm text-red-600">{{ errors['synopsis'][0] }}
+                            <p v-if="errors['synopsis']" class="mt-2 text-sm text-red-600">{{ errors['synopsis'][0]
+                                }}
                             </p>
                         </div>
                         <div class="mt-3">
@@ -346,7 +357,7 @@ const updateBookmark = async () => {
                 }
             });
         } else if (error.response && error.response.status === 400) {
-            if(error.response.data.message) {
+            if (error.response.data.message) {
                 errors.value['tags'] = error.response.data.message;
             }
             console.log(errors);
