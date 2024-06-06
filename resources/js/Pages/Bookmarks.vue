@@ -58,7 +58,6 @@
                                     </div>
                                     <h3 class="text-xl font-medium">{{ b.title }}</h3>
                                 </div>
-                                <p class="inline-block"><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                             </Card>
                             <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('Loading Bookmarks...') }}</h1>
