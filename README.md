@@ -4,6 +4,7 @@
   - [Introducción](#introducción)
     - [Arquitectura de la aplicación](#arquitectura-de-la-aplicación)
     - [Esquema de la base de datos](#esquema-de-la-base-de-datos)
+    - [Documentación en Postman](#documentación-en-postman)
   - [Cómo instalar en local](#cómo-instalar-en-local)
     - [Requisitos](#requisitos)
     - [Instalación](#instalación)
@@ -30,6 +31,10 @@ Una vez se realiza una operación, los datos se mandan a las rutas de la API, qu
 ### Esquema de la base de datos
 
 ![Database Schema](./docs/mybookmarks_db.png)
+
+### Documentación en Postman
+
+Puedes ver la documentación de las rutas y ejemplos de peticiones a la API en nuestra documentación en Postman: [https://documenter.getpostman.com/view/32424212/2sA3XJjPyD](https://documenter.getpostman.com/view/32424212/2sA3XJjPyD).
 
 <!-- ### Como colaborar
 
