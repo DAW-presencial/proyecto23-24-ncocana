@@ -2,6 +2,7 @@
 
 - [MyBookmarks](#mybookmarks)
   - [Introducción](#introducción)
+    - [Arquitectura de la aplicación](#arquitectura-de-la-aplicación)
     - [Esquema de la base de datos](#esquema-de-la-base-de-datos)
   - [Cómo instalar en local](#cómo-instalar-en-local)
     - [Requisitos](#requisitos)
@@ -13,6 +14,18 @@
 ## Introducción
 
 MyBookmarks es una aplicación para guardar y gestionar marcadores, permitiendo al usuario guardar su progreso actual mientras lee un libro o ve una serie o película. Todo lo que tiene que hacer es crear un marcador, seleccionar uno de los tipos de marcadores disponibles y introducir los datos requeridos. Si tiene demasiados marcadores, también tiene la opción de agruparlos en colecciones. Además, MyBookmarks también cuenta con un sistema de tags que permite al usuario clasificar y filtrar sus marcadores y colecciones a placer.
+
+### Arquitectura de la aplicación
+
+![MyBookmarks Architecture 1](./docs/mybookmarks_diagram1_flowchart.png)
+
+El usuario abre la aplicación y empieza a navegar y realizar operaciones a través de la app (gestionando marcadores, colecciones, o realizando busquedas avanzadas).   
+
+![MyBookmarks Architecture 3](./docs/mybookmarks_diagram3_sequence.png)
+
+Una vez se realiza una operación, los datos se mandan a las rutas de la API, que ejecutan los controladores (y middleware si hubiera) para devolver las vistas de las aplicación o ejecutar métodos para devolver datos al front o realizar operaciones en la base de datos.   
+
+![MyBookmarks Architecture 2](./docs//mybookmarks_diagram2_components.png)
 
 ### Esquema de la base de datos
 
