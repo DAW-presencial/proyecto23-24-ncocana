@@ -19,38 +19,35 @@
                 </div>
                 <div class="mt-4 p-6 rounded-md  bg-stone-50">
                     <div class="flex justify-between gap-10">
-                        <div class='flex flex-col w-4/6 h-auto rounded-sm space-y-3'>
+                        <div class='flex flex-col md:w-4/6 h-auto rounded-sm space-y-3'>
                             <!-- Cards -->
                             <Card v-for="(b) in bookmarks" :key="b.id" class="ml-0 h-auto"
                                 :modifyLink="'/bookmarks/' + b.id" :id="b.id" nameButton="SHOW" candelete=true>
                                 <div v-if="b.tipo == 'App\\Models\\Movie'">
                                     <h1 class="text-2xl font-medium mb-4">{{ $t('Movie') }}</h1>
-                                    <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
 
                                 <div v-else-if="b.tipo == 'App\\Models\\Fanfic'">
-                                    <h1 class="text-2xl font-medium mb-4">Fanfic</h1>
-                                    <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
+                                    <h1 class="text-2xl font-medium mb-4">{{ $t('Fanfic') }}</h1>
                                 </div>
 
                                 <div v-else-if="b.tipo == 'App\\Models\\Book'">
                                     <h1 class="text-2xl font-medium mb-4">{{ $t('Book') }}</h1>
-                                    <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
 
                                 <div v-else-if="b.tipo == 'App\\Models\\Series'">
                                     <h1 class="text-2xl font-medium mb-4">{{ $t('Series') }}</h1>
-                                    <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                                 </div>
+                                <p class="inline-block"><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
                             </Card>
                             <div v-if="isLoading == true" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('Loading Bookmarks...') }}</h1>
                             </div>
-                            <div v-else-if="!bookmarks.length" id="empty" class="text-3xl m-auto">
+                            <div v-else-if="!bookmarks.length && isLoading == false" id="empty" class="text-3xl m-auto">
                                 <h1>{{ $t('No Bookmarks found') }}</h1>
                             </div>
                         </div>
-                        <div class='w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72'>
+                        <div class='hidden w-2/6 sm:flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72'>
                             <div class="pt-4 px-4">
                                 <InputLabel :value="$t('SORT BY')"></InputLabel>
                                 <select id="sort" name="sort" v-model="sortBy"
@@ -167,6 +164,7 @@ const getBookmarks = async () => {
 
                 bookmarks.value.push(json);
                 isLoading.value = false;
+
             }
         })
         .catch(error => console.log('Ha ocurrido un error: ' + error));

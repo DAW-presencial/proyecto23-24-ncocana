@@ -19,13 +19,13 @@
                     </div>
                     <div class="mt-4 p-6 rounded-md bg-stone-50">
                         <div class="flex justify-between gap-10">
-                            <div class="flex flex-col w-4/6 h-auto rounded-sm space-y-3">
+                            <div class="flex flex-col md:w-4/6 h-auto rounded-sm space-y-3">
                                 <!-- Cards -->
                                 <Card v-for="c in collections" :key="c.id" class="ml-0 h-full flex-auto flex-col"
                                     :modifyLink="'/collections/' + c.id" :id="c.id" nameButton="SHOW" candeletecollection="true">
                                     <div>
                                         <h1 class="text-2xl font-medium">{{ c.attributes.name }}</h1>
-                                        <p class="text-gray-700"><strong class="font-medium">
+                                        <p class="text-gray-700 inline-block"><strong class="font-medium">
                                                 {{$t('Description')}}: </strong>{{ c.attributes.description }}</p>
                                         <p class="text-gray-700"><strong class="font-medium">
                                                 {{$t('Tags')}}: </strong>{{ c.attributes.tags }}</p>
@@ -40,7 +40,7 @@
                                     <h1>{{ $t('No Collections found') }}</h1>
                                 </div>
                             </div>
-                            <div class="w-2/6 flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72">
+                            <div class="hidden w-2/6 sm:flex flex-col border border-gray-400 rounded-md shadow-lg min-h-72">
                                 <div class="pt-4 px-4">
                                     <InputLabel :value="$t('SORT BY')"></InputLabel>
                                     <select id="sort" name="sort" v-model="sortBy"
