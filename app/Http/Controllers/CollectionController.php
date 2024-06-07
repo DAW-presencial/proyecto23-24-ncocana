@@ -56,6 +56,17 @@ class CollectionController extends Controller
         
         // Extract the attributes from the request data
         $attributes = $requestData['data']['attributes'];
+
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
+            // Validate the number of tags
+            $tags = $attributes['tags'];
+            $tagsCount = is_array($tags) ? count($tags) : 1;
+
+            if ($tagsCount > TagController::MAX_TAGS) {
+                return response()->json(['message' => 'Cannot add more than ' . TagController::MAX_TAGS . ' tags.'], 400);
+            }
+        }
         
         // Get the currently authenticated user's ID
         $userId = Auth::id();
@@ -67,7 +78,7 @@ class CollectionController extends Controller
         ]);
 
         // Check if 'tags' key exists before accessing it
-        if (isset($attributes['tags']) && $attributes['tags']) {
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
             app(TagController::class)->store($collection, $attributes['tags']);
         }
 
@@ -106,13 +117,24 @@ class CollectionController extends Controller
         // Extract the attributes from the request data
         $attributes = $requestData['data']['attributes'];
 
+        // Check if 'tags' key exists before accessing it
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
+            // Validate the number of tags
+            $tags = $attributes['tags'];
+            $tagsCount = is_array($tags) ? count($tags) : 1;
+
+            if ($tagsCount > TagController::MAX_TAGS) {
+                return response()->json(['message' => 'Cannot add more than ' . TagController::MAX_TAGS . ' tags.'], 400);
+            }
+        }
+
         $collection->update([
             'name' => $attributes['name'],
             'description' => $attributes['description'],
         ]);
 
         // Check if 'tags' key exists before accessing it
-        if (isset($attributes['tags']) && $attributes['tags']) {
+        if (isset($attributes['tags']) && $attributes['tags'] && $attributes['tags'] != ['']) {
             app(TagController::class)->update($collection, $attributes['tags']);
         }
 

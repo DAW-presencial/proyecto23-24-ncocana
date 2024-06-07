@@ -15,7 +15,7 @@
                 <label for="type" class="block text-sm font-medium leading-6 text-gray-900">{{ $t('Type') }}</label>
                 <div class="mt-2">
                     <select id="type"
-                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-white"
                         v-model="selected_type">
                         <option value="default" disabled selected>{{ $t('Choose a bookmark type') }}</option>
                         <option v-for="(fields, type) in fields" :key="type" :value="type">{{ $t(type) }}</option>
@@ -26,14 +26,23 @@
                 <div v-if="selected_type !== 'default'">
                     <form @submit.prevent="enviar">
                         <div v-for="(label, field) in fields[selected_type]" :key="field">
-                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ $t(label)
-                                }}</label>
+                            <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ $t(label) }}</label>
                             <div class="my-2">
                                 <input type="text" :name="field" :id="field" :autocomplete="field"
                                     v-model="dataInput[field]" :placeholder="$t(placeholders[selected_type][field])"
                                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                                    :class="{ 'border-red-600': errors[field] }" :required="field !== 'tags'" />
+                                    :class="{ 'border-red-600': errors[field] }" required />
                                 <p v-if="errors[field]" class="mt-2 text-sm text-red-600">{{ errors[field][0] }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="tags" class="block text-sm font-medium leading-6 text-gray-900">{{ $t('Tags') }}</label>
+                            <div class="my-2">
+                                <input type="text" name="tags" id="tags" autocomplete="tags"
+                                    v-model="dataInput.tags" :placeholder="$t(placeholders[selected_type].tags)"
+                                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    :class="{ 'border-red-600': errors['tags'] }" />
+                                <p v-if="errors['tags']" class="mt-2 text-sm text-red-600">{{ errors['tags'] }}</p>
                             </div>
                         </div>
                         <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
@@ -66,7 +75,6 @@ const fields = {
         total_pages: "Total Pages",
         synopsis: "Synopsis",
         notes: "Notes",
-        tags: "Tags"
     },
     Movie: {
         title: "Title",
@@ -76,7 +84,6 @@ const fields = {
         currently_at: "Currently At",
         synopsis: "Synopsis",
         notes: "Notes",
-        tags: "Tags"
     },
     Series: {
         title: "Title",
@@ -86,7 +93,6 @@ const fields = {
         currently_at: "Currently At",
         synopsis: "Synopsis",
         notes: "Notes",
-        tags: "Tags"
     },
     Fanfic: {
         title: "Title",
@@ -99,7 +105,6 @@ const fields = {
         relationships: "Relationships",
         synopsis: "Synopsis",
         notes: "Notes",
-        tags: "Tags"
     }
 };
 
@@ -119,7 +124,7 @@ const placeholders = {
         director: "Enter the director's name",
         actors: "Enter the main actors",
         release_date: "Enter the release date: YYYY/MM/DD",
-        currently_at: "Enter your current position",
+        currently_at: "Enter your current position: HH:MM:SS",
         notes: "Enter any additional notes",
         synopsis: "Enter a brief synopsis",
         tags: "Enter any tags separated by commas: tag1, tag2, tag3"
@@ -129,7 +134,7 @@ const placeholders = {
         actors: "Enter the main actors",
         num_seasons: "Enter the number of seasons",
         num_episodes: "Enter the number of episodes",
-        currently_at: "Enter your current position",
+        currently_at: "Enter your current position: Season 4, Episode 3",
         synopsis: "Enter a brief synopsis",
         notes: "Enter any additional notes",
         tags: "Enter any tags separated by commas: tag1, tag2, tag3"
@@ -190,6 +195,12 @@ const enviar = async () => {
                     errors.value[pointer] = [errorDetail];
                 }
             });
+            // console.log(errors);
+        } else if (error.response && error.response.status === 400) {
+            if(error.response.data.message) {
+                errors.value['tags'] = error.response.data.message;
+            }
+            // console.log(errors);
         } else {
             console.error('Error submitting form:', error);
         }

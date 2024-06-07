@@ -370,4 +370,43 @@ class CreateBookmarkTest extends TestCase
         $this->assertDatabaseCount('tags', 2);
         $this->assertDatabaseCount('taggables', 2);
     }
+
+    /** @test */
+    public function cant_create_tagged_bookmark_with_more_than_ten_tags(): void
+    {
+        // Creating and authenticating a user
+        $user = User::factory()->create();
+        Sanctum::actingAs($user);
+
+        $this->withoutExceptionHandling();
+
+        $requestData = [
+            'bookmarkable_type' => 'Fanfic',
+            'title' => 'Nuevo bookmark',
+            'synopsis' => 'Esto es una sinopsis',
+            'notes' => 'Esto son las notas',
+            'bookmarkable' => [
+                'author' => 'Noa',
+                'language' => 'Spanish',
+                'fandom' => 'Genshin Impact',
+                'relationships' => 'Tartaglia/Diluc Ragnvindr',
+                'words' => '67000',
+                'read_chapters' => '5',
+                'total_chapters' => '60',
+            ],
+            'tags' => ['tag1', 'tag2', 'tag3', 'tag4', 'tag5', 'tag6', 'tag7', 'tag8', 'tag9', 'tag10', 'tag11'],
+        ];
+
+        $response = $this->postJson(route('api.v1.bookmarks.store'), $requestData);
+
+        $response->assertBadRequest();
+
+        $this->assertDatabaseCount('bookmarks', 0);
+        $this->assertDatabaseCount('books', 0);
+        $this->assertDatabaseCount('fanfics', 0);
+        $this->assertDatabaseCount('series', 0);
+        $this->assertDatabaseCount('movies', 0);
+        $this->assertDatabaseCount('tags', 0);
+        $this->assertDatabaseCount('taggables', 0);
+    }
 }

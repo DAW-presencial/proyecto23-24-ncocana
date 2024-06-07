@@ -4,7 +4,9 @@ use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Bookmark;
+use App\Models\Collection;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -50,8 +52,13 @@ Route::get('/prueba', function () {
     return Inertia::render('Prueba');
 })->middleware(['auth', 'verified'])->name('prueba');
 
-Route::get('/searchadvanced', function () {
-    return Inertia::render('SearchAdvanced');
+
+// BUSQUEDA AVANZADA
+Route::get('/searchadvanced', function (Request $request) {
+    $type = $request->query('type');
+    return Inertia::render('SearchAdvanced',[
+        'type' => $type
+    ]);
 })->middleware(['auth', 'verified'])->name('searchadvanced');
 
 
@@ -84,6 +91,24 @@ Route::get('/createbookmark', function () {
     return Inertia::render('CreateBookmark');
 })->middleware(['auth', 'verified'])->name('createbookmark');
 
+
+// Collections 
+
+//  INDEX
 Route::get('/collections', function () {
     return Inertia::render('Collections');
 })->middleware(['auth', 'verified'])->name('collections');
+
+// SHOW 
+Route::get('/collections/{id}', function ($id) {
+
+    return Inertia::render('ShowCollections', [
+        'collection_id' => $id
+    ]);
+})->middleware(['auth', 'verified'])->name('showcollection');
+
+// CREATE
+Route::get('/createcollection', function() {
+    return Inertia::render('CreateCollections');
+
+})->middleware(['auth', 'verified'])->name('createcollection');

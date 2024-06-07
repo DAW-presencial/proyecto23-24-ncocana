@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import axios from 'axios'; // Asegúrate de importar axios
 import { onMounted } from 'vue';
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
 const form = useForm({
     name: '',
@@ -46,6 +47,9 @@ onMounted(() => {
 
 <template>
     <GuestLayout>
+        <div class="flex justify-center">
+            <LanguageSwitcher />
+        </div>
 
         <Head title="Register" />
         <h2 class=" mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">{{$t('Sign up')}}</h2>

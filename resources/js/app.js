@@ -9,6 +9,10 @@ import { i18nVue } from 'laravel-vue-i18n';
 import vuetify from './config/vuetify';
 import axios from './config/axios-config'
 
+if (process.env.NODE_ENV === 'production') {
+    console.log = console.warn = console.error = () => { };
+}
+
 createInertiaApp({
     title: (title) => `${title} - MyBookMarks`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),
@@ -29,3 +33,10 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+// Agregar el icono al `head`
+const link = document.createElement('link');
+link.rel = 'icon';
+link.type = 'image/png';  // Cambia esto al tipo de archivo de tu icono (e.g., 'image/png')
+link.href = '/img/nuevo-logo1.png';  // Cambia esto a la ruta de tu icono
+document.head.appendChild(link);

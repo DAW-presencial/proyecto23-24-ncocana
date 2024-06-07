@@ -1,17 +1,14 @@
 <template>
 
-
     <Head :title="$t('Advanced Search')" />
     <AuthenticatedLayout>
         <main class="flex-1 p-4">
-            <div class="mx-auto max-w-7xl mt-6 gap-4">
-
-                <div class="pb-4">
+            <div class="mx-auto max-w-7xl sm:m-6 gap-4">
+                <div class="pb-4 mx-0">
                     <Breadcrumbs :items="[$t('Home'), $t('Advanced Search')]"></Breadcrumbs>
                 </div>
-                <div class="text-xl font-bold mx-auto my-4">
+                <div class="text-xl font-bold mx-auto mb-2 sm:m-4">
                     <h1>{{ $t('Bookmark Advanced Search') }}</h1>
-
                 </div>
                 <!-- FORM -->
                 <form @submit.prevent="enviar">
@@ -19,7 +16,7 @@
                     <div v-for="(label, field) in fields" :key="field">
                         <label :for="field" class="block text-sm font-medium leading-6 text-gray-900">{{ $t(label)
                             }}</label>
-                        <div class="my-2">
+                        <div class="my-2 bg-neutral-100">
                             <div v-if="field == 'bookmarkable_type'">
                                 <div class="mt-2">
                                     <select :id="field" :name="field" :autocomplete="field" v-model="dataInput[field]"
@@ -40,42 +37,46 @@
                             </div>
                         </div>
                     </div>
-                    <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
+                    <div class="mt-6">
+                        <PrimaryButton>{{ $t('Send') }}</PrimaryButton>
+                    </div>
                 </form>
 
                 <div v-if="isLoading == true" id="empty" class="text-3xl my-8">
                     <h1>{{ $t('Cargando Marcadores...') }}</h1>
                 </div>
                 <div v-if="resultados.length">
-                    <h2 class="text-2xl font-bold my-12">{{$t('Resultados')}}:</h2>
-
-                    <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-0"
+                    <h2 class="text-2xl font-bold m-6 mx-0 sm:m-12">{{ $t('Resultados') }}:</h2>
+                    <div class="flex flex-col gap-y-4">
+                    <Card v-for="(resultado, index) in resultados" :key="index" class="ml-0 my-2 bg-neutral-100"
                     :modifyLink="'/bookmarks/' + resultado.id" :id="resultado.id" nameButton="SHOW" candelete=true>
                         <!-- Aquí muestra los datos del resultado en la tarjeta -->
 
                         <!-- Type -->
-                        <h1 class="text-2xl font-medium mb-4"
+                        <p class="bg-red-100 inline-block rounded-lg px-5 shadow-lg  mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Movie'">
-                            {{ $t('Movie') }}</h1>
-                        <h1 class="text-2xl font-medium mb-4"
+                            {{ $t('Movie') }}</p>
+                        <p class="bg-cyan-100 inline-block rounded-lg px-5 shadow-lg mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Series'">{{ $t('Series') }}
-                        </h1>
-                        <h1 class="text-2xl font-medium mb-4"
+                        </p>
+                        <p class="bg-lime-100 inline-block rounded-lg px-5 shadow-lg mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Book'">
-                            {{ $t('Book') }}</h1>
-                        <h1 class="text-2xl font-medium mb-4"
+                            {{ $t('Book') }}</p>
+                        <p class="bg-amber-100 inline-block rounded-lg px-5 shadow-lg mb-2"
                             v-if="resultado.attributes.bookmarkable_type === 'App\\Models\\Fanfic'">{{ $t('Fanfic') }}
-                        </h1>
+                        </p>
 
-                        <p><strong>{{ $t('Title') }}:</strong> {{ resultado.attributes.title }}</p>
+                        <h3 class="text-xl font-medium">{{ resultado.attributes.title }}</h3>
 
                     </Card>
+                    </div>
                     <div class="mt-6">
                         <v-pagination v-model="currentPage" :length="lastPage" @click="enviar"></v-pagination>
                     </div>
                 </div>
-                <div v-else-if=" noBook==1 && resultados.length ==0 && isLoading ==false "  id="empty" class="text-3xl my-8">
-                        <h1>{{ $t('No Bookmarks found') }}</h1>
+                <div v-else-if="noBook == 1 && resultados.length == 0 && isLoading == false" id="empty"
+                    class="text-3xl my-8">
+                    <h1>{{ $t('No Bookmarks found') }}</h1>
                 </div>
             </div>
         </main>
@@ -83,14 +84,14 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import Breadcrumbs from '@/Components/Breadcrumbs.vue';
 import { formatDate } from '@/utils/functions';
-import { Head } from "@inertiajs/vue3";
+import { Head, usePage } from "@inertiajs/vue3";
 import Card from '@/Components/Card.vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import axios from "axios";
-import { ref } from "vue";
 import moment from 'moment';
 
 
@@ -103,7 +104,6 @@ const dataInput = ref({
     title: '',
     created_at: '',
     updated_at: ''
-
 });
 
 const types = ["", "Book", "Movie", "Series", "Fanfic"];
@@ -160,4 +160,16 @@ const enviar = async () => {
 
     }
 };
+
+onMounted(async () => {
+    // Get the 'type' query parameter from the route
+    const { props } = usePage();
+    const { type } = props;
+    // console.log(type);
+    if (type) {
+        // Map the query parameter to the corresponding type
+        dataInput.value.bookmarkable_type = type;
+        await enviar();
+    }
+});
 </script>

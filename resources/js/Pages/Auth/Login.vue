@@ -8,6 +8,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import axios from 'axios';
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
 defineProps({
     canResetPassword: {
@@ -36,11 +37,11 @@ const login = async () => {
         "email": email.value,
         "password": password.value
     }
-    console.log(JSON.stringify(params));
+    // console.log(JSON.stringify(params));
 
     await axios.post('/api/v1/login', JSON.stringify(params))
         .then(response => {
-            console.log(response);
+            // console.log(response);
             const resultado = response.data;
             localStorage.setItem('token', resultado.token_type + ' ' + resultado.access_token);
         })
@@ -55,6 +56,9 @@ onMounted(() => {
 <template>
     <div class="flex h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <GuestLayout>
+            <div class="flex justify-center">
+                <LanguageSwitcher />
+            </div>
 
             <Head title="Log in" />
             <h2 class=" mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">{{$t('Sign in to your account')}}</h2>
@@ -81,7 +85,7 @@ onMounted(() => {
                         <div class="text-sm">
                             <Link v-if="canResetPassword" :href="route('password.request')"
                                 class="font-semibold text-indigo-600 hover:text-indigo-500">
-                                {{$t('Forgot password?')}}'
+                                {{$t('Forgot password?')}}
                             </Link>
 
                             <!-- <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a> -->

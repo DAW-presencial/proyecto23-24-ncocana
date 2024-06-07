@@ -13,7 +13,7 @@
                     </DisclosureButton>
                 </div>
                 <div class="flex flex-1 items-center sm:items-stretch sm:justify-start">
-                    <div class="flex flex-shrink-0 items-center">
+                    <div class="sm:flex sm:flex-shrink-0 sm:items-center hidden">
                         <div class="bg-white h-10 w-11 m-1 rounded-full">
                             <img src="/img/nuevo-logo1.png" alt="Logo" class="h-9 w-8 m-auto mt-0.5">
                         </div>
@@ -29,12 +29,6 @@
                 </div>
                 <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <div v-if="$page.props.auth.user" class="flex">
-                        <!-- <button type="button"
-                            class="relative rounded-full bg-white0 p-1 text-gray-400 hover:bg-stone-100 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                            <span class="absolute -inset-1.5" />
-                            <span class="sr-only">{{ $t('View notifications') }}</span>
-                            <BellIcon class="h-6 w-6" aria-hidden="true" />
-                        </button> -->
                         <LanguageSwitcher />
                         <!-- Profile dropdown -->
                         <Menu as="div" class="relative ml-3">
@@ -54,17 +48,12 @@
                                 leave-to-class="transform opacity-0 scale-95">
                                 <MenuItems
                                     class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                    <!-- <MenuItem v-slot="{ active }">
-                                    <a href="/profile"
-                                        :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
-                                        {{ $t('Your Profile') }}</a>
-                                    </MenuItem> -->
                                     <MenuItem v-slot="{ active }">
                                     <a href="/profile"
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
                                         {{ $t('Settings') }}</a>
                                     </MenuItem>
-                                    <MenuItem v-slot="{ active }">
+                                    <MenuItem v-slot="{ active }">                                                                              
                                     <DropdownLink :href="route('logout')" method="post" as="button"
                                         :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-900']">
                                         {{ $t('Sign out') }}
@@ -80,13 +69,12 @@
         <DisclosurePanel class="sm:hidden">
             <div class="space-y-1 px-2 pb-3 pt-2">
                 <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href"
-                    :class="[route().current(item.href) ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
+                    :class="[route().current(item.href) ? 'bg-indigo-600 text-white' : 'text-gray-300 hover:bg-gray-400 hover:text-white', 'block rounded-md px-3 py-2 text-base font-medium']"
                     :aria-current="route().current(item.href) ? 'page' : undefined">{{ item.name }}</DisclosureButton>
             </div>
         </DisclosurePanel>
     </Disclosure>
-    <!-- Page Content -->
-    <main class="min-h-screen">
+    <main class="min-h-screen bg-gradient-to-b from-sky-100 to-emerald-100">
         <slot></slot>
     </main>
     <Footer />
@@ -96,7 +84,6 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownLink from '@/Components/DropdownLink.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
@@ -106,7 +93,6 @@ const navigation = [
     { name: 'Bookmarks', href: 'bookmarks' },
     { name: 'Advanced Search', href: 'searchadvanced' },
     { name: 'Collections', href: 'collections' }
-
 ];
 
 defineProps({
