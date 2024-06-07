@@ -23,7 +23,7 @@
                         <PrimaryButton @click="addBookmark" class="w-auto">{{$t('Add Bookmark')}}</PrimaryButton>
                     </div>
                 </div>
-                <div class="container h-3/4 space-y-4">
+                <div class="h-3/4 space-y-4">
                     <Card v-for="(b) in bookmark" :key="b.id" class="min-h-16 h-full bg-stone-50" :id_bookmark="b.id"
                         nameButton="SHOW" :modifyLink="'/bookmarks/' + b.id" :id_collection="collection_id">
                         <div>
