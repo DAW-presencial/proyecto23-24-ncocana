@@ -20,5 +20,7 @@ export default defineConfig({
             },
         }),
         i18n('resources/lang'),
-    ]
+    ], build: {
+        silent: true
+    }
 });
