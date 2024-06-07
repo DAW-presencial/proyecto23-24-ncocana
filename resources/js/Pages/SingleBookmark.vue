@@ -102,7 +102,7 @@
         errors['read_chapters'][0] }}</p>
                             </div>
                             <div class="mt-3">
-                                <InputLabel :value="('Total chapters')" />
+                                <InputLabel :value="$t('Total chapters')" />
                                 <TextInput class="bg-stone-50" v-model="bookmark_data.total_chapters"
                                     :placeholder="placeholders['Fanfic']['total_chapters']" />
                                 <p v-if="errors['total_chapters']" class="mt-2 text-sm text-red-600">{{
@@ -155,14 +155,14 @@
                                 </p>
                             </div>
                             <div class="mt-3">
-                                <InputLabel :value="$t('Number seasons')" />
+                                <InputLabel :value="$t('Number of seasons')" />
                                 <TextInput class="bg-stone-50" v-model="bookmark_data.num_seasons"
                                     :placeholder="placeholders['Series']['num_seasons']" />
                                 <p v-if="errors['num_seasons']" class="mt-2 text-sm text-red-600">{{
         errors['num_seasons'][0] }}</p>
                             </div>
                             <div class="mt-3">
-                                <InputLabel :value="$t('Number episodes')" />
+                                <InputLabel :value="$t('Number of episodes')" />
                                 <TextInput class="bg-stone-50" v-model="bookmark_data.num_episodes"
                                     :placeholder="placeholders['Series']['currenum_episodesntly_at']" />
                                 <p v-if="errors['num_episodes']" class="mt-2 text-sm text-red-600">{{
