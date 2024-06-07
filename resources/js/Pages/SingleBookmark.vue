@@ -256,7 +256,7 @@ const getBookmarks = () => {
     const { props } = usePage();
     const { bookmark } = props;
 
-    console.log(bookmark);
+    // console.log(bookmark);
     const dataAttributes = bookmark.data.attributes;
 
     let json = dataAttributes.bookmarkable;
@@ -313,7 +313,7 @@ const updateBookmark = async () => {
 
     const tags = bookmark_data.value.tags;
     const tagsSeparados = tags.split(',');
-    console.log(tagsSeparados);
+    // console.log(tagsSeparados);
 
     const data = {
         data: {
@@ -330,7 +330,7 @@ const updateBookmark = async () => {
             }
         }
     }
-    console.log(data);
+    // console.log(data);
 
     try {
         await axios.patch(`api/v1/bookmarks/${bookmark.id}`, data, {
@@ -360,7 +360,7 @@ const updateBookmark = async () => {
             if (error.response.data.message) {
                 errors.value['tags'] = error.response.data.message;
             }
-            console.log(errors);
+            // console.log(errors);
         } else {
             console.error('Error submitting form:', error);
         }

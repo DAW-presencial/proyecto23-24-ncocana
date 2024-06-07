@@ -60,10 +60,10 @@ const placeholders = {
 const enviar = async () => {
     errors.value = {}; // Clear errors before submitting
     try {
-        console.log(dataInput.value);
+        // console.log(dataInput.value);
         const tags = dataInput.value.tags;
         const tagsSeparados = tags ? tags.split(',') : [];
-        console.log(dataInput.value);
+        // console.log(dataInput.value);
         const dataToSend = {
             data: {
                 type: "collections",
@@ -75,7 +75,7 @@ const enviar = async () => {
             }
         };
 
-        console.log('Response:', dataToSend);
+        // console.log('Response:', dataToSend);
         const response = await axios.post('api/v1/collections', dataToSend);
 
         if (response.status === 201 || response.status === 200) {

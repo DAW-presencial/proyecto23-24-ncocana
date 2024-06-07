@@ -195,12 +195,12 @@ const enviar = async () => {
                     errors.value[pointer] = [errorDetail];
                 }
             });
-            console.log(errors);
+            // console.log(errors);
         } else if (error.response && error.response.status === 400) {
             if(error.response.data.message) {
                 errors.value['tags'] = error.response.data.message;
             }
-            console.log(errors);
+            // console.log(errors);
         } else {
             console.error('Error submitting form:', error);
         }

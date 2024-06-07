@@ -37,11 +37,11 @@ const login = async () => {
         "email": email.value,
         "password": password.value
     }
-    console.log(JSON.stringify(params));
+    // console.log(JSON.stringify(params));
 
     await axios.post('/api/v1/login', JSON.stringify(params))
         .then(response => {
-            console.log(response);
+            // console.log(response);
             const resultado = response.data;
             localStorage.setItem('token', resultado.token_type + ' ' + resultado.access_token);
         })

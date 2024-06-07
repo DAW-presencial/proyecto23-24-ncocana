@@ -139,7 +139,7 @@ const getCollections = async () => {
         currentPage.value = res.meta.current_page;
         lastPage.value = res.meta.last_page;
 
-        console.log(data);
+        // console.log(data);
         let tags = [];
         // TAGS
         for (let i = 0; i < data.length; i++) {
@@ -151,7 +151,7 @@ const getCollections = async () => {
             // console.log(data[i].attributes);
             collections.value = data;
         }
-        console.log(data);
+        // console.log(data);
     } catch (error) {
         console.log('Ha ocurrido un error: ' + error);
     } finally {

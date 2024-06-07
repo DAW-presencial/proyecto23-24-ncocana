@@ -165,7 +165,7 @@ onMounted(async () => {
     // Get the 'type' query parameter from the route
     const { props } = usePage();
     const { type } = props;
-    console.log(type);
+    // console.log(type);
     if (type) {
         // Map the query parameter to the corresponding type
         dataInput.value.bookmarkable_type = type;
