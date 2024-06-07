@@ -1,6 +1,6 @@
 <template>
     <footer class="text-gray-400 py-4">
-        <div class="container mx-auto my-auto flex flex-col md:flex-row justify-between items-center px-4 space-y-2">
+        <div class="max-w-7xl container mx-auto my-auto flex flex-col md:flex-row justify-between items-center px-4 space-y-2">
             <p class="text-sm text-center md:text-left">
                 &copy; 2024 MyBookMarks, Inc. <span class="block md:inline">{{ $t('All rights reserved.') }}</span>
             </p>
