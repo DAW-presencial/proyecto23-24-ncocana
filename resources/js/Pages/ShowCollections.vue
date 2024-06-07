@@ -83,7 +83,7 @@ const getBookmarks = async () => {
         const res = response.data;
         bookmark.value = res.data.attributes.bookmarks;
         name.value = res.data.attributes.name;
-        console.log(res);
+        // console.log(res);
 
     } catch (error) {
         console.error('Ha ocurrido un error:', error);
@@ -108,7 +108,7 @@ const getAllBookmarks = async () => {
         .then(response => {
             const res = response.data;
             const data = res.data;
-            console.log(data);
+            // console.log(data);
 
             allBookmarks.value = data;
         })
