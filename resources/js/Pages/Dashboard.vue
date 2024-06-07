@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const categories = [
     { name: 'Book', description: 'Guarda tus libros favoritos y descubre nuevas lecturas.'},
@@ -19,7 +20,7 @@ const goToType = (category) => {
     <div>
         <Head :title="$t('Dashboard')" />
         <AuthenticatedLayout>
-            <div class="py-12 mt-4 m-10 sm:m-0">
+            <div class="py-12 m-10 sm:m-0">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <!-- Introducción -->
                     <div class="mb-8">
@@ -46,8 +47,9 @@ const goToType = (category) => {
                                 <h2 class="text-xl font-semibold mb-2">{{ $t(category.name) }}</h2>
                                 <p class="text-gray-800 mb-5">{{ $t(category.description) }}</p>
                                 <div>
-                                    <a @click="goToType(category.name)"
-                                        class="block bg-indigo-600 text-white py-2 px-4 rounded hover:bg-blue-600 text-center">{{$t('Ver')}} {{ $t(category.name) }}</a>
+                                    <PrimaryButton @click="goToType(category.name)">
+                                        {{$t('Ver')}} {{ $t(category.name) }}
+                                    </PrimaryButton>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +57,7 @@ const goToType = (category) => {
 
                     <!-- FAQ -->
                     <div class="mt-12">
-                        <h2 class="text-3xl font-bold m-10 sm:mb-5 text-center">{{$t('Preguntas Frecuentes')}} (FAQ)</h2>
+                        <h2 class="text-3xl font-bold m-10 sm:mb-5 text-center">{{$t('Preguntas Frecuentes (FAQ)')}}</h2>
                         <div class="faq-item mb-6">
                             <h3 class="text-lg font-semibold">{{$t('¿Cómo puedo crear un marcador?')}}</h3>
                             <p class="text-gray-800">{{$t("Para crear un marcador, simplemente navega a la categoría correspondiente y haz clic en 'Crear Marcador'. Luego, completa los detalles y guárdalo.")}}

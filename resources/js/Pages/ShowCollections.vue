@@ -14,31 +14,31 @@
                 <div class="mb-6">
                     <InputLabel for="bookmark-select" :value="$t('Choose a Bookmark')" />
                     <select id="bookmark-select" v-model="selectedBookmarkId"
-                        class="block w-full mt-1 rounded-md border shadow-md">
+                        class="block w-full mt-1 rounded-md border shadow-md bg-stone-50">
                         <option v-for="b in allBookmarks" :key="b.id" :value="b.id">
                             {{ b.attributes.title }}
                         </option>
                     </select>
                     <div class="mt-4">
-                        <PrimaryButton @click="addBookmark">{{$t('Add Bookmark')}}</PrimaryButton>
+                        <PrimaryButton @click="addBookmark" class="w-auto">{{$t('Add Bookmark')}}</PrimaryButton>
                     </div>
                 </div>
                 <div class="container h-3/4 space-y-4">
-                    <Card v-for="(b) in bookmark" :key="b.id" class="min-h-16 h-full" :id_bookmark="b.id"
+                    <Card v-for="(b) in bookmark" :key="b.id" class="min-h-16 h-full bg-stone-50" :id_bookmark="b.id"
                         nameButton="SHOW" :modifyLink="'/bookmarks/' + b.id" :id_collection="collection_id">
                         <div>
-                            <h1 v-if="b.bookmarkable_type === 'App\\Models\\Fanfic'" class="text-2xl font-medium mb-4">
-                                {{ $t('Fanfic') }}</h1>
-                            <h1 v-else-if="b.bookmarkable_type === 'App\\Models\\Series'"
-                                class="text-2xl font-medium mb-4">
-                                {{ $t('Series') }}</h1>
-                            <h1 v-else-if="b.bookmarkable_type === 'App\\Models\\Movie'"
-                                class="text-2xl font-medium mb-4">
-                                {{ $t('Movie') }}</h1>
-                            <h1 v-else-if="b.bookmarkable_type === 'App\\Models\\Book'"
-                                class="text-2xl font-medium mb-4">
-                                {{ $t('Book') }}</h1>
-                            <p><strong>{{ $t('Title') }}: </strong>{{ b.title }}</p>
+                            <p v-if="b.bookmarkable_type === 'App\\Models\\Fanfic'" class="bg-amber-100 inline-block rounded-lg px-5 shadow-lg mb-2">
+                                {{ $t('Fanfic') }}</p>
+                            <p v-else-if="b.bookmarkable_type === 'App\\Models\\Series'"
+                                class="bg-cyan-100 inline-block rounded-lg px-5 shadow-lg  mb-2">
+                                {{ $t('Series') }}</p>
+                            <p v-else-if="b.bookmarkable_type === 'App\\Models\\Movie'"
+                                class="bg-red-100 inline-block rounded-lg px-5 shadow-lg  mb-2">
+                                {{ $t('Movie') }}</p>
+                            <p v-else-if="b.bookmarkable_type === 'App\\Models\\Book'"
+                                class="bg-lime-100 inline-block rounded-lg px-5 shadow-lg mb-2">
+                                {{ $t('Book') }}</p>
+                            <h3 class="text-xl font-medium">{{ b.title }}</h3>
                         </div>
                     </Card>
                 </div>
