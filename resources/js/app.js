@@ -9,6 +9,10 @@ import { i18nVue } from 'laravel-vue-i18n';
 import vuetify from './config/vuetify';
 import axios from './config/axios-config'
 
+if (process.env.NODE_ENV === 'production') {
+    console.log = console.warn = console.error = () => { };
+}
+
 createInertiaApp({
     title: (title) => `${title} - MyBookMarks`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),

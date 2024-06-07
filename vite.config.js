@@ -21,6 +21,11 @@ export default defineConfig({
         }),
         i18n('resources/lang'),
     ], build: {
-        silent: true
-    }
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+            },
+        },
+    },
 });

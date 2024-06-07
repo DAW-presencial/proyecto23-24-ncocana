@@ -1,7 +1,7 @@
 <template>
     <div class="border border-gray-400 p-4 rounded-lg shadow-lg">
         <!-- BUTTONS -->
-        <div class="flex gap-2 justify-end h-auto mb-4 float-end">
+        <div class="flex gap-2 justify-end h-auto w-auto mb-4 float-end">
 
             <!-- ELIMINAR BOOKMARK DE UN COLLECTION -->
             <SecundaryButton v-if="id_collection" class="bg-yellow-600 text-white hover:bg-yellow-700"
