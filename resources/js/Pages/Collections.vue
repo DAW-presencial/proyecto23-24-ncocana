@@ -149,8 +149,8 @@ const getCollections = async () => {
             }
             data[i].attributes.tags = tags.join(',');
             // console.log(data[i].attributes);
-            collections.value = data;
         }
+        collections.value = data;
         // console.log(data);
     } catch (error) {
         console.log('Ha ocurrido un error: ' + error);
